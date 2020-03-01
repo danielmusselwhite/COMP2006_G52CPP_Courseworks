@@ -18,6 +18,9 @@
 #include "PlayingCardsDemo.h"
 #include "JasonsDemoA.h"
 
+#include "MyDemoA.h"
+
+
 // These are passed to initialise to determine the window size
 const int BaseScreenWidth = 1300;
 const int BaseScreenHeight = 800;
@@ -28,6 +31,10 @@ const int BaseScreenHeight = 800;
 int doProgram(int argc, char *argv[])
 { 
 	int iResult = 0;
+
+	//my Demos:
+	MyDemoA oMain;
+
 	// Needs just one of the following lines - choose which object to create - ENSURE ONLY ONE IS CREATED.
 	// Note these are from simplest to most complex demo.
 	//JasonsDemoA oMain; // Jason's version of MyDemoA, MyObjectA and MyTileManagerA
@@ -39,7 +46,7 @@ int doProgram(int argc, char *argv[])
 	
 	//DraggingDemo oMain; // Includes dragable images and image objects
 	//ImageMappingDemo oMain; // Demonstrates the use of coordinate mapping for image drawing
-	JigsawDemo oMain; // Demonstrates the use of coordinate mapping for image drawing
+	//JigsawDemo oMain; // Demonstrates the use of coordinate mapping for image drawing
 	//PlayingCardsDemo oMain; // The most advanced demo - you may want to ignore this one totally!
 
 	// WARNING: DO NOT RUN THIS DEMO IF YOU ARE AFFECTED BY FLASHING COLOURS!!!

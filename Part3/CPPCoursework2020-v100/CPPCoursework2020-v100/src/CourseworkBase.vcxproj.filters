@@ -43,6 +43,12 @@
     <Filter Include="Source Files\3 Very Advanced Cards Demo">
       <UniqueIdentifier>{e8366b83-b6ea-4055-9a30-9447a56196f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\4 MyDemos">
+      <UniqueIdentifier>{12d85b0d-d831-45a0-b4c1-694dfd3e24e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\4 MyDemos">
+      <UniqueIdentifier>{a58369b8-6bf3-4086-8822-8ab6966375e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header.h">
@@ -195,11 +201,14 @@
     <ClInclude Include="JigsawPiece.h">
       <Filter>Header Files\2 More Advanced Demos</Filter>
     </ClInclude>
+    <ClInclude Include="MyDemoA.h">
+      <Filter>Header Files\4 MyDemos</Filter>
+    </ClInclude>
+    <ClInclude Include="MyTileManager.h">
+      <Filter>Header Files\4 MyDemos</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="mainfunction.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BaseEngine.cpp">
       <Filter>Source Files\1 Framework</Filter>
     </ClCompile>
@@ -272,5 +281,17 @@
     <ClCompile Include="StarfieldDemo.cpp">
       <Filter>Source Files\2 More Advanced Demos</Filter>
     </ClCompile>
+    <ClCompile Include="mainfunction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyDemoA.cpp">
+      <Filter>Source Files\4 MyDemos</Filter>
+    </ClCompile>
+    <ClCompile Include="MyTileManager.cpp">
+      <Filter>Source Files\4 MyDemos</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>
