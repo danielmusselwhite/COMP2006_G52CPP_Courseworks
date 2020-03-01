@@ -1,0 +1,8 @@
+inside
+this
+text
+file
+my
+default
+word
+abcdefghi
