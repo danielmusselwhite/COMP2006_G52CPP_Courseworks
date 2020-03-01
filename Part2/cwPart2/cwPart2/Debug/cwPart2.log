@@ -1,0 +1,2 @@
+﻿  pch.cpp
+d:\users\danie\documents\uni\year 2\g52cpp - c++\coursework\part2\cwpart2\cwpart2\pch.cpp(3): fatal error C1854: cannot overwrite information formed during creation of the precompiled header in object file: 'd:\users\danie\documents\uni\year 2\g52cpp - c++\coursework\part2\cwpart2\cwpart2\debug\pch.obj'
