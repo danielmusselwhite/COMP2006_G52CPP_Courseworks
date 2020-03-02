@@ -1,6 +1,7 @@
 #include "header.h"
 #include "MyDemoA.h"
 #include "ImageManager.h"
+#include "MyObjectA.h"
 
 // hex colour: 0xrrggbb
 #define turqoise 0x13d4a7
@@ -17,7 +18,7 @@ bool returnPressed;
 
 // Constructor
 MyDemoA::MyDemoA() {
-	returnPressed = false;
+	
 }
 
 // Deconstructor
@@ -29,6 +30,8 @@ MyDemoA::~MyDemoA() {
 // function called whenever program needs to redraw the background
 void MyDemoA::virtSetupBackgroundBuffer()
 {
+	returnPressed = false;
+
 	// function for filling background with a solid colour
 	fillBackground(turqoise);
 
@@ -163,4 +166,24 @@ void MyDemoA::virtKeyDown(int iKeyCode)
 		
 	}
 	
+}
+
+// really important function, need to create all of the objects which will be moving and store pointers to them in the array.
+int MyDemoA::virtInitialiseObjects()
+{
+	// Record the fact that we are about to change the array
+	// so it doesn't get used elsewhere without reloading it
+	drawableObjectsChanged();
+	// Destroy any existing objects
+	destroyOldObjects(true);
+	// Creates an array big enough for the number of objects that you want.
+	createObjectArray(1);
+	// You MUST set the array entry after the last one that you create to NULL,
+	// so that the system knows when to stop.
+	storeObjectInArray(0, new MyObjectA(this));
+	// NOTE: We also need to destroy the objects, but the method at the
+	// top of this function will destroy all objects pointed at by the
+	// array elements so we can ignore that here.
+	setAllObjectsVisible(true);
+	return 0;
 }

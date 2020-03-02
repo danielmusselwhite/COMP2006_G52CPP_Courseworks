@@ -14,5 +14,7 @@ public:
 	void virtKeyDown(int iKeyCode) override;
 protected:
 	MyTileManager tm;
+public:
+	int virtInitialiseObjects();
 };
 
