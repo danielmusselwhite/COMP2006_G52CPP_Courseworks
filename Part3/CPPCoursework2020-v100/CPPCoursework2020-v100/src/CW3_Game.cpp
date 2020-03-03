@@ -1,6 +1,17 @@
 #include "header.h"
 #include "CW3_Game.h"
 
+//tile map names corresponding ints
+#define wallTopLeft 0
+#define wallTopMiddle 1
+#define wallTopRight 2
+#define wallLeft 3
+#define floor 4
+#define wallRight 5
+#define wallBottomLeft 6
+#define wallBottomMiddle 7
+#define wallBottomRight 8
+
 // customisable tilemap
 #define tmCountXTiles 10
 #define tmCountYTiles 10
@@ -61,12 +72,9 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 		
 	}
 
-	// char array used to create tilemap from
-	/*std::string dungeonTileMapDesign[[]] = {
-		{"wallCornerTopLeft","wallTop","wallTop","wallTop","wallTop","wallTop","wallTop","wallTop","wallCornerTopRight"}
-	};*/
-
 	/*
+	// Using ints directly
+
 	0 = wall corner top left
 	1 = wall top middle
 	2 = wall corner top right
@@ -77,7 +85,8 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 	7 = wall bottom middle
 	8 = wall corner bottom right
 	9 = player spawn
-	*/
+	
+	
 	int dungeonTileMapDesign[tmCountYTiles][tmCountXTiles] = {
 		{0,1,1,1,1,1,1,1,1,2},
 		{3,4,4,4,4,4,4,4,4,5},
@@ -89,7 +98,23 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 		{3,4,4,4,4,4,4,4,4,5},
 		{3,4,4,4,4,4,4,4,4,5},
 		{6,7,7,7,7,7,7,7,7,8}
+	};*/
+
+	// using macro ints
+	int dungeonTileMapDesign[tmCountYTiles][tmCountXTiles] = {
+		{wallTopLeft,wallTopMiddle,wallTopMiddle,wallTopMiddle,wallTopMiddle,wallTopMiddle,wallTopMiddle,wallTopMiddle,wallTopMiddle,wallTopRight},
+		{wallLeft,floor, floor, floor, floor, floor, floor, floor, floor, wallRight},
+		{wallLeft,floor, floor, floor, floor, floor, floor, floor, floor, wallRight},
+		{wallLeft,floor, floor, floor, floor, floor, floor, floor, floor, wallRight},
+		{wallLeft,floor, floor, floor, floor, floor, floor, floor, floor, wallRight},
+		{wallLeft,floor, floor, floor, floor, floor, floor, floor, floor, wallRight},
+		{wallLeft,floor, floor, floor, floor, floor, floor, floor, floor, wallRight},
+		{wallLeft,floor, floor, floor, floor, floor, floor, floor, floor, wallRight},
+		{wallLeft,floor, floor, floor, floor, floor, floor, floor, floor, wallRight},
+		{wallBottomLeft,wallBottomMiddle, wallBottomMiddle, wallBottomMiddle, wallBottomMiddle, wallBottomMiddle, wallBottomMiddle, wallBottomMiddle, wallBottomMiddle, wallBottomRight}
 	};
+
+	
 
 	// base the tiles dimensions on the windows height and the number of tiles in the x plane
 	tmTileDimensions = (getWindowHeight()*.75) / tmCountYTiles;
