@@ -49,6 +49,12 @@
     <Filter Include="Header Files\4 MyDemos">
       <UniqueIdentifier>{a58369b8-6bf3-4086-8822-8ab6966375e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\5 Coursework 3">
+      <UniqueIdentifier>{49f306c0-e52e-48f9-a5a3-0e27e55dfeb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\5 Coursework 3">
+      <UniqueIdentifier>{74cbfd91-0599-4a37-8a93-0c5abf2512f8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header.h">
@@ -210,6 +216,9 @@
     <ClInclude Include="MyObjectA.h">
       <Filter>Header Files\4 MyDemos</Filter>
     </ClInclude>
+    <ClInclude Include="CW3_Game.h">
+      <Filter>Header Files\5 Coursework 3</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseEngine.cpp">
@@ -296,8 +305,12 @@
     <ClCompile Include="MyObjectA.cpp">
       <Filter>Source Files\4 MyDemos</Filter>
     </ClCompile>
+    <ClCompile Include="CW3_Game.cpp">
+      <Filter>Source Files\5 Coursework 3</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>

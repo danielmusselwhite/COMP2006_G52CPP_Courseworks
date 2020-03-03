@@ -97,6 +97,7 @@
     <ClInclude Include="CardContainer.h" />
     <ClInclude Include="CardOrTile.h" />
     <ClInclude Include="CollisionDetection.h" />
+    <ClInclude Include="CW3_Game.h" />
     <ClInclude Include="DisplayableObjectContainer.h" />
     <ClInclude Include="DragableImageObject.h" />
     <ClInclude Include="DragableTokenContainer.h" />
@@ -148,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DragableBaseClassObject.h" />
+    <ClCompile Include="CW3_Game.cpp" />
     <ClCompile Include="DraggingDemo.cpp" />
     <ClCompile Include="DrawingSurface.cpp" />
     <ClCompile Include="FlashingDemo.cpp" />
@@ -185,6 +187,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

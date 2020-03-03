@@ -19,7 +19,7 @@
 #include "JasonsDemoA.h"
 
 #include "MyDemoA.h"
-
+#include "CW3_Game.h"
 
 // These are passed to initialise to determine the window size
 const int BaseScreenWidth = 1300;
@@ -31,9 +31,13 @@ const int BaseScreenHeight = 800;
 int doProgram(int argc, char *argv[])
 { 
 	int iResult = 0;
+	
+	//my coursework!
+	CW3_Game oMain;
+
 
 	//my Demos:
-	MyDemoA oMain;
+	//MyDemoA oMain;
 
 	// Needs just one of the following lines - choose which object to create - ENSURE ONLY ONE IS CREATED.
 	// Note these are from simplest to most complex demo.
