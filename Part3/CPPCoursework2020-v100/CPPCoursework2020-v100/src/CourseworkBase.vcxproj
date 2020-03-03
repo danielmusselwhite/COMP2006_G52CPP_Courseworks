@@ -98,6 +98,7 @@
     <ClInclude Include="CardOrTile.h" />
     <ClInclude Include="CollisionDetection.h" />
     <ClInclude Include="CW3_Game.h" />
+    <ClInclude Include="CW3_TileManager.h" />
     <ClInclude Include="DisplayableObjectContainer.h" />
     <ClInclude Include="DragableImageObject.h" />
     <ClInclude Include="DragableTokenContainer.h" />
@@ -150,6 +151,7 @@
   <ItemGroup>
     <ClInclude Include="DragableBaseClassObject.h" />
     <ClCompile Include="CW3_Game.cpp" />
+    <ClCompile Include="CW3_TileManager.cpp" />
     <ClCompile Include="DraggingDemo.cpp" />
     <ClCompile Include="DrawingSurface.cpp" />
     <ClCompile Include="FlashingDemo.cpp" />

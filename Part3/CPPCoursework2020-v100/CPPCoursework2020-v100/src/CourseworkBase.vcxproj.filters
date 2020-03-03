@@ -219,6 +219,9 @@
     <ClInclude Include="CW3_Game.h">
       <Filter>Header Files\5 Coursework 3</Filter>
     </ClInclude>
+    <ClInclude Include="CW3_TileManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseEngine.cpp">
@@ -307,6 +310,9 @@
     </ClCompile>
     <ClCompile Include="CW3_Game.cpp">
       <Filter>Source Files\5 Coursework 3</Filter>
+    </ClCompile>
+    <ClCompile Include="CW3_TileManager.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

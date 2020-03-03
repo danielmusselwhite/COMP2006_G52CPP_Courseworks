@@ -1,26 +1,33 @@
 #include "header.h"
 #include "CW3_Game.h"
 
+// customisable tilemap
+#define tmCountXTiles 10
+#define tmCountYTiles 10
+
 // customisable background
-//stars
-#define starSizeGap starSize+1 //can be defined as variables i.e. starSize or other MACROs
+#define starSizeGap starSize //can be defined as variables i.e. starSize or other MACROs
 #define starSizeMin 1
 #define starSizeRange 10
 #define starChanceDenominator 500 //higher it is, lower the chance of their being a star (and thus frequency of stars)
 
 // Colours
-#define clrBgMain 0x000000
+#define clrBgMain 0x3d2f30
 #define clrBgStarWhite 0xffffff
 #define clrBgStarRed 0xffe0e0
 #define clrBgStarBlue 0xe0fffc
 #define clrBgStarYellow 0xfeffe0
 
-CW3_Game::CW3_Game() {
+int tmTileDimensions; //global variable to store size of tiles
+int tmStartingX; //global variable to store starting x coord to draw from
+int tmStartingY; //global variable to store starting y coord to draw from
 
+CW3_Game::CW3_Game() {
+	
 }
 
 CW3_Game::~CW3_Game() {
-
+	
 }
 
 void CW3_Game::virtSetupBackgroundBuffer() {
@@ -34,8 +41,8 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 		for (int iX = 0; iX < getWindowWidth(); iX += starSizeGap) {
 
 			//.. for each y coordinate..
-			for (int iY = 0; iY < this->getWindowHeight(); iY += starSizeGap) {
-				
+			for (int iY = 0; iY < getWindowHeight(); iY += starSizeGap) {
+			
 				starSize = (rand() % starSizeRange) + starSizeMin; // get random star size
 
 				//.. generate a random number and modulo it with for example, 100..
@@ -53,6 +60,24 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 			
 		
 	}
+
+	// base the tiles dimensions on the windows height and the number of tiles in the x plane
+	tmTileDimensions = (getWindowHeight()*.75) / tmCountYTiles;
+
+	//start drawing from the remaining space divided by 2, so it is centered
+	tmStartingX = (getWindowWidth() - tmTileDimensions * tmCountXTiles) / 2;
+	tmStartingY = (getWindowHeight() - tmTileDimensions * tmCountYTiles) / 2;
+
+	std::cout << "Tile Dimensions: " << tmTileDimensions << " Window Height: " << getWindowHeight() << "\n";
+
+	CW3_Game::tm = new CW3_TileManager(tmTileDimensions, tmTileDimensions, tmCountYTiles, tmCountXTiles);
+
+	// setting all tiles
+	for (int i = 0; i < tmCountXTiles; i++)
+		for (int j = 0; j < tmCountYTiles; j++)
+			tm->setMapValue(i, j, rand());
+	tm->setTopLeftPositionOnScreen(tmStartingX, tmStartingY);
+	tm->drawAllTiles(this, getBackgroundSurface());
 
 }
 
