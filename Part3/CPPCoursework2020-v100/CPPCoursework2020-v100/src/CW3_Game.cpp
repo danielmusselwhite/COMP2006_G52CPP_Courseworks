@@ -61,6 +61,36 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 		
 	}
 
+	// char array used to create tilemap from
+	/*std::string dungeonTileMapDesign[[]] = {
+		{"wallCornerTopLeft","wallTop","wallTop","wallTop","wallTop","wallTop","wallTop","wallTop","wallCornerTopRight"}
+	};*/
+
+	/*
+	0 = wall corner top left
+	1 = wall top middle
+	2 = wall corner top right
+	3 = wall left
+	4 = floor
+	5 = wall right
+	6 = wall corner bottom left
+	7 = wall bottom middle
+	8 = wall corner bottom right
+	9 = player spawn
+	*/
+	int dungeonTileMapDesign[tmCountYTiles][tmCountXTiles] = {
+		{0,1,1,1,1,1,1,1,1,2},
+		{3,4,4,4,4,4,4,4,4,5},
+		{3,4,4,4,4,4,4,4,4,5},
+		{3,4,4,4,4,4,4,4,4,5},
+		{3,4,4,4,4,4,4,4,4,5},
+		{3,4,4,4,4,4,4,4,4,5},
+		{3,4,4,4,4,4,4,4,4,5},
+		{3,4,4,4,4,4,4,4,4,5},
+		{3,4,4,4,4,4,4,4,4,5},
+		{6,7,7,7,7,7,7,7,7,8}
+	};
+
 	// base the tiles dimensions on the windows height and the number of tiles in the x plane
 	tmTileDimensions = (getWindowHeight()*.75) / tmCountYTiles;
 
@@ -71,11 +101,20 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 	std::cout << "Tile Dimensions: " << tmTileDimensions << " Window Height: " << getWindowHeight() << "\n";
 
 	CW3_Game::tm = new CW3_TileManager(tmTileDimensions, tmTileDimensions, tmCountYTiles, tmCountXTiles);
-
+	/*
 	// setting all tiles
 	for (int i = 0; i < tmCountXTiles; i++)
 		for (int j = 0; j < tmCountYTiles; j++)
 			tm->setMapValue(i, j, rand());
+	tm->setTopLeftPositionOnScreen(tmStartingX, tmStartingY);
+	tm->drawAllTiles(this, getBackgroundSurface());
+	*/
+
+
+	// setting all tiles to tile map int 2D array
+	for (int i = 0; i < tmCountXTiles; i++)
+		for (int j = 0; j < tmCountYTiles; j++)
+			tm->setMapValue(i, j, dungeonTileMapDesign[i][j]);
 	tm->setTopLeftPositionOnScreen(tmStartingX, tmStartingY);
 	tm->drawAllTiles(this, getBackgroundSurface());
 

@@ -47,7 +47,6 @@ void MazeDemoMain::virtSetupBackgroundBuffer()
 			for ( int x = 0 ; x < 15 ; x++ )
 				for ( int y = 0 ; y < 11 ; y++ )
 					m_oTiles.setMapValue( x, y, data[y][x]-'a' );
-
 			for ( int y = 0 ; y < 11 ; y++ )
 			{
 				for ( int x = 0 ; x < 15 ; x++ )
