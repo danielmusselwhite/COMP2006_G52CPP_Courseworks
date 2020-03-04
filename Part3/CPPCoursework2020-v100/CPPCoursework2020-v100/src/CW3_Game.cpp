@@ -2,19 +2,28 @@
 #include "CW3_Game.h"
 
 //tile map names corresponding ints
-#define wallTopLeft 0
-#define wallTopMiddle 1
-#define wallTopRight 2
-#define wallLeft 3
+#define wallNorthWest 0
+#define wallMid 1
+#define wallNorthEast 2
+
+#define wallSideWest 3
 #define floor 4
-#define wallRight 5
-#define wallBottomLeft 6
-#define wallBottomMiddle 7
-#define wallBottomRight 8
+#define wallSideEast 5
+
+#define wallTopSouthEast 6
+#define wallTopSouthMiddle 7
+#define wallTopSouthWest 8
+
+#define wallTopNorthMiddle 9
+#define wallTopNorthWest 10
+#define wallTopNorthEast 11
+
+#define wallSouthWest 12
+#define wallSouthEast 13
 
 // customisable tilemap
 #define tmCountXTiles 10
-#define tmCountYTiles 10
+#define tmCountYTiles 12
 
 // customisable background
 #define starSizeGap starSize //can be defined as variables i.e. starSize or other MACROs
@@ -74,16 +83,18 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 
 	// using macro ints
 	int dungeonTileMapDesign[tmCountYTiles][tmCountXTiles] = {
-		{wallTopLeft,wallTopMiddle,wallTopMiddle,wallTopMiddle,wallTopMiddle,wallTopMiddle,wallTopMiddle,wallTopMiddle,wallTopMiddle,wallTopRight},
-		{wallLeft,floor, floor, floor, floor, floor, floor, floor, floor, wallRight},
-		{wallLeft,floor, floor, floor, floor, floor, floor, floor, floor, wallRight},
-		{wallLeft,floor, floor, floor, floor, floor, floor, floor, floor, wallRight},
-		{wallLeft,floor, floor, floor, floor, floor, floor, floor, floor, wallRight},
-		{wallLeft,floor, floor, floor, floor, floor, floor, floor, floor, wallRight},
-		{wallLeft,floor, floor, floor, floor, floor, floor, floor, floor, wallRight},
-		{wallLeft,floor, floor, floor, floor, floor, floor, floor, floor, wallRight},
-		{wallLeft,floor, floor, floor, floor, floor, floor, floor, floor, wallRight},
-		{wallBottomLeft,wallBottomMiddle, wallBottomMiddle, wallBottomMiddle, wallBottomMiddle, wallBottomMiddle, wallBottomMiddle, wallBottomMiddle, wallBottomMiddle, wallBottomRight}
+		{wallTopNorthWest,wallTopNorthMiddle,wallTopNorthMiddle,wallTopNorthMiddle,wallTopNorthMiddle,wallTopNorthMiddle,wallTopNorthMiddle,wallTopNorthMiddle,wallTopNorthMiddle,wallTopNorthEast},
+		{wallNorthWest,wallMid,wallMid,wallMid,wallMid,wallMid,wallMid,wallMid,wallMid,wallNorthEast},
+		{wallSideWest,floor, floor, floor, floor, floor, floor, floor, floor, wallSideEast},
+		{wallSideWest,floor, floor, floor, floor, floor, floor, floor, floor, wallSideEast},
+		{wallSideWest,floor, floor, floor, floor, floor, floor, floor, floor, wallSideEast},
+		{wallSideWest,floor, floor, floor, floor, floor, floor, floor, floor, wallSideEast},
+		{wallSideWest,floor, floor, floor, floor, floor, floor, floor, floor, wallSideEast},
+		{wallSideWest,floor, floor, floor, floor, floor, floor, floor, floor, wallSideEast},
+		{wallSideWest,floor, floor, floor, floor, floor, floor, floor, floor, wallSideEast},
+		{wallSideWest,floor, floor, floor, floor, floor, floor, floor, floor, wallSideEast},
+		{wallTopSouthEast,wallTopSouthMiddle, wallTopSouthMiddle, wallTopSouthMiddle, wallTopSouthMiddle, wallTopSouthMiddle, wallTopSouthMiddle, wallTopSouthMiddle, wallTopSouthMiddle, wallTopSouthWest},
+		{wallSouthWest,wallMid,wallMid,wallMid,wallMid,wallMid,wallMid,wallMid,wallMid,wallSouthEast}
 	};
 
 	
@@ -97,12 +108,12 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 
 	std::cout << "Tile Dimensions: " << tmTileDimensions << " Window Height: " << getWindowHeight() << "\n";
 
-	CW3_Game::tm = new CW3_TileManager(tmTileDimensions, tmTileDimensions, tmCountYTiles, tmCountXTiles);
+	CW3_Game::tm = new CW3_TileManager(tmTileDimensions, tmTileDimensions, tmCountXTiles, tmCountYTiles);
 	
 	// setting all tiles to tile map int 2D array
 	for (int x = 0; x < tmCountXTiles; x++)
 		for (int y = 0; y < tmCountYTiles; y++)
-			tm->setMapValue(x, y, dungeonTileMapDesign[y][x]);
+			tm->setMapValue(x,y, dungeonTileMapDesign[y][x]);
 	tm->setTopLeftPositionOnScreen(tmStartingX, tmStartingY);
 	tm->drawAllTiles(this, getBackgroundSurface());
 
