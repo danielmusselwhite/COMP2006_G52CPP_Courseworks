@@ -220,7 +220,10 @@
       <Filter>Header Files\5 Coursework 3</Filter>
     </ClInclude>
     <ClInclude Include="CW3_TileManager.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\5 Coursework 3</Filter>
+    </ClInclude>
+    <ClInclude Include="CW3_DungeonTileMapCodes.h">
+      <Filter>Header Files\5 Coursework 3</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

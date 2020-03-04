@@ -1,28 +1,9 @@
 #include "header.h"
 #include "CW3_Game.h"
-
-//tile map names corresponding ints
-#define wallNorthWest 0
-#define wallMid 1
-#define wallNorthEast 2
-
-#define wallSideWest 3
-#define floor 4
-#define wallSideEast 5
-
-#define wallTopSouthEast 6
-#define wallTopSouthMiddle 7
-#define wallTopSouthWest 8
-
-#define wallTopNorthMiddle 9
-#define wallTopNorthWest 10
-#define wallTopNorthEast 11
-
-#define wallSouthWest 12
-#define wallSouthEast 13
+#include "CW3_DungeonTileMapCodes.h"
 
 // customisable tilemap
-#define tmCountXTiles 10
+#define tmCountXTiles 12
 #define tmCountYTiles 12
 
 // customisable background
@@ -43,7 +24,7 @@ int tmStartingX; //global variable to store starting x coord to draw from
 int tmStartingY; //global variable to store starting y coord to draw from
 
 CW3_Game::CW3_Game() {
-	
+
 }
 
 CW3_Game::~CW3_Game() {
@@ -76,25 +57,25 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 
 				}
 			}
-		}
-			
+		}		
 		
 	}
 
-	// using macro ints
 	int dungeonTileMapDesign[tmCountYTiles][tmCountXTiles] = {
-		{wallTopNorthWest,wallTopNorthMiddle,wallTopNorthMiddle,wallTopNorthMiddle,wallTopNorthMiddle,wallTopNorthMiddle,wallTopNorthMiddle,wallTopNorthMiddle,wallTopNorthMiddle,wallTopNorthEast},
-		{wallNorthWest,wallMid,wallMid,wallMid,wallMid,wallMid,wallMid,wallMid,wallMid,wallNorthEast},
-		{wallSideWest,floor, floor, floor, floor, floor, floor, floor, floor, wallSideEast},
-		{wallSideWest,floor, floor, floor, floor, floor, floor, floor, floor, wallSideEast},
-		{wallSideWest,floor, floor, floor, floor, floor, floor, floor, floor, wallSideEast},
-		{wallSideWest,floor, floor, floor, floor, floor, floor, floor, floor, wallSideEast},
-		{wallSideWest,floor, floor, floor, floor, floor, floor, floor, floor, wallSideEast},
-		{wallSideWest,floor, floor, floor, floor, floor, floor, floor, floor, wallSideEast},
-		{wallSideWest,floor, floor, floor, floor, floor, floor, floor, floor, wallSideEast},
-		{wallSideWest,floor, floor, floor, floor, floor, floor, floor, floor, wallSideEast},
-		{wallTopSouthEast,wallTopSouthMiddle, wallTopSouthMiddle, wallTopSouthMiddle, wallTopSouthMiddle, wallTopSouthMiddle, wallTopSouthMiddle, wallTopSouthMiddle, wallTopSouthMiddle, wallTopSouthWest},
-		{wallSouthWest,wallMid,wallMid,wallMid,wallMid,wallMid,wallMid,wallMid,wallMid,wallSouthEast}
+		//{tileEmpty, tileEmpty, tileEmpty, tileEmpty, tileEmpty, tileEmpty, tileEmpty, tileEmpty, tileEmpty, tileEmpty, tileEmpty, tileEmpty},
+		//{tileWallTopNorthWest, tileWallNorthWest, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthEast, tileWallTopNorthEast},
+		{tileWallTopNorthWest, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthEast},
+		{tileWallTopWest, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallTopEast},
+		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+		{tileWallTopSouthWest, tileWallSouthWest, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthEast, tileWallTopSouthEast},
 	};
 
 	

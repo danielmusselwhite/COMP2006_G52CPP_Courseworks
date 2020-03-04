@@ -97,6 +97,7 @@
     <ClInclude Include="CardContainer.h" />
     <ClInclude Include="CardOrTile.h" />
     <ClInclude Include="CollisionDetection.h" />
+    <ClInclude Include="CW3_DungeonTileMapCodes.h" />
     <ClInclude Include="CW3_Game.h" />
     <ClInclude Include="CW3_TileManager.h" />
     <ClInclude Include="DisplayableObjectContainer.h" />
