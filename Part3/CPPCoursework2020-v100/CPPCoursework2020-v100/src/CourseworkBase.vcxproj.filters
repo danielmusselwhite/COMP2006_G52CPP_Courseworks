@@ -49,11 +49,11 @@
     <Filter Include="Header Files\4 MyDemos">
       <UniqueIdentifier>{a58369b8-6bf3-4086-8822-8ab6966375e9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\5 Coursework 3">
-      <UniqueIdentifier>{49f306c0-e52e-48f9-a5a3-0e27e55dfeb9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\5 Coursework 3">
       <UniqueIdentifier>{74cbfd91-0599-4a37-8a93-0c5abf2512f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\4 MyDemos\5 Coursework 3">
+      <UniqueIdentifier>{49f306c0-e52e-48f9-a5a3-0e27e55dfeb9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -309,7 +309,7 @@
       <Filter>Source Files\4 MyDemos</Filter>
     </ClCompile>
     <ClCompile Include="CW3_Game.cpp">
-      <Filter>Source Files\5 Coursework 3</Filter>
+      <Filter>Source Files\4 MyDemos\5 Coursework 3</Filter>
     </ClCompile>
     <ClCompile Include="CW3_TileManager.cpp">
       <Filter>Source Files</Filter>
