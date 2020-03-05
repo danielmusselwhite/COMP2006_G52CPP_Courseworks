@@ -75,7 +75,7 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
-		{tileWallTopSouthWest, tileWallSouthWest, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthEast, tileWallTopSouthEast},
+		{tileWallTopSouthWest, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallTopSouthEast},
 	};
 
 	
@@ -106,7 +106,7 @@ void CW3_Game::virtMouseDown(int iButton, int iX, int iY) {
 
 void CW3_Game::virtKeyDown(int iKeyCode) {
 	std::cout << iKeyCode << " key pressed";
-
+	/*
 	switch (iKeyCode) {
 	case SDLK_SPACE:
 		lockBackgroundForDrawing(); //lock background so only 1 thing can draw to it at a time
@@ -114,7 +114,7 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 		unlockBackgroundForDrawing();  //unlock backgruond so other things can draw to it
 		redrawDisplay(); //redraw the background
 		break;
-	}
+	}*/
 }
 
 int CW3_Game::virtInitialiseObjects() {

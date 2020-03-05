@@ -26,6 +26,8 @@ public:
 	void drawTileWallTopSouthMid(BaseEngine* pEngine, int iMapX, int iMapY) const;
 	void drawTileWallTopSouthEast(BaseEngine* pEngine, int iMapX, int iMapY) const;
 	void drawTileWallTopSouthWest(BaseEngine* pEngine, int iMapX, int iMapY) const;
+	void drawTileWallSideWest(BaseEngine* pEngine, int iMapX, int iMapY) const;
+	void drawTileWallSideEast(BaseEngine* pEngine, int iMapX, int iMapY) const;
 
 	void drawTileWallMid(BaseEngine* pEngine, int iMapX, int iMapY) const;
 	void drawTileWallEast(BaseEngine* pEngine, int iMapX, int iMapY) const;

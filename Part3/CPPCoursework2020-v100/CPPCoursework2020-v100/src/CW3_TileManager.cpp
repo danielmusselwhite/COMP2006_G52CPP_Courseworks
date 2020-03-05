@@ -95,12 +95,14 @@ void CW3_TileManager::virtDrawTileAt(
 
 	#ifdef tileWallTopSouthEast
 		case tileWallTopSouthEast:
+			CW3_TileManager::drawTileWallSideEast(pEngine, iMapX, iMapY);
 			CW3_TileManager::drawTileWallTopSouthEast(pEngine, iMapX, iMapY);
 			break;
 	#endif
 
 	#ifdef tileWallTopSouthWest
 			case tileWallTopSouthWest:
+				CW3_TileManager::drawTileWallSideWest(pEngine, iMapX, iMapY);
 				CW3_TileManager::drawTileWallTopSouthWest(pEngine, iMapX, iMapY);
 				break;
 	#endif
@@ -172,7 +174,7 @@ void CW3_TileManager::drawTileFloor1(BaseEngine* pEngine, int iMapX, int iMapY) 
 	image.renderImageBlit(pEngine, pEngine->getBackgroundSurface(), CW3_TileManager::getTilesXCoordinates(iMapX), CW3_TileManager::getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight(), 0, 0, image.getWidth(), image.getHeight());
 }
 
-//wall top
+//wall edge
 void CW3_TileManager::drawTileWallTopNorthMid(BaseEngine* pEngine, int iMapX, int iMapY) const {
 	SimpleImage image;
 	image = ImageManager::loadImage("images\\DungeonFrames\\Tiles\\Wall\\Edges\\wall_top_mid.png", true);
@@ -229,6 +231,19 @@ void CW3_TileManager::drawTileWallTopSouthWest(BaseEngine* pEngine, int iMapX, i
 	image.renderImageBlit(pEngine, pEngine->getBackgroundSurface(), CW3_TileManager::getTilesXCoordinates(iMapX), CW3_TileManager::getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight(), 0, 0, image.getWidth(), image.getHeight());
 }
 
+void CW3_TileManager::drawTileWallSideWest(BaseEngine* pEngine, int iMapX, int iMapY) const {
+	SimpleImage image;
+	image = ImageManager::loadImage("images\\DungeonFrames\\Tiles\\Wall\\Edges\\wall_side_bottom_left_corner.png", true);
+	image.setTransparencyColour(0x000000);
+	image.renderImageBlit(pEngine, pEngine->getBackgroundSurface(), CW3_TileManager::getTilesXCoordinates(iMapX), CW3_TileManager::getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight(), 0, 0, image.getWidth(), image.getHeight());
+}
+
+void CW3_TileManager::drawTileWallSideEast(BaseEngine* pEngine, int iMapX, int iMapY) const {
+	SimpleImage image;
+	image = ImageManager::loadImage("images\\DungeonFrames\\Tiles\\Wall\\Edges\\wall_side_bottom_right_corner.png", true);
+	image.setTransparencyColour(0x000000);
+	image.renderImageBlit(pEngine, pEngine->getBackgroundSurface(), CW3_TileManager::getTilesXCoordinates(iMapX), CW3_TileManager::getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight(), 0, 0, image.getWidth(), image.getHeight());
+}
 
 //walls
 void CW3_TileManager::drawTileWallMid(BaseEngine* pEngine, int iMapX, int iMapY) const {
@@ -252,7 +267,6 @@ void CW3_TileManager::drawTileWallWest(BaseEngine* pEngine, int iMapX, int iMapY
 	image.setTransparencyColour(0x000000);
 	image.renderImageBlit(pEngine, pEngine->getBackgroundSurface(), CW3_TileManager::getTilesXCoordinates(iMapX), CW3_TileManager::getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight(), 0, 0, image.getWidth(), image.getHeight());
 }
-
 
 
 
