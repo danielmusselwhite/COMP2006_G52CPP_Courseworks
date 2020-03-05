@@ -15,6 +15,7 @@ public:
 
 	int getTilesXCoordinates(int iMapX) const;
 	int getTilesYCoordinates(int iMapX) const;
+	int getTileValueAtCoordinates(int iX, int iY) const;
 
 	void drawTileFloor1(BaseEngine* pEngine, int iMapX, int iMapY) const;
 
@@ -32,10 +33,6 @@ public:
 	void drawTileWallMid(BaseEngine* pEngine, int iMapX, int iMapY) const;
 	void drawTileWallEast(BaseEngine* pEngine, int iMapX, int iMapY) const;
 	void drawTileWallWest(BaseEngine* pEngine, int iMapX, int iMapY) const;
-
-	//void drawWallTopNorthMidTile(BaseEngine* pEngine, int iMapX, int iMapY) const;
-	//void drawWallTopNorthEastTile(BaseEngine* pEngine, int iMapX, int iMapY) const;
-	//void CW3_TileManager::drawWallTopNorthWestTile(BaseEngine* pEngine, int iMapX, int iMapY) const;
 
 };
 

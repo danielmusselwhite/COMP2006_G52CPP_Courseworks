@@ -2,6 +2,7 @@
 #include "CW3_TileManager.h"
 #include "ImageManager.h"
 #include "CW3_DungeonTileMapCodes.h"
+#include "CW3_Player.h"
 
 // constructor
 CW3_TileManager::CW3_TileManager(int iTileHeight, int iTileWidth, int iMapHeight, int iMapWidth) : TileManager(iTileHeight, iTileWidth, iMapHeight, iMapWidth) {
@@ -42,7 +43,13 @@ void CW3_TileManager::virtDrawTileAt(
 			break;
 	#endif
 
-
+	//playerSpawn
+	#ifdef tilePlayerSpawn
+	case tilePlayerSpawn:
+		CW3_TileManager::drawTileFloor1(pEngine, iMapX, iMapY);
+		pEngine->appendObjectToArray(new CW3_Player(getTilesXCoordinates(iMapX), getTilesYCoordinates(iMapY), pEngine, getTileWidth(), getTileHeight()));
+		break;
+	#endif
 
 	//floors
 	#ifdef tileFloor1
@@ -155,19 +162,9 @@ void CW3_TileManager::virtDrawTileAt(
 
 }
 
-	
-//left of the tilemap + (this tiles x index * width of each tile)
-int CW3_TileManager::getTilesXCoordinates(int iMapX) const{
-	return m_iBaseScreenX + (iMapX*getTileWidth());
-}
-
-//top of the tilemap + (this tiles y index * height of each tile)
-int CW3_TileManager::getTilesYCoordinates(int iMapY) const {
-	return m_iBaseScreenY + (iMapY*getTileHeight());
-}
 
 //floor
-void CW3_TileManager::drawTileFloor1(BaseEngine* pEngine, int iMapX, int iMapY) const{
+void CW3_TileManager::drawTileFloor1(BaseEngine* pEngine, int iMapX, int iMapY) const {
 	SimpleImage image;
 	image = ImageManager::loadImage("images\\DungeonFrames\\Tiles\\Floor\\floor_1.png", true);
 	image.setTransparencyColour(0x000000);
@@ -267,31 +264,25 @@ void CW3_TileManager::drawTileWallWest(BaseEngine* pEngine, int iMapX, int iMapY
 	image.setTransparencyColour(0x000000);
 	image.renderImageBlit(pEngine, pEngine->getBackgroundSurface(), CW3_TileManager::getTilesXCoordinates(iMapX), CW3_TileManager::getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight(), 0, 0, image.getWidth(), image.getHeight());
 }
-
-
-
-
-/*
-void CW3_TileManager::drawWallTopNorthMidTile(BaseEngine* pEngine, int iMapX, int iMapY) const {
-	SimpleImage image;
-	image = ImageManager::loadImage("images\\DungeonFrames\\Tiles\\Wall\\Edges\\wall_top_mid.png", true);
-	image.setTransparencyColour(0x000000);
-	image.renderImageBlit(pEngine, pEngine->getBackgroundSurface(), CW3_TileManager::getTilesXCoordinates(iMapX), CW3_TileManager::getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight(), 0, 0, image.getWidth(), image.getHeight());
-
-}
-
-void CW3_TileManager::drawWallTopNorthEastTile(BaseEngine* pEngine, int iMapX, int iMapY) const {
-	SimpleImage image;
-	image = ImageManager::loadImage("images\\DungeonFrames\\Tiles\\Wall\\Edges\\wall_corner_top_right.png", true);
-	image.setTransparencyColour(0x000000);
-	image.renderImageBlit(pEngine, pEngine->getBackgroundSurface(), CW3_TileManager::getTilesXCoordinates(iMapX), CW3_TileManager::getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight(), 0, 0, image.getWidth(), image.getHeight());
-
-}
 	
-void CW3_TileManager::drawWallTopNorthWestTile(BaseEngine* pEngine, int iMapX, int iMapY) const {
-	SimpleImage image;
-	image = ImageManager::loadImage("images\\DungeonFrames\\Tiles\\Wall\\Edges\\wall_corner_top_left.png", true);
-	image.setTransparencyColour(0x000000);
-	image.renderImageBlit(pEngine, pEngine->getBackgroundSurface(), CW3_TileManager::getTilesXCoordinates(iMapX), CW3_TileManager::getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight(), 0, 0, image.getWidth(), image.getHeight());
 
-}*/
+
+//left of the tilemap + (this tiles x index * width of each tile)
+int CW3_TileManager::getTilesXCoordinates(int iMapX) const{
+	return m_iBaseScreenX + (iMapX*getTileWidth());
+}
+
+//top of the tilemap + (this tiles y index * height of each tile)
+int CW3_TileManager::getTilesYCoordinates(int iMapY) const {
+	return m_iBaseScreenY + (iMapY*getTileHeight());
+}
+
+// works out the iMapX and iMapY based on the actual coordinates then gets value of tile at that index
+int CW3_TileManager::getTileValueAtCoordinates(int iX, int iY) const {
+	//tile index = x coordinate - the base position of the table, divided by size of each tile
+	int iMapX = (iX - m_iBaseScreenX) / getTileWidth(); 
+	//tile index = y coordinate - the base position of the table, divided by size of each tile
+	int iMapY = (iY - m_iBaseScreenY) / getTileHeight();
+
+	return getMapValue(iMapX, iMapY);
+}

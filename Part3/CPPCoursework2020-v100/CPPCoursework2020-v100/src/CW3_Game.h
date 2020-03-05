@@ -12,6 +12,8 @@ public:
 	void virtMouseDown(int iButton, int iX, int iY) override;
 	void virtKeyDown(int iKeyCode) override;
 	int virtInitialiseObjects() override;
+
+	CW3_TileManager * getTileManager();
 protected:
 	CW3_TileManager *tm;
 

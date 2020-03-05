@@ -6,7 +6,8 @@
 #define tileEmpty -1
 
 // floors have code 0<=x<50 (aka things character can walk on)
-#define tileFloor1 0
+#define tilePlayerSpawn 0
+#define tileFloor1 1
 
 // walls have code 50<=x<150 (aka things character cannot walk through)
 #define tileWallNorthMid 50

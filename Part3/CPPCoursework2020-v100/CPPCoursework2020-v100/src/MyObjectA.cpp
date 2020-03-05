@@ -57,7 +57,7 @@ void MyObjectA::virtDoUpdate(int iCurrentTime)
 		m_iColour = carmine;
 		currentSpeed = walkSpeed;
 	}
-		
+
 
 	// Change position if player presses a key
 	if (getEngine()->isKeyPressed(SDLK_UP)) {
@@ -72,7 +72,7 @@ void MyObjectA::virtDoUpdate(int iCurrentTime)
 	}
 	if (getEngine()->isKeyPressed(SDLK_DOWN)) {
 		// checking bottom of object is within bottom bounds of world before moving down
-		if ((m_iCurrentScreenY+m_iDrawHeight) + currentSpeed <= getEngine()->getWindowHeight()) {
+		if ((m_iCurrentScreenY + m_iDrawHeight) + currentSpeed <= getEngine()->getWindowHeight()) {
 			m_iCurrentScreenY += currentSpeed;
 		}
 		// if we're before the bounds, jump to the bound
@@ -81,7 +81,7 @@ void MyObjectA::virtDoUpdate(int iCurrentTime)
 			m_iCurrentScreenY = getEngine()->getWindowHeight() - m_iDrawHeight;
 		}
 	}
-		
+
 	if (getEngine()->isKeyPressed(SDLK_LEFT)) {
 		// check if left side of object is within leftmost bounds of world before moving left
 		if (m_iCurrentScreenX - currentSpeed >= 0) {
@@ -92,10 +92,10 @@ void MyObjectA::virtDoUpdate(int iCurrentTime)
 			m_iCurrentScreenX = 0;
 		}
 	}
-		
+
 	if (getEngine()->isKeyPressed(SDLK_RIGHT)) {
 		// check if right side of object is within rightmost bounds of world before moving right
-		if ((m_iCurrentScreenX+m_iDrawWidth) + currentSpeed <= getEngine()->getWindowWidth()) {
+		if ((m_iCurrentScreenX + m_iDrawWidth) + currentSpeed <= getEngine()->getWindowWidth()) {
 			m_iCurrentScreenX += currentSpeed;
 		}
 		// if we're before the bounds, jump to the bound
@@ -104,7 +104,7 @@ void MyObjectA::virtDoUpdate(int iCurrentTime)
 			m_iCurrentScreenX = getEngine()->getWindowWidth() - m_iDrawWidth;
 		}
 	}
-		
+
 
 	// Ensure that the objects get redrawn on the display
 	redrawDisplay();

@@ -1,6 +1,7 @@
 #include "header.h"
 #include "CW3_Game.h"
 #include "CW3_DungeonTileMapCodes.h"
+#include "CW3_Player.h"
 
 // customisable tilemap
 #define tmCountXTiles 12
@@ -69,7 +70,7 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
-		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tilePlayerSpawn, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
@@ -101,11 +102,12 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 }
 
 void CW3_Game::virtMouseDown(int iButton, int iX, int iY) {
-	std::cout << "Mouse clicked at: " << iX << ", " << iY << "\n";
+	
+	if(tm->isValidTilePosition(iX, iY))
+		std::cout << "Mouse clicked at: " << tm->getTileValueAtCoordinates(iX, iY) << "\n";
 }
 
 void CW3_Game::virtKeyDown(int iKeyCode) {
-	std::cout << iKeyCode << " key pressed";
 	/*
 	switch (iKeyCode) {
 	case SDLK_SPACE:
@@ -118,5 +120,25 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 }
 
 int CW3_Game::virtInitialiseObjects() {
+	/*
+	// Record the fact that we are about to change the array
+	// so it doesn't get used elsewhere without reloading it
+	drawableObjectsChanged();
+	// Destroy any existing objects
+	destroyOldObjects(true);
+	// Creates an array big enough for the number of objects that you want.
+	createObjectArray(1);
+	// You MUST set the array entry after the last one that you create to NULL,
+	// so that the system knows when to stop.
+	storeObjectInArray(0, new CW3_Player(,this));
+	// NOTE: We also need to destroy the objects, but the method at the
+	// top of this function will destroy all objects pointed at by the
+	// array elements so we can ignore that here.
+	setAllObjectsVisible(true);*/
 	return 0;
+
+}
+
+CW3_TileManager * CW3_Game::getTileManager() {
+	return tm;
 }
