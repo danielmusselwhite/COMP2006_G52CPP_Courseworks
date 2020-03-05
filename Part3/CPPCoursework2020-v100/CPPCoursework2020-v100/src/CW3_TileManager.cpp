@@ -24,7 +24,7 @@ void CW3_TileManager::virtDrawTileAt(
 	
 	int iMapValue = getMapValue(iMapX, iMapY);	// coordinate of the tile on the map
 	
-	/*
+	/* just kept to be useful in debugging 
 	unsigned int iColour = 0x319dad + (0x010100 * ((iMapX + iMapY + iMapValue) % 16));
 	
 	pSurface->drawRectangle(
@@ -280,9 +280,29 @@ int CW3_TileManager::getTilesYCoordinates(int iMapY) const {
 // works out the iMapX and iMapY based on the actual coordinates then gets value of tile at that index
 int CW3_TileManager::getTileValueAtCoordinates(int iX, int iY) const {
 	//tile index = x coordinate - the base position of the table, divided by size of each tile
-	int iMapX = (iX - m_iBaseScreenX) / getTileWidth(); 
+	int iMapX = getTileXMapAtCoordinates(iX);
 	//tile index = y coordinate - the base position of the table, divided by size of each tile
-	int iMapY = (iY - m_iBaseScreenY) / getTileHeight();
+	int iMapY = getTileYMapAtCoordinates(iY);
 
 	return getMapValue(iMapX, iMapY);
+}
+
+// works out the iMapX and iMapY based on the actual coordinates then gets value of tile at that index
+int CW3_TileManager::getTileXMapAtCoordinates(int iX) const {
+	//tile index = x coordinate - the base position of the table, divided by size of each tile
+	return (iX - m_iBaseScreenX) / getTileWidth();
+}
+
+// works out the iMapX and iMapY based on the actual coordinates then gets value of tile at that index
+int CW3_TileManager::getTileYMapAtCoordinates(int iY) const {
+	//tile index = y coordinate - the base position of the table, divided by size of each tile
+	return (iY - m_iBaseScreenY) / getTileHeight();
+}
+
+int CW3_TileManager::getBaseScreenX() const {
+	return m_iBaseScreenX;
+}
+
+int CW3_TileManager::getBaseScreenY() const {
+	return m_iBaseScreenY;
 }

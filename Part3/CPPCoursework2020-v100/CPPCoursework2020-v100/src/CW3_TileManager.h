@@ -16,6 +16,10 @@ public:
 	int getTilesXCoordinates(int iMapX) const;
 	int getTilesYCoordinates(int iMapX) const;
 	int getTileValueAtCoordinates(int iX, int iY) const;
+	int getTileXMapAtCoordinates(int iX) const;
+	int getTileYMapAtCoordinates(int iY) const;
+	int getBaseScreenX() const;
+	int getBaseScreenY() const;
 
 	void drawTileFloor1(BaseEngine* pEngine, int iMapX, int iMapY) const;
 
