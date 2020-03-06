@@ -3,6 +3,9 @@
 #include "ImageManager.h"
 #include "CW3_DungeonTileMapCodes.h"
 #include "CW3_Player.h"
+#include "CW3_DebugHeaders.h"
+
+
 
 // constructor
 CW3_TileManager::CW3_TileManager(int iTileHeight, int iTileWidth, int iMapHeight, int iMapWidth) : TileManager(iTileHeight, iTileWidth, iMapHeight, iMapWidth) {
@@ -24,16 +27,19 @@ void CW3_TileManager::virtDrawTileAt(
 	
 	int iMapValue = getMapValue(iMapX, iMapY);	// coordinate of the tile on the map
 	
-	/* just kept to be useful in debugging 
+	#if showCollisionBoxes is 1
+	//just kept to be useful in debugging collision boxes
 	unsigned int iColour = 0x319dad + (0x010100 * ((iMapX + iMapY + iMapValue) % 16));
-	
+
 	pSurface->drawRectangle(
 		iStartPositionScreenX, // Left
 		iStartPositionScreenY, // Top
 		iStartPositionScreenX + getTileWidth() - 1, // Right
 		iStartPositionScreenY + getTileHeight() - 1, // Bottom
 		iColour); // Pixel colour
-	*/
+	
+	#endif
+	
 
 	switch (getMapValue(iMapX, iMapY)) {
 	

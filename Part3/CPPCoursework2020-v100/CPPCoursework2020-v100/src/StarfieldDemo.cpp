@@ -35,7 +35,8 @@ void StarfieldDemo::virtSetupBackgroundBuffer()
 // This forces a screen redraw every pass through the loop.
 void StarfieldDemo::virtMainLoopDoBeforeUpdate()
 {
-	++m_iOffset;
+	//++m_iOffset;
+	m_iOffset = (m_iOffset+1) % getWindowHeight(); // Fix for problems when off the end of the surface
 	//virtSetupBackgroundBuffer(); // You could redraw background if you wanted each stop, but it's faster to just shift it...
 	this->redrawDisplay();
 }

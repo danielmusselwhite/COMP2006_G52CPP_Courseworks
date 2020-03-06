@@ -228,6 +228,9 @@
     <ClInclude Include="CW3_Player.h">
       <Filter>Header Files\5 Coursework 3</Filter>
     </ClInclude>
+    <ClInclude Include="CW3_DebugHeaders.h">
+      <Filter>Header Files\5 Coursework 3</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseEngine.cpp">

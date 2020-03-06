@@ -47,6 +47,7 @@ void MazeDemoMain::virtSetupBackgroundBuffer()
 			for ( int x = 0 ; x < 15 ; x++ )
 				for ( int y = 0 ; y < 11 ; y++ )
 					m_oTiles.setMapValue( x, y, data[y][x]-'a' );
+
 			for ( int y = 0 ; y < 11 ; y++ )
 			{
 				for ( int x = 0 ; x < 15 ; x++ )
@@ -154,7 +155,7 @@ void MazeDemoMain::virtKeyDown(int iKeyCode)
 			// Go to state main
 			m_state = stateMain;
 			// Force redraw of background
-			virtSetupBackgroundBuffer();
+			lockAndSetupBackground();
 			// Ensure objects become visible now - we hid them initially
 			setAllObjectsVisible(true);
 			// Redraw the whole screen now
@@ -166,7 +167,7 @@ void MazeDemoMain::virtKeyDown(int iKeyCode)
 			// Go to state main
 			m_state = statePaused;
 			// Force screen redraw
-			virtSetupBackgroundBuffer();
+			lockAndSetupBackground();
 			redrawDisplay();
 			break;
 
@@ -175,7 +176,7 @@ void MazeDemoMain::virtKeyDown(int iKeyCode)
 			m_state = stateMain;
 			this->unpause();
 			// Force redraw of background
-			virtSetupBackgroundBuffer();
+			lockAndSetupBackground();
 			// Redraw the whole screen now
 			redrawDisplay();
 			break;

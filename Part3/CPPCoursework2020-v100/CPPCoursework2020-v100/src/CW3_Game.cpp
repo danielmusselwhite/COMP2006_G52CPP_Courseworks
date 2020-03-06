@@ -2,6 +2,7 @@
 #include "CW3_Game.h"
 #include "CW3_DungeonTileMapCodes.h"
 #include "CW3_Player.h"
+#include "CW3_DebugHeaders.h"
 
 // customisable tilemap
 #define tmCountXTiles 12
@@ -102,7 +103,7 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 }
 
 void CW3_Game::virtMouseDown(int iButton, int iX, int iY) {
-	
+
 	if(tm->isValidTilePosition(iX, iY))
 		std::cout << "Mouse clicked at: " << tm->getTileValueAtCoordinates(iX, iY) << "\n";
 }

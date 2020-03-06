@@ -20,14 +20,6 @@ Then demos various ways of drawing shapes, images, etc
 */
 void BouncingBallMain::virtSetupBackgroundBuffer()
 {
-	// #include "DrawingFilters.h" at the top to use these
-	//static FilterPoints* filterMask = new FilterPointsRectangularMask(10, 10, 500, 500);
-	// static FilterPoints* filterMask = new FilterPointsOnScreen(); // create a new one
-	//static FilterPoints* filterMask = this->getForegroundSurface()->getDrawPointsFilter(); // get the default one - which is already a mask for screen size unless we clear it
-	//static FilterPoints* filterStretch = new FilterPointsScaling(0, 0, filterMask);
-	//this->getForegroundSurface()->setDrawPointsFilter(filterStretch);
-	//this->getBackgroundSurface()->setDrawPointsFilter(filterStretch);
-
 	fillBackground( 0 );
 
 	for ( int iX = 0 ; iX < getWindowWidth() ; iX++ )

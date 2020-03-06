@@ -173,6 +173,18 @@ public:
 	*/
 	virtual void virtSetupBackgroundBuffer();
 
+	/*
+	Just a wrapper for a call to virtSetupBackgroundBuffer(), but it will lock the background surface first, and redraw it afterwards.
+	*/
+	void lockAndSetupBackground()
+	{
+		lockBackgroundForDrawing();
+		virtSetupBackgroundBuffer();
+		unlockBackgroundForDrawing();
+		// Tell screen to redraw it now we set it up
+		redrawDisplay();
+	}
+
 	/* You probably need to override this: Draw text labels for the window */
 	virtual void virtDrawStringsUnderneath();
 	virtual void virtDrawStringsOnTop();

@@ -79,8 +79,7 @@ void JasonsDemoA::virtKeyDown(int iKeyCode)
 	switch (iKeyCode)
 	{
 	case SDLK_SPACE:
-		virtSetupBackgroundBuffer();
-		redrawDisplay();
+		lockAndSetupBackground();
 		break;
 	}
 }
