@@ -23,7 +23,7 @@ public:
 
 		// for each object in the game
 		for (int i = 0; i < m_vecDisplayableObjects.size(); i++) {
-			if (dynamic_cast<objectType*>(m_vecDisplayableObjects.at(i)) == nullptr)
+			if (dynamic_cast<objectType*>(m_vecDisplayableObjects.at(i)) != nullptr)
 				vecObs.push_back(*((objectType*)m_vecDisplayableObjects.at(i)));
 
 		}
@@ -36,8 +36,12 @@ public:
 
 		// for each object in the game
 		for (int i = 0; i < m_vecDisplayableObjects.size(); i++) {
-			if (dynamic_cast<objectType*>(m_vecDisplayableObjects.at(i))==nullptr)
-				return *((objectType*) m_vecDisplayableObjects.at(i));
+			// if this object is the type we are looking for..
+			if (dynamic_cast<objectType*>(m_vecDisplayableObjects.at(i)) != nullptr) {
+				//.. return it
+				return *((objectType*)m_vecDisplayableObjects.at(i));
+			}
+				
 
 		}
 

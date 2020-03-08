@@ -8,7 +8,7 @@ int playerCurrentSpeed, playerCrawlSpeed, playerWalkSpeed, playerRunSpeed;
 //DisplayableObject(xCoord, yCoord, pointerToMainClass, width, height, true: draw at top left ? draw at centre)
 CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight) : CW3_GameObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight) {
 	playerCrawlSpeed = 1;
-	playerWalkSpeed = 2;
+	playerWalkSpeed = 3;
 	playerRunSpeed = 5;
 	playerCurrentSpeed = playerWalkSpeed;
 }

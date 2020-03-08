@@ -12,7 +12,7 @@ CW3_Game* m_pGameEngine;
 
 //DisplayableObject(xCoord, yCoord, pointerToMainClass, width, height, true: draw at top left ? draw at centre)
 CW3_BaseEnemy::CW3_BaseEnemy(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight) : CW3_GameObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight) {
-	enemySpeed = 3;
+	enemySpeed = 1;
 	
 	m_pGameEngine = (CW3_Game*)pEngine;
 }
@@ -45,19 +45,37 @@ void CW3_BaseEnemy::virtDoUpdate(int iCurrentTime)
 	double newY; // newY position
 
 	// for now there is only one player, so get the one at pos 0 in the vector, later maybe make it hostile to the closest if more players/friendlies are added
-	CW3_GameObject target = m_pGameEngine->getObjectOfType<CW3_Player>();
-	
-	
+	CW3_Player target = m_pGameEngine->getObjectsOfType<CW3_Player>().at(0);
+
 	// getting the targets coordnates
 	goalX = target.getCurrentXCoordinate();
 	goalY = target.getCurrentYCoordinate();
-
-	// angle of as the crow flies to player
-	angle = atan2(goalX - m_iCurrentScreenX, goalY - m_iCurrentScreenY);
-
-	// moving towards the player
-	m_iCurrentScreenX = cos(angle)*enemySpeed;
-	m_iCurrentScreenY = cos(angle)*enemySpeed;
 	
-	redrawDisplay();
+	/*//Using trig
+	if (abs(goalX - m_iCurrentScreenX) + abs(goalY - m_iCurrentScreenY) >= 50) {
+		// angle of as the crow flies to player
+		angle = atan2(goalX - m_iCurrentScreenX, goalY - m_iCurrentScreenY);
+
+		// moving towards the player
+		m_iCurrentScreenY += enemySpeed * cos(angle);
+		m_iCurrentScreenX += enemySpeed * sin(angle);
+
+		redrawDisplay();
+	}
+	*/
+
+	// using if statements
+	if (goalX < m_iCurrentScreenX) {
+		m_iCurrentScreenX -= enemySpeed;
+	}
+	else if (goalX > m_iCurrentScreenX) {
+		m_iCurrentScreenX += enemySpeed;
+	}
+
+	if (goalY < m_iCurrentScreenY) {
+		m_iCurrentScreenY -= enemySpeed;
+	}
+	else if (goalY > m_iCurrentScreenY) {
+		m_iCurrentScreenY += enemySpeed;
+	}
 }
