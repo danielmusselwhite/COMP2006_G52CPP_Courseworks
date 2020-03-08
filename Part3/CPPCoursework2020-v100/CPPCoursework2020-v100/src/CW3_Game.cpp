@@ -121,6 +121,8 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 }
 
 int CW3_Game::virtInitialiseObjects() {
+
+
 	/*
 	// Record the fact that we are about to change the array
 	// so it doesn't get used elsewhere without reloading it
@@ -136,10 +138,29 @@ int CW3_Game::virtInitialiseObjects() {
 	// top of this function will destroy all objects pointed at by the
 	// array elements so we can ignore that here.
 	setAllObjectsVisible(true);*/
-	return 0;
 
+	return 0;
 }
 
 CW3_TileManager * CW3_Game::getTileManager() {
+
 	return tm;
+}
+
+// function for returning list of all objects of a specific type (i.e. enemy being able to find player(s)
+template <class objectType> std::vector<objectType> CW3_Game::getObjectsOfType() {
+	
+	// vector of object type
+	std::vector<objectType> vecObs;
+
+	// for each object in the game
+	for (int i = 0; i < m_vecDisplayableObjects.size(); i++) {
+		// if this object is of the type we are looking for
+		if (typename(objectType) == typeid(m_vecDisplayableObjects.at(i)).name()) {
+			// add it to the vector
+			vecObs.push_back(m_vecDisplayableObjects.at(i));
+		}
+	}
+
+	return vecObs;
 }

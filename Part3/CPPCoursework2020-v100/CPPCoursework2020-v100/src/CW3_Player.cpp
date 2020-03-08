@@ -15,10 +15,6 @@ CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, 
 	playerRunSpeed = 5;
 	playerCurrentSpeed = playerWalkSpeed;
 
-	CW3_Game* test;
-	BaseEngine* test2;
-
-
 	m_pGameEngine = (CW3_Game*)pEngine;
 }
 
@@ -121,7 +117,7 @@ void CW3_Player::virtDoUpdate(int iCurrentTime)
 		if (m_pGameEngine->getTileManager()->isValidTilePosition(newXCoordinate, m_iCurrentScreenY)) {
 			// .. store that tiles value and ..
 			newTilesValue = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(newXCoordinate, m_iCurrentScreenY);
-
+			
 			//.. if it has a value within the 0-50 partition for floor tiles (tiles player can walk on)..
 			if (50 > newTilesValue && newTilesValue >= 0) {
 				//.. move the player to their new coordinate

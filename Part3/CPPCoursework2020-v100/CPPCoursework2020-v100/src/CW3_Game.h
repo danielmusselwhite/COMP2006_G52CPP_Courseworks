@@ -14,6 +14,8 @@ public:
 	int virtInitialiseObjects() override;
 
 	CW3_TileManager * getTileManager();
+
+	template <class objectType> std::vector<objectType> getObjectsOfType();
 protected:
 	CW3_TileManager *tm;
 
