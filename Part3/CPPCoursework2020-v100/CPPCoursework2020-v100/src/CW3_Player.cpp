@@ -5,23 +5,17 @@
 
 int playerCurrentSpeed, playerCrawlSpeed, playerWalkSpeed, playerRunSpeed;
 
-CW3_Game* m_pGameEngine;
-
-
 //DisplayableObject(xCoord, yCoord, pointerToMainClass, width, height, true: draw at top left ? draw at centre)
-CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight) : DisplayableObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, true) {
+CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight) : CW3_GameObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight) {
 	playerCrawlSpeed = 1;
 	playerWalkSpeed = 2;
 	playerRunSpeed = 5;
 	playerCurrentSpeed = playerWalkSpeed;
-
-	m_pGameEngine = (CW3_Game*)pEngine;
 }
 
 CW3_Player::~CW3_Player() {
 	
 }
-
 
 void CW3_Player::virtDraw()
 {

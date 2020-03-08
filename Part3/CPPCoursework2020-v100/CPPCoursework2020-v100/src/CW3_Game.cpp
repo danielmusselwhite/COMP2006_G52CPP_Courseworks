@@ -76,7 +76,7 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
-		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileBaseEnemySpawn, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
 		{tileWallTopSouthWest, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallTopSouthEast},
 	};
 
@@ -147,7 +147,8 @@ CW3_TileManager * CW3_Game::getTileManager() {
 	return tm;
 }
 
-// function for returning list of all objects of a specific type (i.e. enemy being able to find player(s)
+
+/*
 template <class objectType> std::vector<objectType> CW3_Game::getObjectsOfType() {
 	
 	// vector of object type
@@ -164,3 +165,4 @@ template <class objectType> std::vector<objectType> CW3_Game::getObjectsOfType()
 
 	return vecObs;
 }
+*/

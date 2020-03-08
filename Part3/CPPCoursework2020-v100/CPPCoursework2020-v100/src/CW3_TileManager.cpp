@@ -3,6 +3,7 @@
 #include "ImageManager.h"
 #include "CW3_DungeonTileMapCodes.h"
 #include "CW3_Player.h"
+#include "CW3_BaseEnemy.h"
 #include "CW3_DebugHeaders.h"
 
 
@@ -55,6 +56,14 @@ void CW3_TileManager::virtDrawTileAt(
 		CW3_TileManager::drawTileFloor1(pEngine, iMapX, iMapY);
 		pEngine->appendObjectToArray(new CW3_Player(getTilesXCoordinates(iMapX), getTilesYCoordinates(iMapY), pEngine, getTileWidth(), getTileHeight()));
 		break;
+	#endif
+
+	//enemySpawn
+	#ifdef tileBaseEnemySpawn
+		case tileBaseEnemySpawn:
+			CW3_TileManager::drawTileFloor1(pEngine, iMapX, iMapY);
+			pEngine->appendObjectToArray(new CW3_BaseEnemy(getTilesXCoordinates(iMapX), getTilesYCoordinates(iMapY), pEngine, getTileWidth(), getTileHeight()));
+			break;
 	#endif
 
 	//floors
