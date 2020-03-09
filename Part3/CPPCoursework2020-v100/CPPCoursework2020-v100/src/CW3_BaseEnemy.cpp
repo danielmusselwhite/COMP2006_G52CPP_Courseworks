@@ -13,8 +13,6 @@ CW3_Game* m_pGameEngine;
 //DisplayableObject(xCoord, yCoord, pointerToMainClass, width, height, true: draw at top left ? draw at centre)
 CW3_BaseEnemy::CW3_BaseEnemy(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight) : CW3_GameObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight) {
 	enemySpeed = 1;
-	
-	m_pGameEngine = (CW3_Game*)pEngine;
 }
 
 CW3_BaseEnemy::~CW3_BaseEnemy() {

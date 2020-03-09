@@ -2,8 +2,10 @@
 #include "CW3_Player.h"
 #include "BaseEngine.h"
 #include "CW3_Game.h"
+#include "CW3_Sword.h"
 
 int playerCurrentSpeed, playerCrawlSpeed, playerWalkSpeed, playerRunSpeed;
+CW3_Sword* playerSword;
 
 //DisplayableObject(xCoord, yCoord, pointerToMainClass, width, height, true: draw at top left ? draw at centre)
 CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight) : CW3_GameObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight) {
@@ -11,6 +13,9 @@ CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, 
 	playerWalkSpeed = 3;
 	playerRunSpeed = 5;
 	playerCurrentSpeed = playerWalkSpeed;
+
+	playerSword = new CW3_Sword(this, iStartXCoord, iStartYCoord, pEngine, iWidth*2, iHeight/2);
+	m_pGameEngine->appendObjectToArray(playerSword);
 }
 
 CW3_Player::~CW3_Player() {
@@ -154,6 +159,7 @@ void CW3_Player::virtDoUpdate(int iCurrentTime)
 		}
 	}
 
+	playerSword->SnapToWielder();// update the playerSword so it is locked onto the player
 
 	// Ensure that the objects get redrawn on the display
 	redrawDisplay();

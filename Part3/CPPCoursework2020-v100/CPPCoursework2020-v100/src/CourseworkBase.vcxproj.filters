@@ -237,6 +237,9 @@
     <ClInclude Include="CW3_GameObject.h">
       <Filter>Header Files\5 Coursework 3</Filter>
     </ClInclude>
+    <ClInclude Include="CW3_Sword.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseEngine.cpp">
@@ -337,6 +340,9 @@
     </ClCompile>
     <ClCompile Include="CW3_GameObject.cpp">
       <Filter>Source Files\5 Coursework 3</Filter>
+    </ClCompile>
+    <ClCompile Include="CW3_Sword.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
