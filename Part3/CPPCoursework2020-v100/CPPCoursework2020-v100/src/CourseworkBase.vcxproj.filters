@@ -243,6 +243,9 @@
     <ClInclude Include="CW3_Bullet.h">
       <Filter>Header Files\5 Coursework 3</Filter>
     </ClInclude>
+    <ClInclude Include="MyImageMappingDemo.h">
+      <Filter>Header Files\4 MyDemos</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseEngine.cpp">
@@ -305,9 +308,6 @@
     <ClCompile Include="JasonsTileManager.cpp">
       <Filter>Source Files\1 Demos</Filter>
     </ClCompile>
-    <ClCompile Include="ImageMappingDemo.cpp">
-      <Filter>Source Files\2 More Advanced Demos</Filter>
-    </ClCompile>
     <ClCompile Include="JigsawDemo.cpp">
       <Filter>Source Files\2 More Advanced Demos</Filter>
     </ClCompile>
@@ -349,6 +349,12 @@
     </ClCompile>
     <ClCompile Include="CW3_Bullet.cpp">
       <Filter>Source Files\5 Coursework 3</Filter>
+    </ClCompile>
+    <ClCompile Include="MyImageMappingDemo.cpp">
+      <Filter>Source Files\4 MyDemos</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageMappingDemo.cpp">
+      <Filter>Source Files\2 More Advanced Demos</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,7 @@
 
 #include "BaseEngine.h"
 
-#include "ImageMappingDemo.h"
+#include "MyImageMappingDemo.h"
 
 #include "ImageManager.h"
 
@@ -19,13 +19,13 @@
 
 
 
-MappableImageObject* ob;
+
 
 /*
 Do any setup of back buffer prior to locking the screen buffer
 Basically do the drawing of the background in here and it'll be copied to the screen for you as needed
 */
-void ImageMappingDemo::virtSetupBackgroundBuffer()
+void MyImageMappingDemo::virtSetupBackgroundBuffer()
 {
 	fillBackground(0x404040);
 
@@ -45,7 +45,7 @@ void ImageMappingDemo::virtSetupBackgroundBuffer()
 In here you need to create any movable objects that you wish to use.
 Sub-classes need to implement this function.
 */
-int ImageMappingDemo::virtInitialiseObjects()
+int MyImageMappingDemo::virtInitialiseObjects()
 {
 	// Destroy any existing objects
 	destroyOldObjects(true);
@@ -54,10 +54,26 @@ int ImageMappingDemo::virtInitialiseObjects()
 	createObjectArray(5);
 
 	// Understand what this one does first before looking at the others...
-	ob = new MappableImageObject(this, 300, 300, this, "demo.png", false);
-	ob->setTransparencyColour(ob->getPixelColour(0,0));
-	storeObjectInArray(0, ob );
+	MappableImageObject* ob = new MappableImageObject(this, 50, 50, this, "demo.png", false);
+	ob->setTransparencyColour(ob->getPixelColour(0, 0));
+	storeObjectInArray(0, ob);
 
+	ob = new MappableImageObject(this, 250, 250, this, "demo.png", false);
+	ob->setTransparencyColour(ob->getPixelColour(0, 0));
+	storeObjectInArray(1, ob);
+
+	// Check out what happen in virtMainLoopDoBeforeUpdate() to see how the coordinate mapping objects are modified constantly
+	ob = new MappableImageObject(&rotator, 450, 450, this, "demo.png", false);
+	ob->setTransparencyColour(ob->getPixelColour(0, 0));
+	storeObjectInArray(2, ob);
+
+	ob = new MappableImageObject(&shifter1, 250, 450, this, "demo.png", false);
+	ob->setTransparencyColour(ob->getPixelColour(0, 0));
+	storeObjectInArray(3, ob);
+
+	ob = new MappableImageObject(&shifter2, 450, 250, this, "demo.png", false);
+	ob->setTransparencyColour(ob->getPixelColour(0, 0));
+	storeObjectInArray(4, ob);
 	return 0;
 }
 
@@ -67,7 +83,7 @@ int ImageMappingDemo::virtInitialiseObjects()
 Handle any key presses here.
 Note that the objects themselves (e.g. player) may also check whether a key is currently pressed
 */
-void ImageMappingDemo::virtKeyDown(int iKeyCode)
+void MyImageMappingDemo::virtKeyDown(int iKeyCode)
 {
 	switch (iKeyCode)
 	{
@@ -78,19 +94,19 @@ void ImageMappingDemo::virtKeyDown(int iKeyCode)
 }
 
 // This forces a screen redraw every pass through the loop.
-void ImageMappingDemo::virtMainLoopDoBeforeUpdate()
+void MyImageMappingDemo::virtMainLoopDoBeforeUpdate()
 {
 	int iOffset = getModifiedTime() / 10;
 
 	rotator.setRotation((double)iOffset / -100.0);
 	shifter1.setXShift((double)iOffset);
-	shifter2.setYShift((double)iOffset/2.0);
+	shifter2.setYShift((double)iOffset / 2.0);
 
 	this->redrawDisplay();
 
 }
 
-bool ImageMappingDemo::mapCoordinates(double& x, double& y, const SimpleImage& image)
+bool MyImageMappingDemo::mapCoordinates(double& x, double& y, const SimpleImage& image)
 {
 	int iOffset = getModifiedTime() / 10;
 
@@ -107,10 +123,6 @@ bool ImageMappingDemo::mapCoordinates(double& x, double& y, const SimpleImage& i
 
 	// Demo 3 - simple rotation
 
-
-	int differenceInX = ob->getXCentre() - getCurrentMouseX();
-	int differenceInY = ob->getYCentre() - getCurrentMouseY();
-
 	// Shift offset to the centre of the image, so we can rotate around centre
 	x -= image.getWidth() / 2;
 	y -= image.getHeight() / 2;
@@ -120,9 +132,8 @@ bool ImageMappingDemo::mapCoordinates(double& x, double& y, const SimpleImage& i
 	double dAngle = atan(y / (x + 0.0001));
 	if (x < 0)
 		dAngle += M_PI;
-	
 	double hyp = ::sqrt(x*x + y * y);
-	dAngle -= atan2(differenceInY, differenceInX);
+	dAngle += (double)iOffset / 100;
 
 	x = hyp * ::cos(dAngle);
 	y = hyp * ::sin(dAngle);
@@ -137,6 +148,4 @@ bool ImageMappingDemo::mapCoordinates(double& x, double& y, const SimpleImage& i
 	if (y >= (image.getHeight() - 0.5)) return false;
 
 	return true;
-
-
 }

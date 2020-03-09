@@ -131,6 +131,7 @@
     <ClInclude Include="JigsawPiece.h" />
     <ClInclude Include="MappableImageObject.h" />
     <ClInclude Include="MyDemoA.h" />
+    <ClInclude Include="MyImageMappingDemo.h" />
     <ClInclude Include="MyObjectA.h" />
     <ClInclude Include="MyTileManager.h" />
     <ClInclude Include="SimpleFlashingDragableImageObject.h" />
@@ -167,14 +168,15 @@
     <ClCompile Include="DraggingDemo.cpp" />
     <ClCompile Include="DrawingSurface.cpp" />
     <ClCompile Include="FlashingDemo.cpp" />
+    <ClCompile Include="ImageMappingDemo.cpp" />
     <ClCompile Include="ImageObjectDemo.cpp" />
     <ClCompile Include="JigsawDemo.cpp" />
     <ClCompile Include="mainfunction.cpp" />
     <ClCompile Include="BaseEngine.cpp" />
     <ClCompile Include="DisplayableObject.cpp" />
     <ClCompile Include="FontManager.cpp" />
-    <ClCompile Include="ImageMappingDemo.cpp" />
     <ClCompile Include="MyDemoA.cpp" />
+    <ClCompile Include="MyImageMappingDemo.cpp" />
     <ClCompile Include="MyObjectA.cpp" />
     <ClCompile Include="MyTileManager.cpp" />
     <ClCompile Include="SimpleImage.cpp" />
