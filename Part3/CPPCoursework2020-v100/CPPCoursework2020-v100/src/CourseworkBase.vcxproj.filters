@@ -237,8 +237,11 @@
     <ClInclude Include="CW3_GameObject.h">
       <Filter>Header Files\5 Coursework 3</Filter>
     </ClInclude>
-    <ClInclude Include="CW3_Sword.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="CW3_Gun.h">
+      <Filter>Header Files\5 Coursework 3</Filter>
+    </ClInclude>
+    <ClInclude Include="CW3_Bullet.h">
+      <Filter>Header Files\5 Coursework 3</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -341,8 +344,11 @@
     <ClCompile Include="CW3_GameObject.cpp">
       <Filter>Source Files\5 Coursework 3</Filter>
     </ClCompile>
-    <ClCompile Include="CW3_Sword.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="CW3_Gun.cpp">
+      <Filter>Source Files\5 Coursework 3</Filter>
+    </ClCompile>
+    <ClCompile Include="CW3_Bullet.cpp">
+      <Filter>Source Files\5 Coursework 3</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

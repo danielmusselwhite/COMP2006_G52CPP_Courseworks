@@ -8,5 +8,6 @@ public:
 	~CW3_Player();
 	void virtDraw();
 	void virtDoUpdate(int iCurrentTime);
+	void shootGun();
 };
 

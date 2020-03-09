@@ -70,7 +70,7 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 		{tileWallTopWest, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallTopEast},
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
-		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+		{tileWallTopWest, tileFloor1, tileBaseEnemySpawn, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tilePlayerSpawn, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
@@ -104,8 +104,12 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 
 void CW3_Game::virtMouseDown(int iButton, int iX, int iY) {
 
-	if(tm->isValidTilePosition(iX, iY))
-		std::cout << "Mouse clicked at: " << tm->getTileValueAtCoordinates(iX, iY) << "\n";
+	if (iButton == SDL_BUTTON_LEFT) {
+		getObjectOfType<CW3_Player>().shootGun();
+	}
+
+	//if(tm->isValidTilePosition(iX, iY))
+	//	std::cout << "Mouse clicked at: " << tm->getTileValueAtCoordinates(iX, iY) << "\n";
 }
 
 void CW3_Game::virtKeyDown(int iKeyCode) {

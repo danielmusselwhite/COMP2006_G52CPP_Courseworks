@@ -2,10 +2,10 @@
 #include "CW3_Player.h"
 #include "BaseEngine.h"
 #include "CW3_Game.h"
-#include "CW3_Sword.h"
+#include "CW3_Gun.h"
 
 int playerCurrentSpeed, playerCrawlSpeed, playerWalkSpeed, playerRunSpeed;
-CW3_Sword* playerSword;
+CW3_Gun* playerGun;
 
 //DisplayableObject(xCoord, yCoord, pointerToMainClass, width, height, true: draw at top left ? draw at centre)
 CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight) : CW3_GameObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight) {
@@ -14,8 +14,8 @@ CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, 
 	playerRunSpeed = 5;
 	playerCurrentSpeed = playerWalkSpeed;
 
-	playerSword = new CW3_Sword(this, iStartXCoord, iStartYCoord, pEngine, iWidth*2, iHeight/2);
-	m_pGameEngine->appendObjectToArray(playerSword);
+	playerGun = new CW3_Gun(this, iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight);
+	m_pGameEngine->appendObjectToArray(playerGun);
 }
 
 CW3_Player::~CW3_Player() {
@@ -30,7 +30,6 @@ void CW3_Player::virtDraw()
 		m_iCurrentScreenY + m_iDrawHeight - 1,
 		0x00ff00);
 }
-
 
 
 void CW3_Player::virtDoUpdate(int iCurrentTime)
@@ -54,7 +53,7 @@ void CW3_Player::virtDoUpdate(int iCurrentTime)
 
 
 	// Change position if player presses a key
-	if (getEngine()->isKeyPressed(SDLK_UP)) {
+	if (getEngine()->isKeyPressed(SDLK_UP) || getEngine()->isKeyPressed(SDLK_w)) {
 
 		//new coordinate we want to move to is the current position increased by speed
 		newYCoordinate = m_iCurrentScreenY - playerCurrentSpeed;
@@ -81,7 +80,7 @@ void CW3_Player::virtDoUpdate(int iCurrentTime)
 		}
 
 	}
-	if (getEngine()->isKeyPressed(SDLK_DOWN)) {
+	if (getEngine()->isKeyPressed(SDLK_DOWN) || getEngine()->isKeyPressed(SDLK_s)) {
 
 		//new coordinate we want to move to is the current position then increased by speed
 		newYCoordinate = m_iCurrentScreenY + playerCurrentSpeed;
@@ -108,7 +107,7 @@ void CW3_Player::virtDoUpdate(int iCurrentTime)
 
 	}
 
-	if (getEngine()->isKeyPressed(SDLK_LEFT)) {
+	if (getEngine()->isKeyPressed(SDLK_LEFT) || getEngine()->isKeyPressed(SDLK_a)) {
 		//new coordinate we want to move to is the current position then increased by speed
 		newXCoordinate = m_iCurrentScreenX - playerCurrentSpeed;
 
@@ -134,7 +133,7 @@ void CW3_Player::virtDoUpdate(int iCurrentTime)
 		
 	}
 
-	if (getEngine()->isKeyPressed(SDLK_RIGHT)) {
+	if (getEngine()->isKeyPressed(SDLK_RIGHT) || getEngine()->isKeyPressed(SDLK_d)) {
 		//new coordinate we want to move to is the current position then increased by speed
 		newXCoordinate = m_iCurrentScreenX + playerCurrentSpeed;
 
@@ -159,8 +158,13 @@ void CW3_Player::virtDoUpdate(int iCurrentTime)
 		}
 	}
 
-	playerSword->SnapToWielder();// update the playerSword so it is locked onto the player
+	playerGun->SnapToWielder();// update the playerGun so it is locked onto the player
 
 	// Ensure that the objects get redrawn on the display
 	redrawDisplay();
+}
+
+void CW3_Player::shootGun()
+{
+	playerGun->attack();
 }
