@@ -34,7 +34,7 @@ int doProgram(int argc, char *argv[])
 	int iResult = 0;
 	
 	//my coursework!
-	//CW3_Game oMain;
+	CW3_Game oMain;
 
 
 	//my Demos:
@@ -51,7 +51,7 @@ int doProgram(int argc, char *argv[])
 	//StarfieldDemo oMain; // Does a simple scrolling background
 	
 	//DraggingDemo oMain; // Includes dragable images and image objects
-	ImageMappingDemo oMain; // Demonstrates the use of coordinate mapping for image drawing
+	//ImageMappingDemo oMain; // Demonstrates the use of coordinate mapping for image drawing
 	//JigsawDemo oMain; // Demonstrates the use of coordinate mapping for image drawing
 	//PlayingCardsDemo oMain; // The most advanced demo - you may want to ignore this one totally!
 

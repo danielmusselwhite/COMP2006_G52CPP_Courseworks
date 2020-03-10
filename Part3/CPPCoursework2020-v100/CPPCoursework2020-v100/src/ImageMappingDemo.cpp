@@ -116,13 +116,12 @@ bool ImageMappingDemo::mapCoordinates(double& x, double& y, const SimpleImage& i
 	y -= image.getHeight() / 2;
 
 	// Rotate it
-	//double dAngle = (double)iOffset / 100;
 	double dAngle = atan(y / (x + 0.0001));
 	if (x < 0)
 		dAngle += M_PI;
 	
 	double hyp = ::sqrt(x*x + y * y);
-	dAngle -= atan2(differenceInY, differenceInX);
+	dAngle -= atan2(differenceInY, differenceInX);	// THIS IS THE IMPORTANT LINE, DECREASE THE DANGLE 
 
 	x = hyp * ::cos(dAngle);
 	y = hyp * ::sin(dAngle);
