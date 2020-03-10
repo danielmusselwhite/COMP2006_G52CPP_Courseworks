@@ -3,9 +3,6 @@
 #include "CW3_Bullet.h"
 #include "Math.h"
 
-double m_bulletSpeed;
-double m_AngleRadians;
-
 CW3_Bullet::CW3_Bullet(int iStartXCoord, int iStartYCoord, BaseEngine* pGameEngine, int iWidth, int iHeight, double angleRadians) :
 	CW3_GameObject(iStartXCoord, iStartYCoord, pGameEngine, iWidth, iHeight) {
 	m_AngleRadians = angleRadians;

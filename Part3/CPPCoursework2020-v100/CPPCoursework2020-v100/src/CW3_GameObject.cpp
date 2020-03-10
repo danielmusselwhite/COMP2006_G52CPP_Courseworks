@@ -5,7 +5,9 @@
 
 //DisplayableObject(xCoord, yCoord, pointerToMainClass, width, height, true: draw at top left ? draw at centre)
 CW3_GameObject::CW3_GameObject(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight) : DisplayableObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, true) {
-	m_pGameEngine = (CW3_Game*)pEngine;
+	//(CW3_Game*)pEngine;
+	m_pGameEngine = dynamic_cast<CW3_Game*>(pEngine); //checks its a subclass first
+		
 }
 
 CW3_GameObject::~CW3_GameObject() {
