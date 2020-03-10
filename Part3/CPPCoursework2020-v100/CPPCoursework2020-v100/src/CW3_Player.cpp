@@ -3,6 +3,7 @@
 #include "BaseEngine.h"
 #include "CW3_Game.h"
 #include "CW3_Gun.h"
+#include "CW3_DebugHeaders.h"
 
 int playerCurrentSpeed, playerCrawlSpeed, playerWalkSpeed, playerRunSpeed;
 CW3_Gun* playerGun;
@@ -24,11 +25,13 @@ CW3_Player::~CW3_Player() {
 
 void CW3_Player::virtDraw()
 {
+#if showCollisionBoxes == 1
 	getEngine()->drawForegroundRectangle(
 		m_iCurrentScreenX, m_iCurrentScreenY,
 		m_iCurrentScreenX + m_iDrawWidth - 1,
 		m_iCurrentScreenY + m_iDrawHeight - 1,
 		0x00ff00);
+#endif
 }
 
 

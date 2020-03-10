@@ -6,7 +6,7 @@
 CW3_Bullet::CW3_Bullet(int iStartXCoord, int iStartYCoord, BaseEngine* pGameEngine, int iWidth, int iHeight, double angleRadians) :
 	CW3_GameObject(iStartXCoord, iStartYCoord, pGameEngine, iWidth, iHeight) {
 	m_AngleRadians = angleRadians;
-	m_bulletSpeed = 3;
+	m_bulletSpeed = 10;
 
 	std::cout << m_AngleRadians<<"\n";
 }
