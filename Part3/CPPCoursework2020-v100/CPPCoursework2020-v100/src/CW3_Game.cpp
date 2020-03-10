@@ -74,7 +74,7 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tilePlayerSpawn, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
-		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+		{tileWallTopWest, tileFloor1, puddleLight, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileBaseEnemySpawn, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
 		{tileWallTopSouthWest, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallTopSouthEast},
@@ -147,26 +147,10 @@ int CW3_Game::virtInitialiseObjects() {
 }
 
 CW3_TileManager * CW3_Game::getTileManager() {
-
 	return tm;
 }
 
-
 /*
-template <class objectType> std::vector<objectType> CW3_Game::getObjectsOfType() {
-	
-	// vector of object type
-	std::vector<objectType> vecObs;
-
-	// for each object in the game
-	for (int i = 0; i < m_vecDisplayableObjects.size(); i++) {
-		// if this object is of the type we are looking for
-		if (typename(objectType) == typeid(m_vecDisplayableObjects.at(i)).name()) {
-			// add it to the vector
-			vecObs.push_back(m_vecDisplayableObjects.at(i));
-		}
-	}
-
-	return vecObs;
-}
-*/
+CW3_Game::virtMainLoopDoBeforeUpdate() {
+	//check if a Player/NPC is in a puddle and if so, change the tile to dark puddle
+}*/

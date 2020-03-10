@@ -62,6 +62,19 @@ void CW3_BaseEnemy::virtDoUpdate(int iCurrentTime)
 	}
 	*/
 
+
+	// using Pythag and ratios
+	/*
+	int differenceInX = goalX - m_iCurrentScreenX;
+	int differenceInY = goalY - m_iCurrentScreenY;
+
+	if(differenceInX!=0)
+		m_iCurrentScreenX += (differenceInX / (abs(differenceInX) + abs(differenceInY)))*enemySpeed;
+	if(differenceInY!=0)
+		m_iCurrentScreenY += (differenceInY / (abs(differenceInX) + abs(differenceInY)))*enemySpeed;
+		*/
+
+
 	// using if statements
 	if (goalX < m_iCurrentScreenX) {
 		m_iCurrentScreenX -= enemySpeed;

@@ -7,6 +7,8 @@
 
 // floors have code 0<=x<50 (aka things character can walk on)
 #define tileFloor1 1
+#define puddleLight 11
+#define puddleDark 12
 
 // special floors i.e. spawners:
 #define tilePlayerSpawn 0

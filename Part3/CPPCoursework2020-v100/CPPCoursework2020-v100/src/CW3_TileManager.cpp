@@ -72,8 +72,18 @@ void CW3_TileManager::virtDrawTileAt(
 		CW3_TileManager::drawTileFloor1(pEngine, iMapX, iMapY);
 		break;
 	#endif
-	
 
+	#ifdef puddleLight
+		case puddleLight:
+			CW3_TileManager::drawTilePuddleLight(pEngine, iMapX, iMapY);
+			break;
+	#endif
+	
+	#ifdef puddleDark
+			case puddleDark:
+				CW3_TileManager::drawTilepuddleDark(pEngine, iMapX, iMapY);
+				break;
+	#endif
 
 	// wall tops
 	
@@ -184,6 +194,22 @@ void CW3_TileManager::drawTileFloor1(BaseEngine* pEngine, int iMapX, int iMapY) 
 	image = ImageManager::loadImage("images\\DungeonFrames\\Tiles\\Floor\\floor_1.png", true);
 	image.setTransparencyColour(0x000000);
 	image.renderImageBlit(pEngine, pEngine->getBackgroundSurface(), CW3_TileManager::getTilesXCoordinates(iMapX), CW3_TileManager::getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight(), 0, 0, image.getWidth(), image.getHeight());
+}
+
+void CW3_TileManager::drawTilePuddleLight(BaseEngine* pEngine, int iMapX, int iMapY) const {
+	SimpleImage image;
+	image = ImageManager::loadImage("images\\DungeonFrames\\Tiles\\Floor\\Puddle\\puddle_empty.png", true);
+	image.setTransparencyColour(0x000000);
+	image.renderImageBlit(pEngine, pEngine->getBackgroundSurface(), CW3_TileManager::getTilesXCoordinates(iMapX), CW3_TileManager::getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight(), 0, 0, image.getWidth(), image.getHeight());
+
+}
+
+void CW3_TileManager::drawTilepuddleDark(BaseEngine* pEngine, int iMapX, int iMapY) const {
+	SimpleImage image;
+	image = ImageManager::loadImage("images\\DungeonFrames\\Tiles\\Floor\\Puddle\\puddle_full.png", true);
+	image.setTransparencyColour(0x000000);
+	image.renderImageBlit(pEngine, pEngine->getBackgroundSurface(), CW3_TileManager::getTilesXCoordinates(iMapX), CW3_TileManager::getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight(), 0, 0, image.getWidth(), image.getHeight());
+
 }
 
 //wall edge

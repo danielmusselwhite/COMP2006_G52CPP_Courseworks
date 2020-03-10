@@ -29,6 +29,12 @@ public:
 
 	virtual bool mapCoordinates(double& x, double& y, const SimpleImage& image) override;
 
+	// Most implementations will not change this, so just return true, but it allows colour modification if needed.
+	virtual bool changePixelColour(int x, int y, int& colour, DrawingSurface* pTarget)
+	{
+		return colour != 0;
+	}
+
 	void SnapToWielder();
 
 	void attack();

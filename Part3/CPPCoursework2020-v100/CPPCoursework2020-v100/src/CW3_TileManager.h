@@ -22,6 +22,9 @@ public:
 	int getBaseScreenY() const;
 
 	void drawTileFloor1(BaseEngine* pEngine, int iMapX, int iMapY) const;
+	void drawTilePuddleLight(BaseEngine* pEngine, int iMapX, int iMapY) const;
+	void drawTilepuddleDark(BaseEngine* pEngine, int iMapX, int iMapY) const;
+
 
 	void drawTileWallTopNorthMid(BaseEngine* pEngine, int iMapX, int iMapY) const;
 	void drawTileWallTopNorthEast(BaseEngine* pEngine, int iMapX, int iMapY) const;

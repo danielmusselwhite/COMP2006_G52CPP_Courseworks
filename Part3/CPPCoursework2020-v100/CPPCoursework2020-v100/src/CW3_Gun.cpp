@@ -207,7 +207,7 @@ bool CW3_Gun::mapCoordinates(double & x, double & y, const SimpleImage & image)
 	double hyp = ::sqrt(x*x + y * y);
 	dAngle -= atan2(differenceInY, differenceInX);	// THIS IS THE IMPORTANT LINE, DECREASE THE DANGLE 
 
-	std::cout << "Test" << dAngle << "\n";
+	//std::cout << "Test" << dAngle << "\n";
 
 	x = hyp * ::cos(dAngle);
 	y = hyp * ::sin(dAngle);
