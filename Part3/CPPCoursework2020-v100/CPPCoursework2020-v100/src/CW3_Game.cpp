@@ -123,7 +123,6 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 		break;
 	}*/
 }
-
 int CW3_Game::virtInitialiseObjects() {
 
 
@@ -148,6 +147,15 @@ int CW3_Game::virtInitialiseObjects() {
 
 CW3_TileManager * CW3_Game::getTileManager() {
 	return tm;
+}
+
+void CW3_Game::deleteObjectFromArray(int index) {
+	m_vecDisplayableObjects.erase(m_vecDisplayableObjects.begin()+index);
+}
+
+int CW3_Game::getDrawableObjectVectorSize()
+{
+	return m_vecDisplayableObjects.size();
 }
 
 /*

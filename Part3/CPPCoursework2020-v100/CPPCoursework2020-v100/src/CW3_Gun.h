@@ -12,6 +12,12 @@ class CW3_Gun :
 	public CoordinateMapping
 {
 public:
+	CW3_GameObject* m_pWielder;
+	int rectangleColour;
+	int normalHeight, normalWidth;
+	SimpleImage image;
+	double dAngle;
+	double shootAngle;
 
 	CW3_Gun(CW3_GameObject* wielder, int iStartXCoord, int iStartYCoord, BaseEngine* pGameEngine, int iWidth, int iHeight) :
 	CW3_GameObject(iStartXCoord, iStartYCoord, pGameEngine, iWidth, iHeight),

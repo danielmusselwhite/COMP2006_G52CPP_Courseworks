@@ -5,10 +5,16 @@ class CW3_BaseEnemy :
 {
 	
 public:
+	int health;
+
 	CW3_BaseEnemy(int iStartXCoord, int iStartYCoord, BaseEngine* pGameEngine, int iWidth, int iHeight);
 	~CW3_BaseEnemy();
 	void virtDraw();
 	void virtDoUpdate(int iCurrentTime);
+
+	void doDamage(int damage) {
+		health -= damage;
+	}
 	
 };
 

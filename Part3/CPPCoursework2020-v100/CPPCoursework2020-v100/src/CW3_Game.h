@@ -41,13 +41,14 @@ public:
 				//.. return it
 				return *((objectType*)m_vecDisplayableObjects.at(i));
 			}
-				
-
+			
 		}
 
 	}
 
+	void deleteObjectFromArray(int index);
 
+	int getDrawableObjectVectorSize();
 
 protected:
 	CW3_TileManager *tm;

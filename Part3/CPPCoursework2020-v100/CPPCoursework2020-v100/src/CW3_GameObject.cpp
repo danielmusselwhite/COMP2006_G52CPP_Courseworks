@@ -7,7 +7,7 @@
 CW3_GameObject::CW3_GameObject(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight) : DisplayableObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, true) {
 	//(CW3_Game*)pEngine;
 	m_pGameEngine = dynamic_cast<CW3_Game*>(pEngine); //checks its a subclass first
-		
+	m_drawableObjectIndex = m_pGameEngine->getDrawableObjectVectorSize(); // this is the most recently added one so this will be its index, if index is changed this will be updated
 }
 
 CW3_GameObject::~CW3_GameObject() {
