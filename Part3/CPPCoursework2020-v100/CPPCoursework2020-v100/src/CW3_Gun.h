@@ -1,8 +1,6 @@
 #pragma once
 #include "CW3_GameObject.h"
 #include "CoordinateMapping.h"
-#include "MappableImageObject.h"
-#include "CW3_RotatingImage.h"
 
 extern CW3_GameObject* m_pWielder;
 extern int normalHeight, normalWidth;
@@ -14,6 +12,7 @@ class CW3_Gun :
 	public CoordinateMapping
 {
 public:
+
 	CW3_Gun(CW3_GameObject* wielder, int iStartXCoord, int iStartYCoord, BaseEngine* pGameEngine, int iWidth, int iHeight) :
 	CW3_GameObject(iStartXCoord, iStartYCoord, pGameEngine, iWidth, iHeight),
 	rotator(0.0){
@@ -22,8 +21,7 @@ public:
 		normalHeight = iHeight;
 		normalWidth = iWidth;
 
-		//image = new CW3_RotatingImage(this, m_pGameEngine, "images\\DungeonFrames\\Weapons\\Green Staff\\weapon_green_magic_staff_east.png", getXCentre(), getYCentre(), getDrawWidth(), getDrawHeight());
-		image = ImageManager::loadImage("images\\DungeonFrames\\Weapons\\Green Staff\\weapon_green_magic_staff_east.png", true); // defaulting to looking in one direction
+		image = ImageManager::loadImage("images\\DungeonFrames\\Weapons\\Green Staff\\weapon_green_magic_staff_west.png", true); // defaulting to looking in one direction
 	}
 	~CW3_Gun();
 	void virtDraw();
