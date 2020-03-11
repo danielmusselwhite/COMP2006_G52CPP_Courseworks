@@ -246,6 +246,12 @@
     <ClInclude Include="CW3_SimpleGun.h">
       <Filter>Header Files\5 Coursework 3</Filter>
     </ClInclude>
+    <ClInclude Include="CW3_SimpleBullet.h">
+      <Filter>Header Files\5 Coursework 3</Filter>
+    </ClInclude>
+    <ClInclude Include="CW3_BaseBullet.h">
+      <Filter>Header Files\5 Coursework 3</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseEngine.cpp">

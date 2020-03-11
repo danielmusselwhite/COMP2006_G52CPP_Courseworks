@@ -97,12 +97,14 @@
     <ClInclude Include="CardContainer.h" />
     <ClInclude Include="CardOrTile.h" />
     <ClInclude Include="CollisionDetection.h" />
+    <ClInclude Include="CW3_BaseBullet.h" />
     <ClInclude Include="CW3_DungeonTileMapCodes.h" />
     <ClInclude Include="CW3_Game.h" />
     <ClInclude Include="CW3_GameObject.h" />
     <ClInclude Include="CW3_BaseGun.h" />
     <ClInclude Include="CW3_LivingGameObject.h" />
     <ClInclude Include="CW3_Player.h" />
+    <ClInclude Include="CW3_SimpleBullet.h" />
     <ClInclude Include="CW3_SimpleGun.h" />
     <ClInclude Include="CW3_TileManager.h" />
     <ClInclude Include="DebugHeaders.h" />
