@@ -237,11 +237,14 @@
     <ClInclude Include="DebugHeaders.h">
       <Filter>Header Files\5 Coursework 3</Filter>
     </ClInclude>
-    <ClInclude Include="CW3_Gun.h">
+    <ClInclude Include="CW3_BaseGun.h">
       <Filter>Header Files\5 Coursework 3</Filter>
     </ClInclude>
     <ClInclude Include="CW3_LivingGameObject.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\5 Coursework 3</Filter>
+    </ClInclude>
+    <ClInclude Include="CW3_SimpleGun.h">
+      <Filter>Header Files\5 Coursework 3</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -341,7 +344,7 @@
     <ClCompile Include="CW3_Player.cpp">
       <Filter>Source Files\5 Coursework 3</Filter>
     </ClCompile>
-    <ClCompile Include="CW3_Gun.cpp">
+    <ClCompile Include="CW3_SimpleGun.cpp">
       <Filter>Source Files\5 Coursework 3</Filter>
     </ClCompile>
   </ItemGroup>

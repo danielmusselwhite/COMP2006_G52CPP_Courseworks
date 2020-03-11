@@ -4,11 +4,14 @@
 #include "CW3_Game.h"
 #include "CW3_DungeonTileMapCodes.h"
 #include "DebugHeaders.h"
+#include "CW3_SimpleGun.h"
 
 CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight, int drawableObjectIndex, int maxHealth, int crawlSpeed, int walkSpeed, int runSpeed) : CW3_LivingGameObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, drawableObjectIndex, maxHealth, walkSpeed) {
 	m_walkSpeed = walkSpeed;
 	m_runSpeed = runSpeed;
 	m_crawlSpeed = crawlSpeed;
+
+	//m_pGun = new CW3_SimpleGun(this, getCurrentXCoordinate(), getCurrentYCoordinate(), m_pGameEngine, );
 }
 
 CW3_Player::~CW3_Player() {
@@ -24,6 +27,8 @@ void CW3_Player::virtDraw()
 		m_iCurrentScreenY + m_iDrawHeight - 1,
 		0x00ff00);
 #endif
+
+
 }
 
 

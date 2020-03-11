@@ -122,7 +122,19 @@ int CW3_Game::virtInitialiseObjects() {
 	appendObjectToArray(new CW3_Player(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, m_vecDisplayableObjects.size(), 100, 1, 3, 7));
 
 	//erase this floor so we can't have more than one thing spawn on same floor
-	floors.erase(floors.begin(), floors.begin() + floorIndex);
+	floors.erase(floors.begin() + floorIndex);
+
+	/*
+	std::cout << floors.size() << "\n";
+	floorIndex = rand() % floors.size();
+	floor.first = floors.at(floorIndex).first;
+	floor.second = floors.at(floorIndex).second;
+
+	appendObjectToArray(new CW3_Player(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, m_vecDisplayableObjects.size(), 100, 1, 3, 7));
+	
+	floors.erase(floors.begin() + floorIndex);
+	*/
+	
 
 	return 0;
 }

@@ -1,5 +1,7 @@
 #pragma once
 #include "CW3_LivingGameObject.h"
+#include "CW3_BaseGun.h"
+
 class CW3_Player :
 	public CW3_LivingGameObject
 {
@@ -9,6 +11,8 @@ protected:
 	int m_crawlSpeed;
 	int m_runSpeed;
 	int m_speed;
+	CW3_BaseGun* m_pGun;
+	
 
 public:
 	//constructor/deconstructor
