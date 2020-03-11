@@ -11,10 +11,16 @@ public:
 	CW3_Game* m_pGameEngine;
 	int m_drawableObjectIndex;
 
-	CW3_GameObject(int iStartXCoord, int iStartYCoord, BaseEngine* pGameEngine, int iWidth, int iHeight);
-	~CW3_GameObject();
+	CW3_GameObject(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight/*, int drawableObjectIndex*/) : DisplayableObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, true) {
+		//(CW3_Game*)pEngine;
+		m_pGameEngine = dynamic_cast<CW3_Game*>(pEngine); //checks its a subclass first
+		//m_drawableObjectIndex = drawableObjectIndex;
+	}
 
-	double getCurrentXCoordinate();
-	double getCurrentYCoordinate();
+	int getCurrentXCoordinate() {
+		return m_iCurrentScreenX;
+	}
+	int getCurrentYCoordinate() {
+		return m_iCurrentScreenY;
+	}
 };
-

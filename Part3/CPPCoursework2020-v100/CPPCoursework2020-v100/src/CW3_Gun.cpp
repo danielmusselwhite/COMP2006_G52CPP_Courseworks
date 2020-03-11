@@ -38,7 +38,7 @@ void CW3_Gun::SnapToWielder() {
 
 void CW3_Gun::attack()
 {
-	//m_pGameEngine->drawableObjectsChanged();
+	m_pGameEngine->drawableObjectsChanged();
 	m_pGameEngine->appendObjectToArray(new CW3_Bullet(getXCentre(), getYCentre(), m_pGameEngine, 10, 10, shootAngle));
 
 
