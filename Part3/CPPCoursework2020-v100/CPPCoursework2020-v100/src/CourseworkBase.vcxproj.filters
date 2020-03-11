@@ -216,6 +216,9 @@
     <ClInclude Include="MyObjectA.h">
       <Filter>Header Files\4 MyDemos</Filter>
     </ClInclude>
+    <ClInclude Include="MyImageMappingDemo.h">
+      <Filter>Header Files\4 MyDemos</Filter>
+    </ClInclude>
     <ClInclude Include="CW3_Game.h">
       <Filter>Header Files\5 Coursework 3</Filter>
     </ClInclude>
@@ -225,26 +228,20 @@
     <ClInclude Include="CW3_DungeonTileMapCodes.h">
       <Filter>Header Files\5 Coursework 3</Filter>
     </ClInclude>
+    <ClInclude Include="CW3_GameObject.h">
+      <Filter>Header Files\5 Coursework 3</Filter>
+    </ClInclude>
     <ClInclude Include="CW3_Player.h">
       <Filter>Header Files\5 Coursework 3</Filter>
     </ClInclude>
-    <ClInclude Include="CW3_DebugHeaders.h">
-      <Filter>Header Files\5 Coursework 3</Filter>
-    </ClInclude>
-    <ClInclude Include="CW3_BaseEnemy.h">
-      <Filter>Header Files\5 Coursework 3</Filter>
-    </ClInclude>
-    <ClInclude Include="CW3_GameObject.h">
+    <ClInclude Include="DebugHeaders.h">
       <Filter>Header Files\5 Coursework 3</Filter>
     </ClInclude>
     <ClInclude Include="CW3_Gun.h">
       <Filter>Header Files\5 Coursework 3</Filter>
     </ClInclude>
-    <ClInclude Include="CW3_Bullet.h">
-      <Filter>Header Files\5 Coursework 3</Filter>
-    </ClInclude>
-    <ClInclude Include="MyImageMappingDemo.h">
-      <Filter>Header Files\4 MyDemos</Filter>
+    <ClInclude Include="CW3_LivingGameObject.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -329,6 +326,12 @@
     <ClCompile Include="MyObjectA.cpp">
       <Filter>Source Files\4 MyDemos</Filter>
     </ClCompile>
+    <ClCompile Include="MyImageMappingDemo.cpp">
+      <Filter>Source Files\4 MyDemos</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageMappingDemo.cpp">
+      <Filter>Source Files\2 More Advanced Demos</Filter>
+    </ClCompile>
     <ClCompile Include="CW3_Game.cpp">
       <Filter>Source Files\5 Coursework 3</Filter>
     </ClCompile>
@@ -338,23 +341,8 @@
     <ClCompile Include="CW3_Player.cpp">
       <Filter>Source Files\5 Coursework 3</Filter>
     </ClCompile>
-    <ClCompile Include="CW3_BaseEnemy.cpp">
-      <Filter>Source Files\5 Coursework 3</Filter>
-    </ClCompile>
-    <ClCompile Include="CW3_GameObject.cpp">
-      <Filter>Source Files\5 Coursework 3</Filter>
-    </ClCompile>
     <ClCompile Include="CW3_Gun.cpp">
       <Filter>Source Files\5 Coursework 3</Filter>
-    </ClCompile>
-    <ClCompile Include="CW3_Bullet.cpp">
-      <Filter>Source Files\5 Coursework 3</Filter>
-    </ClCompile>
-    <ClCompile Include="MyImageMappingDemo.cpp">
-      <Filter>Source Files\4 MyDemos</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageMappingDemo.cpp">
-      <Filter>Source Files\2 More Advanced Demos</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

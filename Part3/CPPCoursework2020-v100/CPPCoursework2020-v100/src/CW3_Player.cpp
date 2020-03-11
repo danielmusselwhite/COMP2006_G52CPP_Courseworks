@@ -2,25 +2,17 @@
 #include "CW3_Player.h"
 #include "BaseEngine.h"
 #include "CW3_Game.h"
-#include "CW3_Gun.h"
-#include "CW3_DebugHeaders.h"
+#include "CW3_DungeonTileMapCodes.h"
+#include "DebugHeaders.h"
 
-int playerCurrentSpeed, playerCrawlSpeed, playerWalkSpeed, playerRunSpeed;
-CW3_Gun* playerGun;
-
-//DisplayableObject(xCoord, yCoord, pointerToMainClass, width, height, true: draw at top left ? draw at centre)
-CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight) : CW3_GameObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight) {
-	playerCrawlSpeed = 1;
-	playerWalkSpeed = 3;
-	playerRunSpeed = 5;
-	playerCurrentSpeed = playerWalkSpeed;
-
-	playerGun = new CW3_Gun(this, iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight);
-	m_pGameEngine->appendObjectToArray(playerGun);
+CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight, int drawableObjectIndex, int maxHealth, int crawlSpeed, int walkSpeed, int runSpeed) : CW3_LivingGameObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, drawableObjectIndex, maxHealth, walkSpeed) {
+	m_walkSpeed = walkSpeed;
+	m_runSpeed = runSpeed;
+	m_crawlSpeed = crawlSpeed;
 }
 
 CW3_Player::~CW3_Player() {
-	
+
 }
 
 void CW3_Player::virtDraw()
@@ -43,15 +35,15 @@ void CW3_Player::virtDoUpdate(int iCurrentTime)
 
 	// if shift key is pressed change to run speed
 	if (getEngine()->isKeyPressed(SDLK_LSHIFT)) {
-		playerCurrentSpeed = playerRunSpeed;
+		m_speed = m_runSpeed;
 	}
 	// else if control key is pressed change to crawl speed
 	else if (getEngine()->isKeyPressed(SDLK_LCTRL)) {
-		playerCurrentSpeed = playerCrawlSpeed;
+		m_speed = m_crawlSpeed;
 	}
 	// else use default walk speed
 	else {
-		playerCurrentSpeed = playerWalkSpeed;
+		m_speed = m_walkSpeed;
 	}
 
 
@@ -59,16 +51,16 @@ void CW3_Player::virtDoUpdate(int iCurrentTime)
 	if (getEngine()->isKeyPressed(SDLK_UP) || getEngine()->isKeyPressed(SDLK_w)) {
 
 		//new coordinate we want to move to is the current position increased by speed
-		newYCoordinate = m_iCurrentScreenY - playerCurrentSpeed;
-		
+		newYCoordinate = m_iCurrentScreenY - m_speed;
+
 		// if this is new position is a valid tile position..
 		if (m_pGameEngine->getTileManager()->isValidTilePosition(m_iCurrentScreenX, newYCoordinate)) {
-			
+
 			// .. store that tiles value and ..
 			newTilesValue = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(m_iCurrentScreenX, newYCoordinate);
-			
+
 			//.. if it has a value within the 0-50 partition for floor tiles (tiles player can walk on)..
-			if (50 > newTilesValue && newTilesValue >=0) {
+			if (50 > newTilesValue && newTilesValue >= 0) {
 				//.. move the player to their new coordinate
 				m_iCurrentScreenY = newYCoordinate;
 			}
@@ -79,17 +71,17 @@ void CW3_Player::virtDoUpdate(int iCurrentTime)
 				// snap to the bottom of the tile we cannot move past (Coordinate of start of tilemap + height of each tile * index of tile limit
 				m_iCurrentScreenY = (m_pGameEngine->getTileManager()->getBaseScreenY()) + ((m_pGameEngine->getTileManager()->getTileHeight())) * newTilesBounds;
 			}
-			
+
 		}
 
 	}
 	if (getEngine()->isKeyPressed(SDLK_DOWN) || getEngine()->isKeyPressed(SDLK_s)) {
 
 		//new coordinate we want to move to is the current position then increased by speed
-		newYCoordinate = m_iCurrentScreenY + playerCurrentSpeed;
+		newYCoordinate = m_iCurrentScreenY + m_speed;
 
 		// if this is new position + player height (as the bottom of the player is the limit) is a valid tile position..
-		if (m_pGameEngine->getTileManager()->isValidTilePosition(m_iCurrentScreenX, newYCoordinate+m_iDrawHeight)) {
+		if (m_pGameEngine->getTileManager()->isValidTilePosition(m_iCurrentScreenX, newYCoordinate + m_iDrawHeight)) {
 			// .. store that tiles value and ..
 			newTilesValue = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(m_iCurrentScreenX, newYCoordinate + m_iDrawHeight);
 
@@ -101,7 +93,7 @@ void CW3_Player::virtDoUpdate(int iCurrentTime)
 			//..else this a tile with a physical boundary..
 			else {
 				// index of the tile we do not want to move past = the index of tile at coordinate we cannot move to -1 as the limit is the top of the tile
-				newTilesBounds = m_pGameEngine->getTileManager()->getTileYMapAtCoordinates(newYCoordinate+m_iDrawHeight)-1;
+				newTilesBounds = m_pGameEngine->getTileManager()->getTileYMapAtCoordinates(newYCoordinate + m_iDrawHeight) - 1;
 				// snap to the top of the tile we cannot move past (Coordinate of start of tilemap + height of each tile * index of tile limit
 				m_iCurrentScreenY = (m_pGameEngine->getTileManager()->getBaseScreenY()) + ((m_pGameEngine->getTileManager()->getTileHeight())) * newTilesBounds;
 			}
@@ -112,13 +104,13 @@ void CW3_Player::virtDoUpdate(int iCurrentTime)
 
 	if (getEngine()->isKeyPressed(SDLK_LEFT) || getEngine()->isKeyPressed(SDLK_a)) {
 		//new coordinate we want to move to is the current position then increased by speed
-		newXCoordinate = m_iCurrentScreenX - playerCurrentSpeed;
+		newXCoordinate = m_iCurrentScreenX - m_speed;
 
 		// if this is new position is a valid tile position..
 		if (m_pGameEngine->getTileManager()->isValidTilePosition(newXCoordinate, m_iCurrentScreenY)) {
 			// .. store that tiles value and ..
 			newTilesValue = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(newXCoordinate, m_iCurrentScreenY);
-			
+
 			//.. if it has a value within the 0-50 partition for floor tiles (tiles player can walk on)..
 			if (50 > newTilesValue && newTilesValue >= 0) {
 				//.. move the player to their new coordinate
@@ -133,17 +125,17 @@ void CW3_Player::virtDoUpdate(int iCurrentTime)
 			}
 
 		}
-		
+
 	}
 
 	if (getEngine()->isKeyPressed(SDLK_RIGHT) || getEngine()->isKeyPressed(SDLK_d)) {
 		//new coordinate we want to move to is the current position then increased by speed
-		newXCoordinate = m_iCurrentScreenX + playerCurrentSpeed;
+		newXCoordinate = m_iCurrentScreenX + m_speed;
 
 		// if this is new position + player width (as the right of the player is the limit) is a valid tile position..
-		if (m_pGameEngine->getTileManager()->isValidTilePosition(newXCoordinate+m_iDrawWidth, m_iCurrentScreenY)) {
+		if (m_pGameEngine->getTileManager()->isValidTilePosition(newXCoordinate + m_iDrawWidth, m_iCurrentScreenY)) {
 			// .. store that tiles value and ..
-			newTilesValue = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(newXCoordinate+m_iDrawWidth, m_iCurrentScreenY);
+			newTilesValue = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(newXCoordinate + m_iDrawWidth, m_iCurrentScreenY);
 
 			//.. if it has a value within the 0-50 partition for floor tiles (tiles player can walk on)..
 			if (50 > newTilesValue && newTilesValue >= 0) {
@@ -153,7 +145,7 @@ void CW3_Player::virtDoUpdate(int iCurrentTime)
 			//..else this is a tile with a physical boundary..
 			else {
 				// index of the tile we do not want to move past = the index of tile at coordinate we cannot move to +1 as the limit is the left of the tile
-				newTilesBounds = m_pGameEngine->getTileManager()->getTileXMapAtCoordinates(newXCoordinate+ m_iDrawWidth) - 1;
+				newTilesBounds = m_pGameEngine->getTileManager()->getTileXMapAtCoordinates(newXCoordinate + m_iDrawWidth) - 1;
 				// snap to the left of the tile we cannot move past (Coordinate of start of tilemap + width of each tile * index of tile limit
 				m_iCurrentScreenX = (m_pGameEngine->getTileManager()->getBaseScreenX()) + ((m_pGameEngine->getTileManager()->getTileWidth())) * newTilesBounds;
 			}
@@ -161,13 +153,10 @@ void CW3_Player::virtDoUpdate(int iCurrentTime)
 		}
 	}
 
-	playerGun->SnapToWielder();// update the playerGun so it is locked onto the player
-
 	// Ensure that the objects get redrawn on the display
 	redrawDisplay();
 }
 
 void CW3_Player::shootGun()
 {
-	playerGun->attack();
 }

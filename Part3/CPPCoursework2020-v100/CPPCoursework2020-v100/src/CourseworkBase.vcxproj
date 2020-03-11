@@ -97,15 +97,14 @@
     <ClInclude Include="CardContainer.h" />
     <ClInclude Include="CardOrTile.h" />
     <ClInclude Include="CollisionDetection.h" />
-    <ClInclude Include="CW3_BaseEnemy.h" />
-    <ClInclude Include="CW3_Bullet.h" />
     <ClInclude Include="CW3_DungeonTileMapCodes.h" />
     <ClInclude Include="CW3_Game.h" />
     <ClInclude Include="CW3_GameObject.h" />
-    <ClInclude Include="CW3_Player.h" />
     <ClInclude Include="CW3_Gun.h" />
+    <ClInclude Include="CW3_LivingGameObject.h" />
+    <ClInclude Include="CW3_Player.h" />
     <ClInclude Include="CW3_TileManager.h" />
-    <ClInclude Include="CW3_DebugHeaders.h" />
+    <ClInclude Include="DebugHeaders.h" />
     <ClInclude Include="DisplayableObjectContainer.h" />
     <ClInclude Include="DragableImageObject.h" />
     <ClInclude Include="DragableTokenContainer.h" />
@@ -158,12 +157,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DragableBaseClassObject.h" />
-    <ClCompile Include="CW3_BaseEnemy.cpp" />
-    <ClCompile Include="CW3_Bullet.cpp" />
     <ClCompile Include="CW3_Game.cpp" />
-    <ClCompile Include="CW3_GameObject.cpp" />
-    <ClCompile Include="CW3_Player.cpp" />
     <ClCompile Include="CW3_Gun.cpp" />
+    <ClCompile Include="CW3_Player.cpp" />
     <ClCompile Include="CW3_TileManager.cpp" />
     <ClCompile Include="DraggingDemo.cpp" />
     <ClCompile Include="DrawingSurface.cpp" />
