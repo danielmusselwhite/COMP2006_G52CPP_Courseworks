@@ -11,11 +11,11 @@ CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, 
 	m_runSpeed = runSpeed;
 	m_crawlSpeed = crawlSpeed;
 
-	//m_pGun = new CW3_SimpleGun(this, getCurrentXCoordinate(), getCurrentYCoordinate(), m_pGameEngine, );
+	m_pGun = new CW3_SimpleGun(this, iStartXCoord, iStartYCoord, m_pGameEngine, iWidth, iHeight, 2, 2);
 }
 
 CW3_Player::~CW3_Player() {
-
+	delete m_pGun;
 }
 
 void CW3_Player::virtDraw()
@@ -28,7 +28,8 @@ void CW3_Player::virtDraw()
 		0x00ff00);
 #endif
 
-
+	m_pGun->getImage().setTransparencyColour(0xff00ff);
+	m_pGun->getImage().renderImageApplyingMapping(m_pGameEngine, m_pGameEngine->getForegroundSurface(), m_iCurrentScreenX, m_iCurrentScreenY, m_pGun->getImage().getWidth() * 2, m_pGun->getImage().getHeight() * 2, m_pGun);
 }
 
 

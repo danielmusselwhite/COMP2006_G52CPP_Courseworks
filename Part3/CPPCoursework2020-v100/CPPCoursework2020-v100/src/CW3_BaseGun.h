@@ -23,7 +23,7 @@ protected:
 
 public:
 	//constructor
-	CW3_BaseGun(CW3_GameObject* wielder, int iStartXCoord, int iStartYCoord, CW3_Game* pGameEngine, int iWidth, int iHeight, int drawableObjectIndex, int xScale, int yScale) :
+	CW3_BaseGun(CW3_GameObject* wielder, int iStartXCoord, int iStartYCoord, CW3_Game* pGameEngine, int iWidth, int iHeight, int xScale, int yScale) :
 		m_rotator(0.0) {
 		m_pWielder = wielder;
 
@@ -39,10 +39,9 @@ public:
 	// virtual methods that must be overwritten
 	virtual void attack() = 0;
 
-	//virtual bool mapCoordinates(double& x, double& y, const SimpleImage& image, int currentScreenX, int currentScreenY, int currentMouseX, int currentMouseY, int xScale, int yScale)  override;
-	
 	// overriding forced virtual function
 	virtual bool mapCoordinates(double& x, double& y, const SimpleImage& image) override {
+
 		//doubling its size
 		x /= m_xScale;
 		y /= m_yScale;
@@ -83,6 +82,10 @@ public:
 		if (y >= (image.getHeight() - 0.5)) return false;
 
 		return true;
+	}
+
+	SimpleImage& getImage() {
+		return m_image;
 	}
 };
 

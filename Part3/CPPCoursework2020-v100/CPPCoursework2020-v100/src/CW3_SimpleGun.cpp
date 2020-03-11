@@ -2,8 +2,8 @@
 #include "CW3_SimpleGun.h"
 
 
-CW3_SimpleGun:: CW3_SimpleGun(CW3_GameObject* wielder, int iStartXCoord, int iStartYCoord, CW3_Game* pGameEngine, int iWidth, int iHeight, int drawableObjectIndex, int xScale, int yScale)
-	: CW3_BaseGun(wielder, iStartXCoord, iStartYCoord, pGameEngine, iWidth, iHeight, drawableObjectIndex, xScale, yScale) {
+CW3_SimpleGun:: CW3_SimpleGun(CW3_GameObject* wielder, int iStartXCoord, int iStartYCoord, CW3_Game* pGameEngine, int iWidth, int iHeight, int xScale, int yScale)
+	: CW3_BaseGun(wielder, iStartXCoord, iStartYCoord, pGameEngine, iWidth, iHeight, xScale, yScale) {
 	m_bulletDamage = 10;
 	m_bulletSpeed = 15;
 	m_bulletSpread = 0.1;
