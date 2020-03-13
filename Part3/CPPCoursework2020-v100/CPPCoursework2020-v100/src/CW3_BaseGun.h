@@ -20,7 +20,6 @@ protected:
 	int m_yScale;
 	CW3_Game* m_pGameEngine;
 
-
 public:
 	//constructor
 	CW3_BaseGun(CW3_GameObject* wielder, int iStartXCoord, int iStartYCoord, CW3_Game* pGameEngine, int iWidth, int iHeight, int xScale, int yScale) :

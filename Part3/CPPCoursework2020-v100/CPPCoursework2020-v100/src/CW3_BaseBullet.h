@@ -17,12 +17,9 @@ protected:
 public:
 
 	//constructor
-	CW3_BaseBullet(int iStartXCoord, int iStartYCoord, BaseEngine* pGameEngine, int iWidth, int iHeight, int drawableObjectIndex, double angleRadians, int bulletSpeed, int bulletDamage, int bulletMaxDistance)
+	CW3_BaseBullet(int iStartXCoord, int iStartYCoord, BaseEngine* pGameEngine, int iWidth, int iHeight, int drawableObjectIndex, double angleRadians)
 		: CW3_GameObject(iStartXCoord, iStartYCoord, pGameEngine, iWidth, iHeight, drawableObjectIndex) {
 		m_AngleRadians = angleRadians;
-		m_bulletSpeed = bulletSpeed;
-		m_bulletDamage = bulletDamage;
-		m_bulletMaxDistance = bulletMaxDistance;
 	}
 
 	// overriding virtual methods

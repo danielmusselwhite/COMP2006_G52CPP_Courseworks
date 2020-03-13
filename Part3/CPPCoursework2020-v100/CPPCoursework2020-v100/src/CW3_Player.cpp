@@ -6,6 +6,8 @@
 #include "DebugHeaders.h"
 #include "CW3_SimpleGun.h"
 
+int rectangleColour = 0x00ff00;
+
 CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight, int drawableObjectIndex, int maxHealth, int crawlSpeed, int walkSpeed, int runSpeed) : CW3_LivingGameObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, drawableObjectIndex, maxHealth, walkSpeed) {
 	m_walkSpeed = walkSpeed;
 	m_runSpeed = runSpeed;
@@ -15,7 +17,6 @@ CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, 
 }
 
 CW3_Player::~CW3_Player() {
-	delete m_pGun;
 }
 
 void CW3_Player::virtDraw()
@@ -25,11 +26,12 @@ void CW3_Player::virtDraw()
 		m_iCurrentScreenX, m_iCurrentScreenY,
 		m_iCurrentScreenX + m_iDrawWidth - 1,
 		m_iCurrentScreenY + m_iDrawHeight - 1,
-		0x00ff00);
+		rectangleColour);
 #endif
 
 	m_pGun->getImage().setTransparencyColour(0xff00ff);
 	m_pGun->getImage().renderImageApplyingMapping(m_pGameEngine, m_pGameEngine->getForegroundSurface(), m_iCurrentScreenX, m_iCurrentScreenY, m_pGun->getImage().getWidth() * 2, m_pGun->getImage().getHeight() * 2, m_pGun);
+	
 }
 
 
@@ -165,4 +167,6 @@ void CW3_Player::virtDoUpdate(int iCurrentTime)
 
 void CW3_Player::shootGun()
 {
+	rectangleColour == 0x006600 ? rectangleColour = 0x00ff00 : rectangleColour = 0x006600;
+	//m_pGun->attack();
 }

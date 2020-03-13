@@ -13,6 +13,7 @@ protected:
 	int m_tmStartingY; //member variable to store starting y coord to draw from
 
 
+
 public:
 	//constructor/deconstructor
 	CW3_Game();

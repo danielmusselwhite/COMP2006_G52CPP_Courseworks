@@ -1,6 +1,2 @@
-﻿  CW3_Game.cpp
-d:\users\danie\documents\uni\year 2\g52cpp - c++\cw3_restarted\cpp_cw3_restarted\src\cw3_game.cpp(83): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-  CW3_Player.cpp
-  CW3_SimpleGun.cpp
-  Generating Code...
-  CourseworkBase.vcxproj -> D:\Users\Danie\Documents\Uni\Year 2\G52CPP - C++\CW3_Restarted\CPP_CW3_Restarted\/Debug\CourseworkBase2020.exe
+﻿  CW3_Player.cpp
+  CourseworkBase.vcxproj -> D:\Users\Danie\Documents\Uni\Year 2\G52CPP - C++\CW3_Restarted_MainWorkingIN\CPP_CW3_Restarted\/Debug\CourseworkBase2020.exe
