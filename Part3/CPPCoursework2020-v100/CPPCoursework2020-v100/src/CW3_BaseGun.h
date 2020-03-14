@@ -56,8 +56,8 @@ public:
 		y -= image.getHeight() / 2;
 
 
-		int differenceInX = m_pWielder->getCurrentXCoordinate() - m_pGameEngine->getCurrentMouseX();
-		int differenceInY = m_pWielder->getCurrentYCoordinate() - m_pGameEngine->getCurrentMouseY();
+		int differenceInX = m_pWielder->getCurrentXCoordinate() + m_pWielder->getDrawWidth()/2 - m_pGameEngine->getCurrentMouseX();
+		int differenceInY = m_pWielder->getCurrentYCoordinate() + m_pWielder->getDrawHeight() / 2 - m_pGameEngine->getCurrentMouseY();
 
 		// Rotate it
 		double dAngle = atan(y / (x + 0.0001));

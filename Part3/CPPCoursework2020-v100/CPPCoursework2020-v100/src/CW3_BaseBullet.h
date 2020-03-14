@@ -1,5 +1,6 @@
 #pragma once
 #include "CW3_GameObject.h"
+#include "CW3_DebugHeaders.h"
 
 class CW3_BaseBullet :
 	public CW3_GameObject
@@ -17,18 +18,20 @@ protected:
 public:
 
 	//constructor
-	CW3_BaseBullet(int iStartXCoord, int iStartYCoord, BaseEngine* pGameEngine, int iWidth, int iHeight, int drawableObjectIndex, double angleRadians)
-		: CW3_GameObject(iStartXCoord, iStartYCoord, pGameEngine, iWidth, iHeight, drawableObjectIndex) {
+	CW3_BaseBullet(int iStartXCoord, int iStartYCoord, BaseEngine* pGameEngine, int iWidth, int iHeight, double angleRadians)
+		: CW3_GameObject(iStartXCoord, iStartYCoord, pGameEngine, iWidth, iHeight) {
 		m_AngleRadians = angleRadians;
 	}
 
 	// overriding virtual methods
 	void virtDraw() {
+#if showCollisionBoxes == 1
 		getEngine()->drawForegroundRectangle(
 			m_iCurrentScreenX, m_iCurrentScreenY,
 			m_iCurrentScreenX + m_iDrawWidth - 1,
 			m_iCurrentScreenY + m_iDrawHeight - 1,
 			0xffff00);
+#endif
 	}
 
 	// can be overwritten but has general structure of how bullet will act

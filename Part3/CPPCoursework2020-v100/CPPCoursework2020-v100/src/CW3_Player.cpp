@@ -3,12 +3,12 @@
 #include "BaseEngine.h"
 #include "CW3_Game.h"
 #include "CW3_DungeonTileMapCodes.h"
-#include "DebugHeaders.h"
+#include "CW3_DebugHeaders.h"
 #include "CW3_SimpleGun.h"
 
 int rectangleColour = 0x00ff00;
 
-CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight, int drawableObjectIndex, int maxHealth, int crawlSpeed, int walkSpeed, int runSpeed) : CW3_LivingGameObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, drawableObjectIndex, maxHealth, walkSpeed) {
+CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight, int maxHealth, int crawlSpeed, int walkSpeed, int runSpeed) : CW3_LivingGameObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, maxHealth, walkSpeed) {
 	m_walkSpeed = walkSpeed;
 	m_runSpeed = runSpeed;
 	m_crawlSpeed = crawlSpeed;

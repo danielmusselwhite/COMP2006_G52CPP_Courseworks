@@ -2,6 +2,7 @@
 #include "CW3_TileManager.h"
 #include "ImageManager.h"
 #include "CW3_DungeonTileMapCodes.h"
+#include "CW3_DebugHeaders.h"
 #include "CW3_Game.h"
 
 

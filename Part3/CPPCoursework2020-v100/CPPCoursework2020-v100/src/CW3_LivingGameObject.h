@@ -14,7 +14,7 @@ protected:
 public:
 
 	//constructor/deconstructor
-	CW3_LivingGameObject(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight, int drawableObjectIndex, int maxHealth, int speed) : CW3_GameObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, drawableObjectIndex) {
+	CW3_LivingGameObject(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight, int maxHealth, int speed) : CW3_GameObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight) {
 		m_maxHealth = maxHealth;
 		m_speed = speed;
 	}
