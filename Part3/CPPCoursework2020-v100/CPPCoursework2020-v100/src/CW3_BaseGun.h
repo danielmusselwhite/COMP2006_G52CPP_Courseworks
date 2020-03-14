@@ -33,6 +33,7 @@ public:
 		m_yScale = yScale;
 
 		m_pGameEngine = pGameEngine;
+
 	}
 
 	// virtual methods that must be overwritten

@@ -111,7 +111,7 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 int CW3_Game::virtInitialiseObjects() {
 	std::vector<std::pair<int,int>> floors;
 
-	// setting all tiles to tile map int 2D array
+	//  getting all floor tiles (that the player could spawn on)
 	for (int x = 0; x < tmCountXTiles; x++)
 		for (int y = 0; y < tmCountYTiles; y++)
 			if (m_tm->getMapValue(x, y) >= 0 && m_tm->getMapValue(x, y) < 50)
@@ -140,4 +140,26 @@ int CW3_Game::virtInitialiseObjects() {
 	
 
 	return 0;
+}
+
+
+void CW3_Game::deleteObjectFromArray(int objectID) {
+
+	std::cout << "Attempting to delete object with ID: " << objectID << "\n";
+
+	int i = 0;
+	using Iter = std::vector<DisplayableObject*>::const_iterator;
+	for (Iter it = m_vecDisplayableObjects.begin(); it != m_vecDisplayableObjects.end(); it++) {
+		std::cout << "Objects in array index: " << i << " is at memory: " << m_vecDisplayableObjects.at(i) << " and has an ID of: "<< dynamic_cast<CW3_GameObject *>(m_vecDisplayableObjects.at(i))->getObjectID() << "\n";
+		
+		if (dynamic_cast<CW3_GameObject *>(m_vecDisplayableObjects.at(i))->getObjectID() == objectID) {
+			std::cout << "Found the object we want to delete at index " << i << "!\n";
+			drawableObjectsChanged();
+			m_vecDisplayableObjects.erase(m_vecDisplayableObjects.begin() + i); 
+			break;
+		}
+			
+		i++;
+	}
+
 }

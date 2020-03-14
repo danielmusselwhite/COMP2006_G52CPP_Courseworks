@@ -49,7 +49,7 @@ public:
 			//.. if it has a value not within the 0-50 partition for floor tiles (tiles that don't have collisions) then it has collided
 			// or if it has reached its max distance
 			if (50 <= newTilesValue || newTilesValue < 0 || m_bulletMaxDistance<=0) {
-				//m_pGameEngine->deleteObjectFromArray(m_drawableObjectIndex);
+				m_pGameEngine->deleteObjectFromArray(m_objectID);
 			}
 		}
 	}
