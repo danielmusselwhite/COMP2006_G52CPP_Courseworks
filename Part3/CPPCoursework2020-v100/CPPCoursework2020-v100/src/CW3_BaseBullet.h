@@ -54,6 +54,13 @@ public:
 			if (50 <= newTilesValue || newTilesValue < 0 || m_bulletMaxDistance<=0) {
 				m_pGameEngine->deleteObjectFromArray(m_objectID);
 			}
+
+			// use generic to get all objects of type GameObject and check if this is colliding with any of them
+				//check if it is a subclass of enemy
+					//damage the enemy
+				//check if it is NOT another bullet (do I want to delete if it hits another bullet? probably not)
+					// delete this object
+
 		}
 	}
 

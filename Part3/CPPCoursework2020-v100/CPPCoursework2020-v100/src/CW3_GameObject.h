@@ -1,6 +1,7 @@
 #pragma once
 #include "DisplayableObject.h"
 #include "CW3_Game.h"
+#include "CW3_DebugHeaders.h"
 
 static int maxObjectID = 0;
 
@@ -15,7 +16,9 @@ public:
 		//(CW3_Game*)pEngine;
 		m_pGameEngine = dynamic_cast<CW3_Game*>(pEngine); //checks its a subclass first
 		maxObjectID++;
-		std::cout << "Created new object with ID: " << m_objectID << " and at memory address: "<<this<<"\n";
+#if showDebugPrintObjectCreationDeletion == 1
+		std::cout << "\nCreated new object with ID: " << m_objectID << " and at memory address: "<<this<<"\n";
+#endif
 	}
 
 	int getCurrentXCoordinate() {

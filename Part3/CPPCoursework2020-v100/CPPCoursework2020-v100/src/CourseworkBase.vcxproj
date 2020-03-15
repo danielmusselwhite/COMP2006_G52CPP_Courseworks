@@ -98,6 +98,7 @@
     <ClInclude Include="CardOrTile.h" />
     <ClInclude Include="CollisionDetection.h" />
     <ClInclude Include="CW3_BaseBullet.h" />
+    <ClInclude Include="CW3_BaseEnemy.h" />
     <ClInclude Include="CW3_DungeonTileMapCodes.h" />
     <ClInclude Include="CW3_Game.h" />
     <ClInclude Include="CW3_GameObject.h" />
@@ -105,6 +106,7 @@
     <ClInclude Include="CW3_LivingGameObject.h" />
     <ClInclude Include="CW3_Player.h" />
     <ClInclude Include="CW3_SimpleBullet.h" />
+    <ClInclude Include="CW3_SimpleEnemy.h" />
     <ClInclude Include="CW3_SimpleGun.h" />
     <ClInclude Include="CW3_TileManager.h" />
     <ClInclude Include="CW3_DebugHeaders.h" />
@@ -162,6 +164,7 @@
     <ClInclude Include="DragableBaseClassObject.h" />
     <ClCompile Include="CW3_Game.cpp" />
     <ClCompile Include="CW3_Player.cpp" />
+    <ClCompile Include="CW3_SimpleEnemy.cpp" />
     <ClCompile Include="CW3_SimpleGun.cpp" />
     <ClCompile Include="CW3_TileManager.cpp" />
     <ClCompile Include="DraggingDemo.cpp" />

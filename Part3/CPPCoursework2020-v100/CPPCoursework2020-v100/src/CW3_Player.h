@@ -25,5 +25,7 @@ public:
 	//overriding parent methods
 	void virtDraw();
 	void virtDoUpdate(int iCurrentTime);
+
+	void virtDie() override;
 };
 

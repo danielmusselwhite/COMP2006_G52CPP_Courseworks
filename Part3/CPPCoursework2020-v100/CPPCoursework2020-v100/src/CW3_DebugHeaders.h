@@ -1,4 +1,5 @@
 #pragma once
 
+#define showDebugPrintObjectCreationDeletion 1
+
 #define showCollisionBoxes 1
-#define UseGunMapping 1

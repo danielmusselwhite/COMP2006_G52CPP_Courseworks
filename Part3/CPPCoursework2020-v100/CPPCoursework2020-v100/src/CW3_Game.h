@@ -20,21 +20,7 @@ public:
 	~CW3_Game();
 
 	//functions relating to m_vecDisplayableObjects
-	void CW3_Game::deleteObjectFromArray(int index);/* {
-
-		drawableObjectsChanged();
-
-		int i = 0;
-		using Iter = std::vector<DisplayableObject*>::const_iterator;
-		for (Iter it = m_vecDisplayableObjects.begin(); it != m_vecDisplayableObjects.end(); it++) {
-			std::cout << "Objects in array index: " << i << " is at memory: " << m_vecDisplayableObjects.at(i) << "\n";
-			i++;
-		}
-
-		std::cout << "Attempting to delete object with index: " << index << " at memory: "<< m_vecDisplayableObjects.at(index) << "\n";
-
-		m_vecDisplayableObjects.erase(m_vecDisplayableObjects.begin() + index);
-	}*/
+	void CW3_Game::deleteObjectFromArray(int objectID);
 
 	int CW3_Game::getDrawableObjectVectorSize()
 	{
@@ -85,6 +71,7 @@ public:
 
 		}
 
+		throw - 1;
 	}
 };
 

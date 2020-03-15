@@ -8,7 +8,7 @@
 
 int rectangleColour = 0x00ff00;
 
-CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight, int maxHealth, int crawlSpeed, int walkSpeed, int runSpeed) : CW3_LivingGameObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, maxHealth, walkSpeed) {
+CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight, int maxHealth, int crawlSpeed, int walkSpeed, int runSpeed) : CW3_LivingGameObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, maxHealth) {
 	m_walkSpeed = walkSpeed;
 	m_runSpeed = runSpeed;
 	m_crawlSpeed = crawlSpeed;
@@ -168,4 +168,8 @@ void CW3_Player::shootGun()
 {
 	rectangleColour == 0x006600 ? rectangleColour = 0x00ff00 : rectangleColour = 0x006600;
 	m_pGun->attack();
+}
+
+void CW3_Player::virtDie() {
+	m_pGameEngine->deleteObjectFromArray(m_objectID);
 }

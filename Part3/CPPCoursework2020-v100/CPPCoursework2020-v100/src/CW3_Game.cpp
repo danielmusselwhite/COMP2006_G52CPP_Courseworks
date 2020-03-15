@@ -3,6 +3,7 @@
 #include "CW3_TileManager.h"
 #include "CW3_DungeonTileMapCodes.h"
 #include "CW3_Player.h"
+#include "CW3_SimpleEnemy.h"
 
 // customisable tilemap
 #define tmCountXTiles 12
@@ -100,9 +101,17 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 }
 
 void CW3_Game::virtMouseDown(int iButton, int iX, int iY) {
-	if (iButton == SDL_BUTTON_LEFT) {
-		getObjectOfType<CW3_Player>().shootGun();
+	try {
+		CW3_Player player = getObjectOfType<CW3_Player>();
+		if (iButton == SDL_BUTTON_LEFT) {
+			player.shootGun();
+		}
 	}
+
+	catch (int e) {
+		std::cout << "\nPlayer could not be found";
+	}
+	
 }
 
 void CW3_Game::virtKeyDown(int iKeyCode) {
@@ -122,22 +131,24 @@ int CW3_Game::virtInitialiseObjects() {
 	std::pair<int, int> floor = floors.at(floorIndex);
 
 	//m_pPlayer = new CW3_Player(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, m_vecDisplayableObjects.size(), 100, 1, 3, 7);
-	appendObjectToArray(new CW3_Player(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 100, 1, 3, 7));
+	appendObjectToArray(new CW3_Player(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 100, 2, 4, 10));
 
 	//erase this floor so we can't have more than one thing spawn on same floor
 	floors.erase(floors.begin() + floorIndex);
 
-	/*
-	std::cout << floors.size() << "\n";
+	// spawn enemy at random floor
 	floorIndex = rand() % floors.size();
 	floor.first = floors.at(floorIndex).first;
 	floor.second = floors.at(floorIndex).second;
-
-	appendObjectToArray(new CW3_Player(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, m_vecDisplayableObjects.size(), 100, 1, 3, 7));
-	
+	appendObjectToArray(new CW3_SimpleEnemy(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 50, 20, 30, 1));
 	floors.erase(floors.begin() + floorIndex);
-	*/
 	
+	// spawn enemy at random floor
+	floorIndex = rand() % floors.size();
+	floor.first = floors.at(floorIndex).first;
+	floor.second = floors.at(floorIndex).second;
+	appendObjectToArray(new CW3_SimpleEnemy(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 50, 20, 30, 4));
+	floors.erase(floors.begin() + floorIndex);
 
 	return 0;
 }
@@ -145,15 +156,19 @@ int CW3_Game::virtInitialiseObjects() {
 
 void CW3_Game::deleteObjectFromArray(int objectID) {
 
-	std::cout << "Attempting to delete object with ID: " << objectID << "\n";
-
+#if showDebugPrintObjectCreationDeletion == 1
+	std::cout << "\nAttempting to delete object with ID: " << objectID << "\n";
+#endif
 	int i = 0;
 	using Iter = std::vector<DisplayableObject*>::const_iterator;
 	for (Iter it = m_vecDisplayableObjects.begin(); it != m_vecDisplayableObjects.end(); it++) {
+#if showDebugPrintObjectCreationDeletion == 1
 		std::cout << "Objects in array index: " << i << " is at memory: " << m_vecDisplayableObjects.at(i) << " and has an ID of: "<< dynamic_cast<CW3_GameObject *>(m_vecDisplayableObjects.at(i))->getObjectID() << "\n";
-		
+#endif
 		if (dynamic_cast<CW3_GameObject *>(m_vecDisplayableObjects.at(i))->getObjectID() == objectID) {
+#if showDebugPrintObjectCreationDeletion == 1
 			std::cout << "Found the object we want to delete at index " << i << "!\n";
+#endif
 			drawableObjectsChanged();
 			m_vecDisplayableObjects.erase(m_vecDisplayableObjects.begin() + i); 
 			break;

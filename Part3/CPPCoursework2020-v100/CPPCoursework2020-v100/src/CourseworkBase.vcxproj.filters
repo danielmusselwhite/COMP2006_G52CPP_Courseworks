@@ -55,6 +55,24 @@
     <Filter Include="Source Files\5 Coursework 3">
       <UniqueIdentifier>{49f306c0-e52e-48f9-a5a3-0e27e55dfeb9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\5 Coursework 3\Macro Headers">
+      <UniqueIdentifier>{c2d981d9-f93c-4b16-8b00-0d9ff5960667}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\5 Coursework 3\Bullets">
+      <UniqueIdentifier>{7201dffc-971c-45ba-a4fa-c84db1959b64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\5 Coursework 3\Guns">
+      <UniqueIdentifier>{b33ff44a-a2e7-4efc-8bbd-49c004f8caf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\5 Coursework 3\Living Things">
+      <UniqueIdentifier>{74edb363-1f4a-448c-89db-c299fcbe8045}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\5 Coursework 3\Living Things">
+      <UniqueIdentifier>{594837c5-3d78-4e89-886e-725a3c94b942}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\5 Coursework 3\Guns">
+      <UniqueIdentifier>{c0461c1e-1eb9-4686-afb8-4e84236557d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header.h">
@@ -225,32 +243,38 @@
     <ClInclude Include="CW3_TileManager.h">
       <Filter>Header Files\5 Coursework 3</Filter>
     </ClInclude>
+    <ClInclude Include="CW3_BaseEnemy.h">
+      <Filter>Header Files\5 Coursework 3\Living Things</Filter>
+    </ClInclude>
+    <ClInclude Include="CW3_DebugHeaders.h">
+      <Filter>Header Files\5 Coursework 3\Macro Headers</Filter>
+    </ClInclude>
     <ClInclude Include="CW3_DungeonTileMapCodes.h">
-      <Filter>Header Files\5 Coursework 3</Filter>
+      <Filter>Header Files\5 Coursework 3\Macro Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CW3_LivingGameObject.h">
+      <Filter>Header Files\5 Coursework 3\Living Things</Filter>
+    </ClInclude>
+    <ClInclude Include="CW3_BaseBullet.h">
+      <Filter>Header Files\5 Coursework 3\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="CW3_SimpleBullet.h">
+      <Filter>Header Files\5 Coursework 3\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="CW3_BaseGun.h">
+      <Filter>Header Files\5 Coursework 3\Guns</Filter>
+    </ClInclude>
+    <ClInclude Include="CW3_SimpleGun.h">
+      <Filter>Header Files\5 Coursework 3\Guns</Filter>
     </ClInclude>
     <ClInclude Include="CW3_GameObject.h">
       <Filter>Header Files\5 Coursework 3</Filter>
     </ClInclude>
     <ClInclude Include="CW3_Player.h">
-      <Filter>Header Files\5 Coursework 3</Filter>
+      <Filter>Header Files\5 Coursework 3\Living Things</Filter>
     </ClInclude>
-    <ClInclude Include="CW3_BaseGun.h">
-      <Filter>Header Files\5 Coursework 3</Filter>
-    </ClInclude>
-    <ClInclude Include="CW3_LivingGameObject.h">
-      <Filter>Header Files\5 Coursework 3</Filter>
-    </ClInclude>
-    <ClInclude Include="CW3_SimpleGun.h">
-      <Filter>Header Files\5 Coursework 3</Filter>
-    </ClInclude>
-    <ClInclude Include="CW3_SimpleBullet.h">
-      <Filter>Header Files\5 Coursework 3</Filter>
-    </ClInclude>
-    <ClInclude Include="CW3_BaseBullet.h">
-      <Filter>Header Files\5 Coursework 3</Filter>
-    </ClInclude>
-    <ClInclude Include="CW3_DebugHeaders.h">
-      <Filter>Header Files\5 Coursework 3</Filter>
+    <ClInclude Include="CW3_SimpleEnemy.h">
+      <Filter>Header Files\5 Coursework 3\Living Things</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -348,10 +372,13 @@
       <Filter>Source Files\5 Coursework 3</Filter>
     </ClCompile>
     <ClCompile Include="CW3_Player.cpp">
-      <Filter>Source Files\5 Coursework 3</Filter>
+      <Filter>Source Files\5 Coursework 3\Living Things</Filter>
     </ClCompile>
     <ClCompile Include="CW3_SimpleGun.cpp">
-      <Filter>Source Files\5 Coursework 3</Filter>
+      <Filter>Source Files\5 Coursework 3\Guns</Filter>
+    </ClCompile>
+    <ClCompile Include="CW3_SimpleEnemy.cpp">
+      <Filter>Source Files\5 Coursework 3\Living Things</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
