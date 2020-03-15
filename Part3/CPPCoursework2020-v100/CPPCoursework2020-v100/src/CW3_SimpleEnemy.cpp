@@ -87,6 +87,9 @@ void CW3_SimpleEnemy::virtMove()
 		m_iCurrentScreenX = goalX;
 		m_iCurrentScreenY = goalY;
 	}
+
+	// correcting coordinates if colliding
+
 }
 
 void CW3_SimpleEnemy::virtDraw()
