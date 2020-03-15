@@ -182,7 +182,17 @@ void CW3_TileManager::virtDrawTileAt(
 		break;
 #endif
 
+
+
+
+
+		//destroyables
+#ifdef tileFloorWithCrate
+	case tileFloorWithCrate:
+		CW3_TileManager::drawTileFloor1(pEngine, iMapX, iMapY);
+		CW3_TileManager::drawTileCrate(pEngine, iMapX, iMapY);
 	}
+#endif
 
 }
 
@@ -303,6 +313,15 @@ void CW3_TileManager::drawTileWallWest(BaseEngine* pEngine, int iMapX, int iMapY
 	image = ImageManager::loadImage("images\\DungeonFrames\\Tiles\\Wall\\wall_left.png", true);
 	image.setTransparencyColour(0x000000);
 	image.renderImageBlit(pEngine, pEngine->getBackgroundSurface(), CW3_TileManager::getTilesXCoordinates(iMapX), CW3_TileManager::getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight(), 0, 0, image.getWidth(), image.getHeight());
+}
+
+//destroyable tiles
+void CW3_TileManager::drawTileCrate(BaseEngine* pEngine, int iMapX, int iMapY) const {
+	SimpleImage image;
+	image = ImageManager::loadImage("images\\DungeonFrames\\Interactables\\Destroyables\\crate.png", true);
+	image.setTransparencyColour(0x000000);
+	image.renderImageBlit(pEngine, pEngine->getBackgroundSurface(), CW3_TileManager::getTilesXCoordinates(iMapX), CW3_TileManager::getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight(), 0, 0, image.getWidth(), image.getHeight());
+
 }
 
 

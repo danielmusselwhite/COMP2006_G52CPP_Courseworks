@@ -1,6 +1,9 @@
 #pragma once
 #include "CW3_GameObject.h"
 #include "CW3_DebugHeaders.h"
+#include "CW3_BaseEnemy.h"
+#include "CollisionDetection.h"
+#include "CW3_DungeonTileMapCodes.h"
 
 class CW3_BaseBullet :
 	public CW3_GameObject
@@ -13,6 +16,7 @@ protected:
 	double m_AngleRadians;
 	int m_bulletDamage;
 	int m_bulletMaxDistance;
+	int m_numberOfPiercings=0; //default to 0 but can be more
 	SimpleImage m_bulletImage;	// for now just using squares later will be images
 
 public:
@@ -49,19 +53,56 @@ public:
 			// .. store that tiles value and ..
 			int newTilesValue = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(m_iCurrentScreenX, m_iCurrentScreenY);
 
+			//.. if it has hit a destroyable object, turn it into a floor
+			if (200 <= newTilesValue && newTilesValue < 250) {
+				m_pGameEngine->getTileManager()->setAndRedrawMapValueAt(m_pGameEngine->getTileManager()->getTileXMapAtCoordinates(m_iCurrentScreenX), m_pGameEngine->getTileManager()->getTileYMapAtCoordinates(m_iCurrentScreenY), tileFloor1, m_pGameEngine, m_pGameEngine->getBackgroundSurface());
+			}
+
 			//.. if it has a value not within the 0-50 partition for floor tiles (tiles that don't have collisions) then it has collided
 			// or if it has reached its max distance
 			if (50 <= newTilesValue || newTilesValue < 0 || m_bulletMaxDistance<=0) {
 				m_pGameEngine->deleteObjectFromArray(m_objectID);
 			}
 
+			checkEnemyCollisions();
+
+		}
+	}
+
+	void checkEnemyCollisions() {
+
+		//for each enemy check if we have collided
+			//std::vector<CW3_BaseEnemy *> vecEnemies = m_pGameEngine->getObjectsOfType<CW3_BaseEnemy>();
+
+			/*for (int i = 0; i < vecEnemies.size(); i++) {
+				// if the bullet is colliding with this enemy
+				if(CollisionDetection::checkRectangles(
+					m_iCurrentScreenX, m_iCurrentScreenX + m_iDrawWidth,
+					m_iCurrentScreenY, m_iCurrentScreenY + m_iDrawHeight,
+					vecEnemies.at(i).getCurrentXCoordinate(), vecEnemies.at(i).getCurrentXCoordinate() + vecEnemies.at(i).getDrawWidth(),
+					vecEnemies.at(i).getCurrentYCoordinate(), vecEnemies.at(i).getCurrentYCoordinate() + vecEnemies.at(i).getDrawHeight()))
+				{
+					vecEnemies.at(i).hurt(m_bulletDamage);
+
+					// if this can pierce more than one enemy, decrease the counter
+					if (m_numberOfPiercings > 0) {
+						m_numberOfPiercings--;
+					}
+					// else it can't, destroy this bullet
+					else {
+						m_pGameEngine->deleteObjectFromArray(m_objectID);
+					}
+
+				}
+
+			}*/
+
+
 			// use generic to get all objects of type GameObject and check if this is colliding with any of them
 				//check if it is a subclass of enemy
 					//damage the enemy
 				//check if it is NOT another bullet (do I want to delete if it hits another bullet? probably not)
 					// delete this object
-
-		}
 	}
 
 };

@@ -41,6 +41,8 @@ public:
 	void drawTileWallEast(BaseEngine* pEngine, int iMapX, int iMapY) const;
 	void drawTileWallWest(BaseEngine* pEngine, int iMapX, int iMapY) const;
 
+	void drawTileCrate(BaseEngine* pEngine, int iMapX, int iMapY) const;
+
 	//overriding parent virt functions
 	virtual void virtDrawTileAt(
 		BaseEngine* pEngine,

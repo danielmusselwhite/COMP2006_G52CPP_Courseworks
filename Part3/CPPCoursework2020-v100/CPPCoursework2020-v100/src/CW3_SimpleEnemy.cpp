@@ -7,10 +7,10 @@
 void CW3_SimpleEnemy::virtAttack()
 {
 	// for now there is only one player, so get the one at pos 0 in the vector, later maybe make it hostile to the closest if more players/friendlies are added
-	CW3_Player target = m_pGameEngine->getObjectOfType<CW3_Player>();
+	CW3_Player* target = m_pGameEngine->getObjectOfType<CW3_Player>();
 
-	int goalX = target.getCurrentXCoordinate();
-	int goalY = target.getCurrentYCoordinate();
+	int goalX = target->getCurrentXCoordinate();
+	int goalY = target->getCurrentYCoordinate();
 	double differenceInX = goalX - m_iCurrentScreenX;
 	double differenceInY = goalY - m_iCurrentScreenY;
 	double distance = sqrt((pow(differenceInX, 2)) + (pow(differenceInY, 2)));
@@ -30,10 +30,10 @@ void CW3_SimpleEnemy::virtMove()
 	double newY; // newY position
 
 	// for now there is only one player, so get the one at pos 0 in the vector, later maybe make it hostile to the closest if more players/friendlies are added
-	CW3_Player target = m_pGameEngine->getObjectOfType<CW3_Player>();
+	CW3_Player* target = m_pGameEngine->getObjectOfType<CW3_Player>();
 
-	goalX = target.getCurrentXCoordinate();
-	goalY = target.getCurrentYCoordinate();
+	goalX = target->getCurrentXCoordinate();
+	goalY = target->getCurrentYCoordinate();
 
 	double differenceInX = goalX - m_iCurrentScreenX;
 	double differenceInY = goalY - m_iCurrentScreenY;
