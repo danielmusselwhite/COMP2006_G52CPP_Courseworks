@@ -17,16 +17,21 @@ public:
 		m_speed = speed;
 	}
 
-	void checkTileMapCollisions(int newXCoordinate, int newYCoordinate) {
-		int newTilesValueTopLeft = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(m_iCurrentScreenX, newYCoordinate);	//top left
-		int newTilesValueTopRight = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(m_iCurrentScreenX + m_iDrawWidth - 1, newYCoordinate); //top right
-		int newTilesValueBottomLeft = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(m_iCurrentScreenX, newYCoordinate + m_iDrawHeight); //bottom left
-		int newTilesValueBottomRight = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(m_iCurrentScreenX + m_iDrawWidth - 1, newYCoordinate + m_iDrawHeight); //bottom right
+	void checkTileMapCollisions(int oldXCoordinate, int oldYCoordinate,int newXCoordinate, int newYCoordinate) {
+		int newTilesValueTopLeft;	//top left
+		int newTilesValueTopRight; //top right
+		int newTilesValueBottomLeft; //bottom left
+		int newTilesValueBottomRight; //bottom right
 		int newTileXBounds; //if we are at a floor tiles edge/boundary to a tile you cannot pass (i.e. physical tile such as wall) this is the index of the tile we cannot pass ( limit we cannot move beyond)
 		int newTileYBounds; //if we are at a floor tiles edge/boundary to a tile you cannot pass (i.e. physical tile such as wall) this is the index of the tile we cannot pass ( limit we cannot move beyond)
-		
-							// if we are moving left
+					
+
+
+		// if we are moving left
 		if (newXCoordinate - m_iCurrentScreenX < 0) {
+			newTilesValueTopLeft = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(newXCoordinate, oldYCoordinate);	//top left
+			newTilesValueBottomLeft = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(newXCoordinate, oldYCoordinate + m_iDrawHeight -1); //bottom left
+
 			if (50 > newTilesValueTopLeft && newTilesValueTopLeft >= 0 && 50 > newTilesValueBottomLeft && newTilesValueBottomLeft >= 0) {
 				//.. move to new coordinate
 				m_iCurrentScreenX = newXCoordinate;
@@ -39,8 +44,14 @@ public:
 				m_iCurrentScreenX = (m_pGameEngine->getTileManager()->getBaseScreenX()) + ((m_pGameEngine->getTileManager()->getTileWidth())) * newTileXBounds;
 			}
 		}
+
+
+
 		// else if we are moving right
-		else {
+		if (newXCoordinate - m_iCurrentScreenX >= 0) {
+			newTilesValueTopRight = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(newXCoordinate + m_iDrawWidth - 1, oldYCoordinate); //top right
+			newTilesValueBottomRight = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(newXCoordinate + m_iDrawWidth - 1, oldYCoordinate + m_iDrawHeight-1); //bottom right
+
 			if (50 > newTilesValueTopRight && newTilesValueTopRight >= 0 && 50 > newTilesValueBottomRight && newTilesValueBottomRight >= 0) {
 				//.. move to new coordinate
 				m_iCurrentScreenX = newXCoordinate;
@@ -54,8 +65,15 @@ public:
 			}
 		}
 
+
+
+
 		// if we are moving up
 		if (newYCoordinate - m_iCurrentScreenY < 0) {
+			// using current X coordinate so if its in a corner it won't get trapped (i.e. if its X has moved check from that new X position if it can also move up from there)
+			newTilesValueTopLeft = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(m_iCurrentScreenX, newYCoordinate);	//top left
+			newTilesValueTopRight = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(m_iCurrentScreenX + m_iDrawWidth - 1, newYCoordinate); //top right
+
 			if (50 > newTilesValueTopLeft && newTilesValueTopLeft >= 0 && 50 > newTilesValueTopRight && newTilesValueTopRight >= 0) {
 				//.. move to new coordinate
 				m_iCurrentScreenY = newYCoordinate;
@@ -68,8 +86,15 @@ public:
 				m_iCurrentScreenY = (m_pGameEngine->getTileManager()->getBaseScreenY()) + ((m_pGameEngine->getTileManager()->getTileHeight())) * newTileYBounds;
 			}
 		}
+
+
+
 		// else if we are moving down
 		else {
+			// using current X coordinate so if its in a corner it won't get trapped (i.e. if its X has moved check from that new X position if it can also move down from there)
+			newTilesValueBottomLeft = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(m_iCurrentScreenX, newYCoordinate + m_iDrawHeight -1); //bottom left
+			newTilesValueBottomRight = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(m_iCurrentScreenX + m_iDrawWidth - 1, newYCoordinate + m_iDrawHeight -1); //bottom right
+
 			if (50 > newTilesValueBottomLeft && newTilesValueBottomLeft >= 0 && 50 > newTilesValueBottomRight && newTilesValueBottomRight >= 0) {
 				//.. move to new coordinate
 				m_iCurrentScreenY = newYCoordinate;

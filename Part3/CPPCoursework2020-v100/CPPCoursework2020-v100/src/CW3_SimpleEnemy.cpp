@@ -26,8 +26,8 @@ void CW3_SimpleEnemy::virtMove()
 	int newTilesBounds; //if we are at a floor tiles edge/boundary to a tile you cannot pass (i.e. physical tile such as wall) this is the index of the tile we cannot pass ( limit we cannot move beyond)
 	double goalX, goalY; //i.e. targets coordinate
 	double angle; // angle of the hypotenuse (as the crow flies) to the target
-	double newX; // newX position
-	double newY; // newY position
+	double newX = m_iCurrentScreenX; // newX position (defaulted to current)
+	double newY = m_iCurrentScreenY; // newY position (defaulted to current)
 
 	// for now there is only one player, so get the one at pos 0 in the vector, later maybe make it hostile to the closest if more players/friendlies are added
 	CW3_Player* target = m_pGameEngine->getObjectOfType<CW3_Player>();
@@ -39,47 +39,49 @@ void CW3_SimpleEnemy::virtMove()
 	double differenceInY = goalY - m_iCurrentScreenY;
 	double distance = sqrt((pow(differenceInX, 2)) + (pow(differenceInY, 2)));
 
-	// if the distance is greater than the total speed, move towards
+	// if the distance is greater than the total speed, move towards the target
 	if (distance > m_speed) {
 		
+#if UseMovementType == 0
 		// smarter way using ratio of x to y to get smoother travel
 		// only suitable for faster speeds as engine only allows for integer coordinates so will drop everything after the decimal point
 		// will result in doubles under 1 to have no movement and doubles with decimal point to less 1 coordinate in movement
 		// i.e. if speed is 5, 0.8x + 4.2y = total change of 4 (as you drop dp's)
-		if (m_speed > 3) {
-			double ratio = m_speed / distance;
+		double ratio = m_speed / distance;
 
-			m_iCurrentScreenX += ratio * differenceInX;
-			m_iCurrentScreenY += ratio * differenceInY;
+		newX = m_iCurrentScreenX + ratio * differenceInX;
+		newY = m_iCurrentScreenY + ratio * differenceInY;
+#endif
+
+#if UseMovementType == 1
+		//less intelligent way just utilising if statements
+		if (abs(differenceInX) > m_speed) {
+			if (goalX < m_iCurrentScreenX) {
+				newX = m_iCurrentScreenX - m_speed;
+			}
+			else if (goalX > m_iCurrentScreenX) {
+				newX = m_iCurrentScreenX + m_speed;
+			}
 		}
-
-		// if under the threshold limit use less intelligent way just utilising if statements
 		else {
-			if (abs(differenceInX) > m_speed) {
-				if (goalX < m_iCurrentScreenX) {
-					m_iCurrentScreenX -= m_speed;
-				}
-				else if (goalX > m_iCurrentScreenX) {
-					m_iCurrentScreenX += m_speed;
-				}
-			}
-			else {
-				m_iCurrentScreenX = goalX;
-			}
-			
-			if (abs(differenceInY) > m_speed) {
-				if (goalY < m_iCurrentScreenY) {
-					m_iCurrentScreenY -= m_speed;
-				}
-				else if (goalY > m_iCurrentScreenY) {
-					m_iCurrentScreenY += m_speed;
-				}
-			}
-			else {
-				m_iCurrentScreenY = goalY;
-			}
-			
+			newX = goalX;
 		}
+			
+		if (abs(differenceInY) > m_speed) {
+			if (goalY < m_iCurrentScreenY) {
+				newY = m_iCurrentScreenY - m_speed;
+			}
+			else if (goalY > m_iCurrentScreenY) {
+				newY = m_iCurrentScreenY + m_speed;
+			}
+		}
+		else {
+			newY = goalY;
+		}
+#endif
+
+		// correcting coordinates if colliding
+		checkTileMapCollisions(m_iCurrentScreenX, m_iCurrentScreenY, newX, newY);
 	}
 
 	// if distance is less than or equal to total speed, just jump to coords
@@ -87,9 +89,7 @@ void CW3_SimpleEnemy::virtMove()
 		m_iCurrentScreenX = goalX;
 		m_iCurrentScreenY = goalY;
 	}
-
-	// correcting coordinates if colliding
-
+	
 }
 
 void CW3_SimpleEnemy::virtDraw()
