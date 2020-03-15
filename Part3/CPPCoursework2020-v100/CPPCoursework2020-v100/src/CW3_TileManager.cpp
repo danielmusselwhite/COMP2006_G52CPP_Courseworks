@@ -2,9 +2,8 @@
 #include "CW3_TileManager.h"
 #include "ImageManager.h"
 #include "CW3_DungeonTileMapCodes.h"
-#include "CW3_Player.h"
-#include "CW3_BaseEnemy.h"
 #include "CW3_DebugHeaders.h"
+#include "CW3_Game.h"
 
 
 
@@ -25,11 +24,13 @@ void CW3_TileManager::virtDrawTileAt(
 	int iMapX, int iMapY,
 	int iStartPositionScreenX, int iStartPositionScreenY) const
 {
-	
+
+	CW3_Game* pGameEngine = dynamic_cast<CW3_Game*>(pEngine); //checks its a subclass first
+
 	int iMapValue = getMapValue(iMapX, iMapY);	// coordinate of the tile on the map
-	
-	#if showCollisionBoxes is 1
-	//just kept to be useful in debugging collision boxes
+
+#if showCollisionBoxes is 1
+//just kept to be useful in debugging collision boxes
 	unsigned int iColour = 0x319dad + (0x010100 * ((iMapX + iMapY + iMapValue) % 16));
 
 	pSurface->drawRectangle(
@@ -38,150 +39,148 @@ void CW3_TileManager::virtDrawTileAt(
 		iStartPositionScreenX + getTileWidth() - 1, // Right
 		iStartPositionScreenY + getTileHeight() - 1, // Bottom
 		iColour); // Pixel colour
-	
-	#endif
-	
+
+#endif
+
 
 	switch (getMapValue(iMapX, iMapY)) {
-	
-	//empty
-	#ifdef tileEmpty
-		case tileEmpty:
-			break;
-	#endif
 
-	//playerSpawn
-	#ifdef tilePlayerSpawn
+		//empty
+#ifdef tileEmpty
+	case tileEmpty:
+		break;
+#endif
+
+		//playerSpawn
+#ifdef tilePlayerSpawn
 	case tilePlayerSpawn:
 		CW3_TileManager::drawTileFloor1(pEngine, iMapX, iMapY);
-		pEngine->appendObjectToArray(new CW3_Player(getTilesXCoordinates(iMapX), getTilesYCoordinates(iMapY), pEngine, getTileWidth(), getTileHeight()));
 		break;
-	#endif
+#endif
 
-	//enemySpawn
-	#ifdef tileBaseEnemySpawn
-		case tileBaseEnemySpawn:
-			CW3_TileManager::drawTileFloor1(pEngine, iMapX, iMapY);
-			pEngine->appendObjectToArray(new CW3_BaseEnemy(getTilesXCoordinates(iMapX), getTilesYCoordinates(iMapY), pEngine, getTileWidth(), getTileHeight()));
-			break;
-	#endif
+		//enemySpawn
+#ifdef tileBaseEnemySpawn
+	case tileBaseEnemySpawn:
+		CW3_TileManager::drawTileFloor1(pEngine, iMapX, iMapY);
+		break;
+#endif
 
-	//floors
-	#ifdef tileFloor1
+		//floors
+#ifdef tileFloor1
 	case tileFloor1:
 		CW3_TileManager::drawTileFloor1(pEngine, iMapX, iMapY);
 		break;
-	#endif
+#endif
 
-	#ifdef puddleLight
-		case puddleLight:
-			CW3_TileManager::drawTilePuddleLight(pEngine, iMapX, iMapY);
-			break;
-	#endif
-	
-	#ifdef puddleDark
-			case puddleDark:
-				CW3_TileManager::drawTilepuddleDark(pEngine, iMapX, iMapY);
-				break;
-	#endif
+#ifdef puddleLight
+	case puddleLight:
+		CW3_TileManager::drawTilePuddleLight(pEngine, iMapX, iMapY);
+		break;
+#endif
 
-	// wall tops
-	
+#ifdef puddleDark
+	case puddleDark:
+		CW3_TileManager::drawTilepuddleDark(pEngine, iMapX, iMapY);
+		break;
+#endif
 
-	#ifdef tileWallTopNorthMid
+		// wall tops
+
+
+#ifdef tileWallTopNorthMid
 	case tileWallTopNorthMid:
 		CW3_TileManager::drawTileWallTopNorthMid(pEngine, iMapX, iMapY);
 		break;
-	#endif
+#endif
 
-	#ifdef tileWallTopNorthEast
+#ifdef tileWallTopNorthEast
 	case tileWallTopNorthEast:
 		CW3_TileManager::drawTileWallTopNorthEast(pEngine, iMapX, iMapY);
 		break;
-	#endif
+#endif
 
-	#ifdef tileWallTopNorthWest
+#ifdef tileWallTopNorthWest
 	case tileWallTopNorthWest:
 		CW3_TileManager::drawTileWallTopNorthWest(pEngine, iMapX, iMapY);
 		break;
-	#endif
+#endif
 
-	#ifdef tileWallTopWest
+#ifdef tileWallTopWest
 	case tileWallTopWest:
 		CW3_TileManager::drawTileWallTopWest(pEngine, iMapX, iMapY);
 		break;
-	#endif
+#endif
 
 
-	#ifdef tileWallTopEast
+#ifdef tileWallTopEast
 	case tileWallTopEast:
 		CW3_TileManager::drawTileWallTopEast(pEngine, iMapX, iMapY);
 		break;
-	#endif
+#endif
 
-	#ifdef tileWallTopSouthMid
-		case tileWallTopSouthMid:
-			CW3_TileManager::drawTileWallTopSouthMid(pEngine, iMapX, iMapY);
-			break;
-	#endif
+#ifdef tileWallTopSouthMid
+	case tileWallTopSouthMid:
+		CW3_TileManager::drawTileWallTopSouthMid(pEngine, iMapX, iMapY);
+		break;
+#endif
 
-	#ifdef tileWallTopSouthEast
-		case tileWallTopSouthEast:
-			CW3_TileManager::drawTileWallSideEast(pEngine, iMapX, iMapY);
-			CW3_TileManager::drawTileWallTopSouthEast(pEngine, iMapX, iMapY);
-			break;
-	#endif
+#ifdef tileWallTopSouthEast
+	case tileWallTopSouthEast:
+		CW3_TileManager::drawTileWallSideEast(pEngine, iMapX, iMapY);
+		CW3_TileManager::drawTileWallTopSouthEast(pEngine, iMapX, iMapY);
+		break;
+#endif
 
-	#ifdef tileWallTopSouthWest
-			case tileWallTopSouthWest:
-				CW3_TileManager::drawTileWallSideWest(pEngine, iMapX, iMapY);
-				CW3_TileManager::drawTileWallTopSouthWest(pEngine, iMapX, iMapY);
-				break;
-	#endif
-
-
+#ifdef tileWallTopSouthWest
+	case tileWallTopSouthWest:
+		CW3_TileManager::drawTileWallSideWest(pEngine, iMapX, iMapY);
+		CW3_TileManager::drawTileWallTopSouthWest(pEngine, iMapX, iMapY);
+		break;
+#endif
 
 
-	// walls
-	#ifdef tileWallNorthMid
+
+
+		// walls
+#ifdef tileWallNorthMid
 	case tileWallNorthMid:
 		CW3_TileManager::drawTileWallMid(pEngine, iMapX, iMapY);
 		break;
-	#endif
+#endif
 
-	#ifdef tileWallNorthEast
+#ifdef tileWallNorthEast
 	case tileWallNorthEast:
 		CW3_TileManager::drawTileWallEast(pEngine, iMapX, iMapY);
 		break;
-	#endif
+#endif
 
-	#ifdef tileWallNorthWest
+#ifdef tileWallNorthWest
 	case tileWallNorthWest:
 		CW3_TileManager::drawTileWallWest(pEngine, iMapX, iMapY);
 		break;
-	#endif
+#endif
 
-	
-	#ifdef tileWallSouthMid
+
+#ifdef tileWallSouthMid
 	case tileWallSouthMid:
 		CW3_TileManager::drawTileWallMid(pEngine, iMapX, iMapY);
 		CW3_TileManager::drawTileWallTopSouthMid(pEngine, iMapX, iMapY);
 		break;
-	#endif
+#endif
 
-	#ifdef tileWallSouthEast
+#ifdef tileWallSouthEast
 	case tileWallSouthEast:
 		CW3_TileManager::drawTileWallEast(pEngine, iMapX, iMapY);
 		CW3_TileManager::drawTileWallTopSouthMid(pEngine, iMapX, iMapY);
 		break;
-	#endif
+#endif
 
-	#ifdef tileWallSouthWest
+#ifdef tileWallSouthWest
 	case tileWallSouthWest:
 		CW3_TileManager::drawTileWallWest(pEngine, iMapX, iMapY);
 		CW3_TileManager::drawTileWallTopSouthMid(pEngine, iMapX, iMapY);
 		break;
-	#endif
+#endif
 
 	}
 
@@ -305,11 +304,11 @@ void CW3_TileManager::drawTileWallWest(BaseEngine* pEngine, int iMapX, int iMapY
 	image.setTransparencyColour(0x000000);
 	image.renderImageBlit(pEngine, pEngine->getBackgroundSurface(), CW3_TileManager::getTilesXCoordinates(iMapX), CW3_TileManager::getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight(), 0, 0, image.getWidth(), image.getHeight());
 }
-	
+
 
 
 //left of the tilemap + (this tiles x index * width of each tile)
-int CW3_TileManager::getTilesXCoordinates(int iMapX) const{
+int CW3_TileManager::getTilesXCoordinates(int iMapX) const {
 	return m_iBaseScreenX + (iMapX*getTileWidth());
 }
 

@@ -1,20 +1,23 @@
 #pragma once
-#include "CW3_GameObject.h"
+#include "CW3_LivingGameObject.h"
+
 class CW3_BaseEnemy :
-	public CW3_GameObject
+	public CW3_LivingGameObject
 {
-	
+protected:
+	//member variables
+	int m_maxDamage;
+	int m_minDamage;
+
 public:
-	int health;
-
-	CW3_BaseEnemy(int iStartXCoord, int iStartYCoord, BaseEngine* pGameEngine, int iWidth, int iHeight);
-	~CW3_BaseEnemy();
-	void virtDraw();
-	void virtDoUpdate(int iCurrentTime);
-
-	void doDamage(int damage) {
-		health -= damage;
+	//constructor/deconstructor
+	CW3_BaseEnemy(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight, int maxHealth, int minDamage, int maxDamage, int speed) : CW3_LivingGameObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, maxHealth) {
+		m_maxDamage = maxDamage;
+		m_minDamage = minDamage;
+		m_speed = speed;
 	}
-	
-};
 
+	//functions to be overrided:
+	virtual void virtAttack() = 0; //enemies attack behaviour
+	virtual void virtMove() = 0; //enemies movement behaviour
+};

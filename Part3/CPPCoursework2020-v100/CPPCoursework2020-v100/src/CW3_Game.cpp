@@ -1,8 +1,9 @@
 #include "header.h"
 #include "CW3_Game.h"
+#include "CW3_TileManager.h"
 #include "CW3_DungeonTileMapCodes.h"
 #include "CW3_Player.h"
-#include "CW3_DebugHeaders.h"
+#include "CW3_SimpleEnemy.h"
 
 // customisable tilemap
 #define tmCountXTiles 12
@@ -21,21 +22,17 @@
 #define clrBgStarBlue 0xe0fffc
 #define clrBgStarYellow 0xfeffe0
 
-int tmTileDimensions; //global variable to store size of tiles
-int tmStartingX; //global variable to store starting x coord to draw from
-int tmStartingY; //global variable to store starting y coord to draw from
-
 CW3_Game::CW3_Game() {
 
 }
 
 CW3_Game::~CW3_Game() {
-	
+
 }
 
 void CW3_Game::virtSetupBackgroundBuffer() {
 	fillBackground(clrBgMain);
-	
+
 	// declared local in this block as nothing inside of it is needed outside of it
 	{
 		int starSize = 0; // stars can be different sizes
@@ -45,7 +42,7 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 
 			//.. for each y coordinate..
 			for (int iY = 0; iY < getWindowHeight(); iY += starSizeGap) {
-			
+
 				starSize = (rand() % starSizeRange) + starSizeMin; // get random star size
 
 				//.. generate a random number and modulo it with for example, 100..
@@ -59,9 +56,10 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 
 				}
 			}
-		}		
-		
+		}
 	}
+
+
 
 	int dungeonTileMapDesign[tmCountYTiles][tmCountXTiles] = {
 		//{tileEmpty, tileEmpty, tileEmpty, tileEmpty, tileEmpty, tileEmpty, tileEmpty, tileEmpty, tileEmpty, tileEmpty, tileEmpty, tileEmpty},
@@ -70,95 +68,113 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 		{tileWallTopWest, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallTopEast},
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
-		{tileWallTopWest, tileFloor1, tileBaseEnemySpawn, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
-		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tilePlayerSpawn, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
 		{tileWallTopWest, tileFloor1, puddleLight, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
 		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
-		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileBaseEnemySpawn, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+		{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
 		{tileWallTopSouthWest, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallTopSouthEast},
 	};
 
-	
+
 
 	// base the tiles dimensions on the windows height and the number of tiles in the x plane
-	tmTileDimensions = (getWindowHeight()*.75) / tmCountYTiles;
+	m_tmTileDimensions = (getWindowHeight()*.75) / tmCountYTiles;
 
 	//start drawing from the remaining space divided by 2, so it is centered
-	tmStartingX = (getWindowWidth() - tmTileDimensions * tmCountXTiles) / 2;
-	tmStartingY = (getWindowHeight() - tmTileDimensions * tmCountYTiles) / 2;
+	m_tmStartingX = (getWindowWidth() - m_tmTileDimensions * tmCountXTiles) / 2;
+	m_tmStartingY = (getWindowHeight() - m_tmTileDimensions * tmCountYTiles) / 2;
 
-	std::cout << "Tile Dimensions: " << tmTileDimensions << " Window Height: " << getWindowHeight() << "\n";
+	std::cout << "Tile Dimensions: " << m_tmTileDimensions << " Window Height: " << getWindowHeight() << "\n";
 
-	CW3_Game::tm = new CW3_TileManager(tmTileDimensions, tmTileDimensions, tmCountXTiles, tmCountYTiles);
-	
+	m_tm = new CW3_TileManager(m_tmTileDimensions, m_tmTileDimensions, tmCountXTiles, tmCountYTiles);
+
 	// setting all tiles to tile map int 2D array
 	for (int x = 0; x < tmCountXTiles; x++)
 		for (int y = 0; y < tmCountYTiles; y++)
-			tm->setMapValue(x,y, dungeonTileMapDesign[y][x]);
-	tm->setTopLeftPositionOnScreen(tmStartingX, tmStartingY);
-	tm->drawAllTiles(this, getBackgroundSurface());
+			m_tm->setMapValue(x, y, dungeonTileMapDesign[y][x]);
+	m_tm->setTopLeftPositionOnScreen(m_tmStartingX, m_tmStartingY);
+	m_tm->drawAllTiles(this, getBackgroundSurface());
 
 }
 
 void CW3_Game::virtMouseDown(int iButton, int iX, int iY) {
-
-	if (iButton == SDL_BUTTON_LEFT) {
-		getObjectOfType<CW3_Player>().shootGun();
+	try {
+		CW3_Player player = getObjectOfType<CW3_Player>();
+		if (iButton == SDL_BUTTON_LEFT) {
+			player.shootGun();
+		}
 	}
 
-	//if(tm->isValidTilePosition(iX, iY))
-	//	std::cout << "Mouse clicked at: " << tm->getTileValueAtCoordinates(iX, iY) << "\n";
+	catch (int e) {
+		std::cout << "\nPlayer could not be found";
+	}
+	
 }
 
 void CW3_Game::virtKeyDown(int iKeyCode) {
-	/*
-	switch (iKeyCode) {
-	case SDLK_SPACE:
-		lockBackgroundForDrawing(); //lock background so only 1 thing can draw to it at a time
-		virtSetupBackgroundBuffer(); //call the method for setting up the background
-		unlockBackgroundForDrawing();  //unlock backgruond so other things can draw to it
-		redrawDisplay(); //redraw the background
-		break;
-	}*/
+	
 }
 int CW3_Game::virtInitialiseObjects() {
+	std::vector<std::pair<int,int>> floors;
 
+	//  getting all floor tiles (that the player could spawn on)
+	for (int x = 0; x < tmCountXTiles; x++)
+		for (int y = 0; y < tmCountYTiles; y++)
+			if (m_tm->getMapValue(x, y) >= 0 && m_tm->getMapValue(x, y) < 50)
+				floors.push_back((std::make_pair(x,y)));
 
-	/*
-	// Record the fact that we are about to change the array
-	// so it doesn't get used elsewhere without reloading it
-	drawableObjectsChanged();
-	// Destroy any existing objects
-	destroyOldObjects(true);
-	// Creates an array big enough for the number of objects that you want.
-	createObjectArray(1);
-	// You MUST set the array entry after the last one that you create to NULL,
-	// so that the system knows when to stop.
-	storeObjectInArray(0, new CW3_Player(,this));
-	// NOTE: We also need to destroy the objects, but the method at the
-	// top of this function will destroy all objects pointed at by the
-	// array elements so we can ignore that here.
-	setAllObjectsVisible(true);*/
+	// spawn player at random floor
+	int floorIndex = rand() % floors.size();
+	std::pair<int, int> floor = floors.at(floorIndex);
+
+	//m_pPlayer = new CW3_Player(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, m_vecDisplayableObjects.size(), 100, 1, 3, 7);
+	appendObjectToArray(new CW3_Player(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 100, 2, 4, 10));
+
+	//erase this floor so we can't have more than one thing spawn on same floor
+	floors.erase(floors.begin() + floorIndex);
+
+	// spawn enemy at random floor
+	floorIndex = rand() % floors.size();
+	floor.first = floors.at(floorIndex).first;
+	floor.second = floors.at(floorIndex).second;
+	appendObjectToArray(new CW3_SimpleEnemy(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 50, 20, 30, 1));
+	floors.erase(floors.begin() + floorIndex);
+	
+	// spawn enemy at random floor
+	floorIndex = rand() % floors.size();
+	floor.first = floors.at(floorIndex).first;
+	floor.second = floors.at(floorIndex).second;
+	appendObjectToArray(new CW3_SimpleEnemy(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 50, 20, 30, 4));
+	floors.erase(floors.begin() + floorIndex);
 
 	return 0;
 }
 
-CW3_TileManager * CW3_Game::getTileManager() {
-	return tm;
-}
 
-void CW3_Game::deleteObjectFromArray(int index) {
-	m_vecDisplayableObjects.erase(m_vecDisplayableObjects.begin()+index);
-}
+void CW3_Game::deleteObjectFromArray(int objectID) {
 
-int CW3_Game::getDrawableObjectVectorSize()
-{
-	return m_vecDisplayableObjects.size();
-}
+#if showDebugPrintObjectCreationDeletion == 1
+	std::cout << "\nAttempting to delete object with ID: " << objectID << "\n";
+#endif
+	int i = 0;
+	using Iter = std::vector<DisplayableObject*>::const_iterator;
+	for (Iter it = m_vecDisplayableObjects.begin(); it != m_vecDisplayableObjects.end(); it++) {
+#if showDebugPrintObjectCreationDeletion == 1
+		std::cout << "Objects in array index: " << i << " is at memory: " << m_vecDisplayableObjects.at(i) << " and has an ID of: "<< dynamic_cast<CW3_GameObject *>(m_vecDisplayableObjects.at(i))->getObjectID() << "\n";
+#endif
+		if (dynamic_cast<CW3_GameObject *>(m_vecDisplayableObjects.at(i))->getObjectID() == objectID) {
+#if showDebugPrintObjectCreationDeletion == 1
+			std::cout << "Found the object we want to delete at index " << i << "!\n";
+#endif
+			drawableObjectsChanged();
+			m_vecDisplayableObjects.erase(m_vecDisplayableObjects.begin() + i); 
+			break;
+		}
+			
+		i++;
+	}
 
-/*
-CW3_Game::virtMainLoopDoBeforeUpdate() {
-	//check if a Player/NPC is in a puddle and if so, change the tile to dark puddle
-}*/
+}

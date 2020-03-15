@@ -1,6 +1,5 @@
 #pragma once
 
-#define showCollisionBoxes 1
-#define showDebugPrintStatements 1
+#define showDebugPrintObjectCreationDeletion 1
 
-#define UseGunMapping 1
+#define showCollisionBoxes 1
