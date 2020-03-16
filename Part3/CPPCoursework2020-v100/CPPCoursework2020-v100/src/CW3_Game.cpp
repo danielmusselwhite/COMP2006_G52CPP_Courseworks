@@ -122,7 +122,11 @@ void CW3_Game::virtMouseDown(int iButton, int iX, int iY) {
 }
 
 void CW3_Game::virtKeyDown(int iKeyCode) {
-	
+	switch (iKeyCode) {
+	case SDLK_ESCAPE: // End program when escape is pressed
+		setExitWithCode(0);
+		break;
+	}
 }
 
 int CW3_Game::virtInitialiseObjects() {
