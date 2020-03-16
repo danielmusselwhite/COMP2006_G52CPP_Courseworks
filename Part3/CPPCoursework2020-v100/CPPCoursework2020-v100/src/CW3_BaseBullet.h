@@ -72,30 +72,30 @@ public:
 	void checkEnemyCollisions() {
 
 		//for each enemy check if we have collided
-			//std::vector<CW3_BaseEnemy *> vecEnemies = m_pGameEngine->getObjectsOfType<CW3_BaseEnemy>();
+		std::vector<CW3_BaseEnemy *> vecEnemies = m_pGameEngine->getObjectsOfType<CW3_BaseEnemy>();
 
-			/*for (int i = 0; i < vecEnemies.size(); i++) {
-				// if the bullet is colliding with this enemy
-				if(CollisionDetection::checkRectangles(
-					m_iCurrentScreenX, m_iCurrentScreenX + m_iDrawWidth,
-					m_iCurrentScreenY, m_iCurrentScreenY + m_iDrawHeight,
-					vecEnemies.at(i).getCurrentXCoordinate(), vecEnemies.at(i).getCurrentXCoordinate() + vecEnemies.at(i).getDrawWidth(),
-					vecEnemies.at(i).getCurrentYCoordinate(), vecEnemies.at(i).getCurrentYCoordinate() + vecEnemies.at(i).getDrawHeight()))
-				{
-					vecEnemies.at(i).hurt(m_bulletDamage);
+		for (int i = 0; i < vecEnemies.size(); i++) {
+			// if the bullet is colliding with this enemy
+			if(CollisionDetection::checkRectangles(
+				m_iCurrentScreenX, m_iCurrentScreenX + m_iDrawWidth,
+				m_iCurrentScreenY, m_iCurrentScreenY + m_iDrawHeight,
+				vecEnemies.at(i)->getCurrentXCoordinate(), vecEnemies.at(i)->getCurrentXCoordinate() + vecEnemies.at(i)->getDrawWidth(),
+				vecEnemies.at(i)->getCurrentYCoordinate(), vecEnemies.at(i)->getCurrentYCoordinate() + vecEnemies.at(i)->getDrawHeight()))
+			{
+				vecEnemies.at(i)->hurt(m_bulletDamage);
 
-					// if this can pierce more than one enemy, decrease the counter
-					if (m_numberOfPiercings > 0) {
-						m_numberOfPiercings--;
-					}
-					// else it can't, destroy this bullet
-					else {
-						m_pGameEngine->deleteObjectFromArray(m_objectID);
-					}
-
+				// if this can pierce more than one enemy, decrease the counter
+				if (m_numberOfPiercings > 0) {
+					m_numberOfPiercings--;
+				}
+				// else it can't, destroy this bullet
+				else {
+					m_pGameEngine->deleteObjectFromArray(m_objectID);
 				}
 
-			}*/
+			}
+
+		}
 
 
 			// use generic to get all objects of type GameObject and check if this is colliding with any of them

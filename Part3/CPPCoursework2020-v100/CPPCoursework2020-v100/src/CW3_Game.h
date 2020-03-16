@@ -46,12 +46,12 @@ public:
 	template <typename objectType> std::vector<objectType*> getObjectsOfType() {
 
 		// vector of object type
-		std::vector<objectType> vecObs;
+		std::vector<objectType*> vecObs;
 
 		// for each object in the game
 		for (int i = 0; i < m_vecDisplayableObjects.size(); i++) {
 			if (dynamic_cast<objectType*>(m_vecDisplayableObjects.at(i)) != nullptr)
-				vecObs.push_back((objectType*)m_vecDisplayableObjects.at(i));
+				vecObs.push_back( (objectType*)m_vecDisplayableObjects.at(i) );
 
 		}
 
