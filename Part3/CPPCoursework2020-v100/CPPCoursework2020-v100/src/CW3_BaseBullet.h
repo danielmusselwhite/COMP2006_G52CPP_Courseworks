@@ -16,7 +16,6 @@ protected:
 	double m_AngleRadians;
 	int m_bulletDamage;
 	int m_bulletMaxDistance;
-	int m_numberOfPiercings=0; //default to 0 but can be more
 	SimpleImage m_bulletImage;	// for now just using squares later will be images
 
 public:
@@ -84,25 +83,12 @@ public:
 			{
 				vecEnemies.at(i)->hurt(m_bulletDamage);
 
-				// if this can pierce more than one enemy, decrease the counter
-				if (m_numberOfPiercings > 0) {
-					m_numberOfPiercings--;
-				}
-				// else it can't, destroy this bullet
-				else {
-					m_pGameEngine->deleteObjectFromArray(m_objectID);
-				}
+				m_pGameEngine->deleteObjectFromArray(m_objectID);
 
 			}
 
 		}
 
-
-			// use generic to get all objects of type GameObject and check if this is colliding with any of them
-				//check if it is a subclass of enemy
-					//damage the enemy
-				//check if it is NOT another bullet (do I want to delete if it hits another bullet? probably not)
-					// delete this object
 	}
 
 };

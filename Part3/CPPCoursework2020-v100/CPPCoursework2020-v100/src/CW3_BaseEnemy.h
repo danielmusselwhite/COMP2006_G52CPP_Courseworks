@@ -8,13 +8,15 @@ protected:
 	//member variables
 	int m_maxDamage;
 	int m_minDamage;
+	int m_pointsValue;
 
 public:
 	//constructor/deconstructor
-	CW3_BaseEnemy(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight, int maxHealth, int minDamage, int maxDamage, int speed) : CW3_LivingGameObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, maxHealth) {
+	CW3_BaseEnemy(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight, int maxHealth, int minDamage, int maxDamage, int speed, int pointsValue) : CW3_LivingGameObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, maxHealth) {
 		m_maxDamage = maxDamage;
 		m_minDamage = minDamage;
 		m_speed = speed;
+		m_pointsValue = pointsValue;
 	}
 
 	void checkTileMapCollisions(int oldXCoordinate, int oldYCoordinate,int newXCoordinate, int newYCoordinate) {

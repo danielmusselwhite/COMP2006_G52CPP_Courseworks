@@ -5,7 +5,7 @@ class CW3_SimpleEnemy :
 {
 public:
 	//constructor
-	CW3_SimpleEnemy(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight, int maxHealth, int minDamage, int maxDamage, int speed) : CW3_BaseEnemy(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, maxHealth, minDamage, maxDamage, speed){
+	CW3_SimpleEnemy(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight, int maxHealth, int minDamage, int maxDamage, int speed, int pointsValue) : CW3_BaseEnemy(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, maxHealth, minDamage, maxDamage, speed, pointsValue){
 	}
 
 	// overriding BaseEnemy functions

@@ -31,14 +31,13 @@ void CW3_TileManager::virtDrawTileAt(
 
 #if showCollisionBoxes is 1
 //just kept to be useful in debugging collision boxes
-	unsigned int iColour = 0x319dad + (0x010100 * ((iMapX + iMapY + iMapValue) % 16));
 
 	pSurface->drawRectangle(
 		iStartPositionScreenX, // Left
 		iStartPositionScreenY, // Top
 		iStartPositionScreenX + getTileWidth() - 1, // Right
 		iStartPositionScreenY + getTileHeight() - 1, // Bottom
-		iColour); // Pixel colour
+		0x0093AF); // Pixel colour
 
 #endif
 

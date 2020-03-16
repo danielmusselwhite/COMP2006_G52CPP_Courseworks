@@ -37,6 +37,7 @@ public:
 	void virtMouseDown(int iButton, int iX, int iY) override;
 	void virtKeyDown(int iKeyCode) override;
 	int virtInitialiseObjects() override;
+	void virtDrawStringsOnTop() override;
 
 
 

@@ -111,4 +111,5 @@ void CW3_SimpleEnemy::virtDoUpdate(int iCurrentTime)
 
 void CW3_SimpleEnemy::virtDie() {
 	m_pGameEngine->deleteObjectFromArray(m_objectID);
+	m_pGameEngine->getObjectOfType<CW3_Player>()->increaseScore(m_pointsValue);
 }
