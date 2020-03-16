@@ -31,3 +31,6 @@
 #define tileWallTopSouthMid 155
 #define tileWallTopSouthEast 156
 #define tileWallTopSouthWest 157
+
+// destroyable object tiles have code 200<=x<250
+#define tileFloorWithCrate 200

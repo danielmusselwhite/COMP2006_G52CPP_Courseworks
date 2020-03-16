@@ -12,6 +12,7 @@ protected:
 	int m_runSpeed;
 	int m_speed;
 	CW3_BaseGun* m_pGun;
+	int m_score = 0;
 	
 
 public:
@@ -21,6 +22,10 @@ public:
 
 	//player methods
 	void shootGun();
+	void increaseScore(int points);
+	int getScore() {
+		return m_score;
+	}
 
 	//overriding parent methods
 	void virtDraw();

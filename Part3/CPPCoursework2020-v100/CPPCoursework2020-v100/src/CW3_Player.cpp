@@ -6,8 +6,6 @@
 #include "CW3_DebugHeaders.h"
 #include "CW3_SimpleGun.h"
 
-int rectangleColour = 0x00ff00;
-
 CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight, int maxHealth, int crawlSpeed, int walkSpeed, int runSpeed) : CW3_LivingGameObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, maxHealth) {
 	m_walkSpeed = walkSpeed;
 	m_runSpeed = runSpeed;
@@ -26,7 +24,7 @@ void CW3_Player::virtDraw()
 		m_iCurrentScreenX, m_iCurrentScreenY,
 		m_iCurrentScreenX + m_iDrawWidth - 1,
 		m_iCurrentScreenY + m_iDrawHeight - 1,
-		rectangleColour);
+		0x00ff00);
 #endif
 
 	//m_pGun->getImage().setTransparencyColour(0xff00ff);
@@ -36,7 +34,7 @@ void CW3_Player::virtDraw()
 
 void CW3_Player::virtDoUpdate(int iCurrentTime)
 {
-	int newTilesValue; //value of tile we are trying to move to
+	int newTilesValue, newTilesValue1, newTilesValue2; //value of tile we are trying to move to
 	int newYCoordinate, newXCoordinate; //coordinate we are trying to move to
 	int newTilesBounds; //if we are at a floor tiles edge/boundary to a tile you cannot pass (i.e. physical tile such as wall) this is the index of the tile we cannot pass ( limit we cannot move beyond)
 
@@ -64,10 +62,11 @@ void CW3_Player::virtDoUpdate(int iCurrentTime)
 		if (m_pGameEngine->getTileManager()->isValidTilePosition(m_iCurrentScreenX, newYCoordinate)) {
 
 			// .. store that tiles value and ..
-			newTilesValue = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(m_iCurrentScreenX, newYCoordinate);
+			newTilesValue1 = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(m_iCurrentScreenX, newYCoordinate);	//top left
+			newTilesValue2 = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(m_iCurrentScreenX+m_iDrawWidth-1, newYCoordinate); //top right
 
 			//.. if it has a value within the 0-50 partition for floor tiles (tiles player can walk on)..
-			if (50 > newTilesValue && newTilesValue >= 0) {
+			if (50 > newTilesValue1 && newTilesValue1 >= 0 && 50 > newTilesValue2 && newTilesValue2 >= 0) {
 				//.. move the player to their new coordinate
 				m_iCurrentScreenY = newYCoordinate;
 			}
@@ -90,10 +89,11 @@ void CW3_Player::virtDoUpdate(int iCurrentTime)
 		// if this is new position + player height (as the bottom of the player is the limit) is a valid tile position..
 		if (m_pGameEngine->getTileManager()->isValidTilePosition(m_iCurrentScreenX, newYCoordinate + m_iDrawHeight)) {
 			// .. store that tiles value and ..
-			newTilesValue = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(m_iCurrentScreenX, newYCoordinate + m_iDrawHeight);
+			newTilesValue1 = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(m_iCurrentScreenX, newYCoordinate + m_iDrawHeight); //bottom left
+			newTilesValue2 = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(m_iCurrentScreenX+m_iDrawWidth-1, newYCoordinate + m_iDrawHeight); //bottom right
 
 			//.. if it has a value within the 0-50 partition for floor tiles (tiles player can walk on)..
-			if (50 > newTilesValue && newTilesValue >= 0) {
+			if (50 > newTilesValue1 && newTilesValue1 >= 0 && 50 > newTilesValue2 && newTilesValue2 >= 0) {
 				//.. move the player to their new coordinate
 				m_iCurrentScreenY = newYCoordinate;
 			}
@@ -116,10 +116,11 @@ void CW3_Player::virtDoUpdate(int iCurrentTime)
 		// if this is new position is a valid tile position..
 		if (m_pGameEngine->getTileManager()->isValidTilePosition(newXCoordinate, m_iCurrentScreenY)) {
 			// .. store that tiles value and ..
-			newTilesValue = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(newXCoordinate, m_iCurrentScreenY);
+			newTilesValue1 = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(newXCoordinate, m_iCurrentScreenY); //top left
+			newTilesValue2 = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(newXCoordinate, m_iCurrentScreenY + m_iDrawHeight - 1); //bottom left
 
 			//.. if it has a value within the 0-50 partition for floor tiles (tiles player can walk on)..
-			if (50 > newTilesValue && newTilesValue >= 0) {
+			if (50 > newTilesValue1 && newTilesValue1 >= 0 && 50 > newTilesValue2 && newTilesValue2 >= 0) {
 				//.. move the player to their new coordinate
 				m_iCurrentScreenX = newXCoordinate;
 			}
@@ -142,10 +143,11 @@ void CW3_Player::virtDoUpdate(int iCurrentTime)
 		// if this is new position + player width (as the right of the player is the limit) is a valid tile position..
 		if (m_pGameEngine->getTileManager()->isValidTilePosition(newXCoordinate + m_iDrawWidth, m_iCurrentScreenY)) {
 			// .. store that tiles value and ..
-			newTilesValue = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(newXCoordinate + m_iDrawWidth, m_iCurrentScreenY);
+			newTilesValue1 = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(newXCoordinate + m_iDrawWidth, m_iCurrentScreenY); // top right
+			newTilesValue2 = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(newXCoordinate + m_iDrawWidth, m_iCurrentScreenY + m_iDrawHeight - 1); // bottom right
 
 			//.. if it has a value within the 0-50 partition for floor tiles (tiles player can walk on)..
-			if (50 > newTilesValue && newTilesValue >= 0) {
+			if (50 > newTilesValue1 && newTilesValue1 >= 0 && 50 > newTilesValue2 && newTilesValue2 >= 0) {
 				//.. move the player to their new coordinate
 				m_iCurrentScreenX = newXCoordinate;
 			}
@@ -166,10 +168,13 @@ void CW3_Player::virtDoUpdate(int iCurrentTime)
 
 void CW3_Player::shootGun()
 {
-	rectangleColour == 0x006600 ? rectangleColour = 0x00ff00 : rectangleColour = 0x006600;
 	m_pGun->attack();
 }
 
 void CW3_Player::virtDie() {
 	m_pGameEngine->deleteObjectFromArray(m_objectID);
+}
+
+void CW3_Player::increaseScore(int points) {
+	m_score += points;
 }
