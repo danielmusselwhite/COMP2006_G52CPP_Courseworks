@@ -16,6 +16,7 @@ protected:
 	double m_AngleRadians;
 	int m_bulletDamage;
 	int m_bulletMaxDistance;
+	int m_bulletColour;
 	SimpleImage m_bulletImage;	// for now just using squares later will be images
 
 public:
@@ -29,11 +30,11 @@ public:
 	// overriding virtual methods
 	void virtDraw() {
 #if showCollisionBoxes == 1
-		getEngine()->drawForegroundRectangle(
+		getEngine()->drawForegroundOval(
 			m_iCurrentScreenX, m_iCurrentScreenY,
 			m_iCurrentScreenX + m_iDrawWidth - 1,
 			m_iCurrentScreenY + m_iDrawHeight - 1,
-			0xffff00);
+			m_bulletColour);
 #endif
 	}
 

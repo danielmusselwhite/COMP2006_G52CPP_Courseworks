@@ -1,0 +1,30 @@
+0. Fix image transparency (maybe try player image first)
+
+1. Give player images
+2. Give enemies image
+2. Animate player and enemy images
+3. Make function for sorting all Living Objects in order of their 'feet' in the Y axis 
+	e.g. lower down it is, more in front it is
+	a. (Bullets maybe sort in order of Y axis from WHERE THEY ARE SHOT and then keep that static)
+		i. if shooting up it should be infront
+		ii.if shooting down it should be behind
+
+5. Create another gun subclass
+6. Give enemy chance of dropping a random gun
+7. Create method in player for assigning a different gun
+
+9. Give enemies attack method
+10.Create multiple enemy subclasses
+
+11. Write code for displaying living objects health
+12. Either health bar or text above the enemy
+
+13. Write code for writing text of bullets damage after it hits an enemy
+
+17. Restructure so each time a bullet is created it is passed in its speed, damage, and max distance
+18. Have guns constructor randomise its damage, time between shots, etc. within a range
+19. then instantiate bullets using those parameters so each gun is slightly different
+
+
+20. Once this is done, your framework for your game is done!
+21. Work on meeting compulsory CW4 requirements and then decide on which Optional CW4 requirements to work on

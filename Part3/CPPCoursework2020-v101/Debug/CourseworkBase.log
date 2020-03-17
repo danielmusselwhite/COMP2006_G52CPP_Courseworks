@@ -1,47 +1,5 @@
-﻿  CW3_Game.cpp
-d:\users\danie\documents\uni\year 2\g52cpp - c++\cw3_restarted_gitpush\comp2006_g52cpp_courseworks\part3\cppcoursework2020-v101\src\cw3_game.cpp(84): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-  CW3_Player.cpp
-  CW3_SimpleEnemy.cpp
-d:\users\danie\documents\uni\year 2\g52cpp - c++\cw3_restarted_gitpush\comp2006_g52cpp_courseworks\part3\cppcoursework2020-v101\src\cw3_simpleenemy.cpp(84): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-d:\users\danie\documents\uni\year 2\g52cpp - c++\cw3_restarted_gitpush\comp2006_g52cpp_courseworks\part3\cppcoursework2020-v101\src\cw3_simpleenemy.cpp(89): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-d:\users\danie\documents\uni\year 2\g52cpp - c++\cw3_restarted_gitpush\comp2006_g52cpp_courseworks\part3\cppcoursework2020-v101\src\cw3_simpleenemy.cpp(90): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-  CW3_SimpleGun.cpp
-d:\users\danie\documents\uni\year 2\g52cpp - c++\cw3_restarted_gitpush\comp2006_g52cpp_courseworks\part3\cppcoursework2020-v101\src\cw3_basebullet.h(43): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-d:\users\danie\documents\uni\year 2\g52cpp - c++\cw3_restarted_gitpush\comp2006_g52cpp_courseworks\part3\cppcoursework2020-v101\src\cw3_basebullet.h(44): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-d:\users\danie\documents\uni\year 2\g52cpp - c++\cw3_restarted_gitpush\comp2006_g52cpp_courseworks\part3\cppcoursework2020-v101\src\cw3_basebullet.h(49): warning C4552: '+': result of expression not used
-  CW3_TileManager.cpp
-d:\users\danie\documents\uni\year 2\g52cpp - c++\cw3_restarted_gitpush\comp2006_g52cpp_courseworks\part3\cppcoursework2020-v101\src\cw3_tilemanager.cpp(32): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  DraggingDemo.cpp
-  DrawingSurface.cpp
-  FlashingDemo.cpp
-  ImageMappingDemo.cpp
-  ImageObjectDemo.cpp
-  JigsawDemo.cpp
-  mainfunction.cpp
-  BaseEngine.cpp
-  DisplayableObject.cpp
-  FontManager.cpp
-  MyDemoA.cpp
-  MyImageMappingDemo.cpp
-  MyObjectA.cpp
-  MyTileManager.cpp
-  SimpleImage.cpp
-  Generating Code...
-  Compiling...
-  JasonsDemoA.cpp
-  JasonsObjectA.cpp
-  JasonsTileManager.cpp
-  PlayingCardsDemo.cpp
-  RawImage.cpp
-  SimpleDemo.cpp
-  StarfieldDemo.cpp
-  TileManager.cpp
-  BouncingBall.cpp
-  BouncingBallMain.cpp
-  ZoomingDemo.cpp
-  Generating Code...
-  MazeDemoMain.cpp
-  MazeDemoObject.cpp
-  MazeDemoTileManager.cpp
-  Generating Code...
-  CourseworkBase.vcxproj -> D:\Users\Danie\Documents\Uni\Year 2\G52CPP - C++\CW3_Restarted_GitPush\COMP2006_G52CPP_Courseworks\Part3\CPPCoursework2020-v101\/Debug\CourseworkBase2020.exe
+﻿  CW3_SimpleGun.cpp
+d:\users\danie\documents\uni\year 2\g52cpp - c++\_c++ coursework\comp2006_g52cpp_courseworks\part3\cppcoursework2020-v101\src\cw3_basebullet.h(44): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+d:\users\danie\documents\uni\year 2\g52cpp - c++\_c++ coursework\comp2006_g52cpp_courseworks\part3\cppcoursework2020-v101\src\cw3_basebullet.h(45): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+d:\users\danie\documents\uni\year 2\g52cpp - c++\_c++ coursework\comp2006_g52cpp_courseworks\part3\cppcoursework2020-v101\src\cw3_basebullet.h(50): warning C4552: '+': result of expression not used
+  CourseworkBase.vcxproj -> D:\Users\Danie\Documents\Uni\Year 2\G52CPP - C++\_C++ Coursework\COMP2006_G52CPP_Courseworks\Part3\CPPCoursework2020-v101\/Debug\CourseworkBase2020.exe

@@ -4,7 +4,7 @@
 
 #include "templates.h"
 
-// Needs one of the following #includes, to include the class definition
+// Needs one of the following #includes, to include the class definition 
 #include "SimpleDemo.h"
 #include "BouncingBallMain.h"
 #include "MazeDemoMain.h"
