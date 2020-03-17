@@ -31,4 +31,11 @@ public:
 	int getObjectID() {
 		return m_objectID;
 	}
+
+	// made virtual as, whilst most will be drawn from their bottom i.e. player/enemies who will be drawn from their 'feet'
+	// things like bullets may want to override and draw by some offset underneath their bottom as they aren't on the ground but are 'in the air'
+	// so if there was a z axis, player would be theoretically at 0, whilst bullet may be at 10; by allowing things to override this they can account for that offset
+	virtual int getYCoordinateToBeSortedBy() {
+		return m_iCurrentScreenY + m_iDrawHeight;
+	}
 };

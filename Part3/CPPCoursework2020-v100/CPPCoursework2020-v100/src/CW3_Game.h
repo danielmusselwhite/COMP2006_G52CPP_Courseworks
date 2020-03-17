@@ -20,12 +20,33 @@ public:
 	~CW3_Game();
 
 	//functions relating to m_vecDisplayableObjects
-	void CW3_Game::deleteObjectFromArray(int objectID);
+	void deleteObjectFromArray(int objectID);
 
-	int CW3_Game::getDrawableObjectVectorSize()
+	int getDrawableObjectVectorSize()
 	{
 		return m_vecDisplayableObjects.size();
 	}
+
+	//sorting the objects into the vector so objects are drawn in front of eachother relative to their location in the world
+	void sortObjectsByYAxis() {
+
+		std::sort(m_vecDisplayableObjects.begin(), m_vecDisplayableObjects.end(), [ ](DisplayableObject* object1, DisplayableObject* object2)
+		{ 
+			
+			//if (dynamic_cast<CW3_GameObject*>(object1) != nullptr){// && dynamic_cast<CW3_GameObject*>(object2)) {
+				//CW3_GameObject * gameObject1 = (CW3_GameObject *)object1;
+				//CW3_GameObject * gameObject2= (CW3_GameObject *)object2;
+
+				//return gameObject1->getYCoordinateToBeSortedBy() > gameObject2->getYCoordinateToBeSortedBy();
+			//}
+
+			// if one or more isn't a game object, don't change their positions
+			//return false;
+			
+			return object1->getYCentre() < object2->getYCentre();
+		});
+	}
+
 
 	//functions relating to getting different useful objects
 	CW3_TileManager * getTileManager() {
@@ -38,6 +59,7 @@ public:
 	void virtKeyDown(int iKeyCode) override;
 	int virtInitialiseObjects() override;
 	void virtDrawStringsOnTop() override;
+	void virtMainLoopDoBeforeUpdate() override;
 
 
 

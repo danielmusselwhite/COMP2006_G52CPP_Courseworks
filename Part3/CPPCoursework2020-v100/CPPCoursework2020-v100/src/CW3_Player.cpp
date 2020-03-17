@@ -27,7 +27,6 @@ void CW3_Player::virtDraw()
 		0x00ff00);
 #endif
 
-	//m_pGun->getImage().setTransparencyColour(0xff00ff);
 	m_pGun->getImage().renderImageApplyingMapping(m_pGameEngine, m_pGameEngine->getForegroundSurface(), m_iCurrentScreenX, m_iCurrentScreenY, m_pGun->getImage().getWidth() * 2, m_pGun->getImage().getHeight() * 2, m_pGun);
 }
 

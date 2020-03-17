@@ -21,7 +21,7 @@
 #define clrBgStarRed 0xffe0e0
 #define clrBgStarBlue 0xe0fffc
 #define clrBgStarYellow 0xfeffe0
-#define clrText 0xe0fffb
+#define clrText 0x00ff00
 
 CW3_Game::CW3_Game() {
 
@@ -159,7 +159,7 @@ int CW3_Game::virtInitialiseObjects() {
 	floorIndex = rand() % floors.size();
 	floor.first = floors.at(floorIndex).first;
 	floor.second = floors.at(floorIndex).second;
-	appendObjectToArray(new CW3_SimpleEnemy(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 100, 20, 30, 2, 25));
+	appendObjectToArray(new CW3_SimpleEnemy(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 100, 20, 30, 1, 25));
 	floors.erase(floors.begin() + floorIndex);
 
 	return 0;
@@ -172,6 +172,11 @@ void CW3_Game::virtDrawStringsOnTop()
 	char buf[128];
 	sprintf(buf, "Score %d", getObjectOfType<CW3_Player>()->getScore());
 	drawForegroundString(1000, 40, buf, clrText, NULL);
+}
+
+void CW3_Game::virtMainLoopDoBeforeUpdate()
+{
+	//sortObjectsByYAxis();
 }
 
 
