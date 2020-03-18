@@ -1,6 +1,7 @@
 #pragma once
 #include "CW3_LivingGameObject.h"
 #include "CW3_BaseGun.h"
+#include "CW3_AnimatedImage.h"
 
 class CW3_Player :
 	public CW3_LivingGameObject
@@ -13,6 +14,10 @@ protected:
 	int m_speed;
 	CW3_BaseGun* m_pGun;
 	int m_score = 0;
+
+	CW3_AnimatedImage* m_idleAnim;
+	CW3_AnimatedImage* m_idleLeftAnim;
+	CW3_AnimatedImage* m_idleRightAnim;
 	
 
 public:

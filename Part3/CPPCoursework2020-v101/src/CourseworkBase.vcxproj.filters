@@ -276,6 +276,9 @@
     <ClInclude Include="CW3_SimpleEnemy.h">
       <Filter>Header Files\5 Coursework 3\Living Things</Filter>
     </ClInclude>
+    <ClInclude Include="CW3_AnimatedImage.h">
+      <Filter>Header Files\5 Coursework 3</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseEngine.cpp">
@@ -384,5 +387,6 @@
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
     <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
   </ItemGroup>
 </Project>

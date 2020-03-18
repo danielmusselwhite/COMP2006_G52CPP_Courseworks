@@ -97,6 +97,7 @@
     <ClInclude Include="CardContainer.h" />
     <ClInclude Include="CardOrTile.h" />
     <ClInclude Include="CollisionDetection.h" />
+    <ClInclude Include="CW3_AnimatedImage.h" />
     <ClInclude Include="CW3_BaseBullet.h" />
     <ClInclude Include="CW3_BaseEnemy.h" />
     <ClInclude Include="CW3_DungeonTileMapCodes.h" />
@@ -206,6 +207,7 @@
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
     <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
