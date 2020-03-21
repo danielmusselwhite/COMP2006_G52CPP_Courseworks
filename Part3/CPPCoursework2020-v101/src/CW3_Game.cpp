@@ -182,6 +182,10 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 
 		case SDLK_p: // pause the program when this is pressed
 			m_state = statePaused;
+			//pause all game objects
+			pauseAllGameObjects();
+			pause();
+
 			// Force screen redraw
 			lockAndSetupBackground();
 			redrawDisplay();
@@ -196,6 +200,10 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 		switch (iKeyCode) {
 		case SDLK_p:
 			m_state = stateMain;
+			//unpause all game objects
+			unpauseAllGameObjects();
+			unpause();
+
 			// Force screen redraw
 			lockAndSetupBackground();
 			redrawDisplay();
@@ -299,6 +307,23 @@ void CW3_Game::virtDrawStringsOnTop()
 void CW3_Game::virtMainLoopDoBeforeUpdate()
 {
 	//sortObjectsByYAxis();
+}
+
+void CW3_Game::pauseAllGameObjects()
+{
+	std::vector<CW3_GameObject*> gameObjects = getObjectsOfType<CW3_GameObject>();
+
+	for (int i = 0; i < gameObjects.size(); i++)
+		gameObjects.at(i)->setPausedValueTo(true);
+}
+
+void CW3_Game::unpauseAllGameObjects()
+{
+	std::vector<CW3_GameObject*> gameObjects = getObjectsOfType<CW3_GameObject>();
+
+	for (int i = 0; i < gameObjects.size(); i++)
+		gameObjects.at(i)->setPausedValueTo(false);
+	
 }
 
 

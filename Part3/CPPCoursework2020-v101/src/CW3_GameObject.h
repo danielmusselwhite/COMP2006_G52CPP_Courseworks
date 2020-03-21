@@ -11,6 +11,7 @@ class CW3_GameObject :
 public:
 	CW3_Game* m_pGameEngine;
 	const int m_objectID = maxObjectID;
+	bool m_isPaused = false;
 
 	CW3_GameObject(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight) : DisplayableObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, true) {
 		//(CW3_Game*)pEngine;
@@ -37,5 +38,9 @@ public:
 	// so if there was a z axis, player would be theoretically at 0, whilst bullet may be at 10; by allowing things to override this they can account for that offset
 	virtual int getYCoordinateToBeSortedBy() {
 		return m_iCurrentScreenY + m_iDrawHeight;
+	}
+
+	void setPausedValueTo(bool isPaused) {
+		m_isPaused = isPaused;
 	}
 };

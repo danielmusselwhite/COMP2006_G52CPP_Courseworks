@@ -61,6 +61,8 @@ public:
 	void virtDrawStringsOnTop() override;
 	void virtMainLoopDoBeforeUpdate() override;
 
+	void pauseAllGameObjects();
+	void unpauseAllGameObjects();
 
 
 	//generic functions

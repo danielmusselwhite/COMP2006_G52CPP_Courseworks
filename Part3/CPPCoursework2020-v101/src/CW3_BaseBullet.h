@@ -29,6 +29,10 @@ public:
 
 	// overriding virtual methods
 	void virtDraw() {
+		// only do this if visible
+		if (!isVisible())
+			return;
+
 		getEngine()->drawForegroundOval(
 			m_iCurrentScreenX, m_iCurrentScreenY,
 			m_iCurrentScreenX + m_iDrawWidth - 1,
@@ -38,7 +42,11 @@ public:
 
 	// can be overwritten but has general structure of how bullet will act
 	virtual void virtDoUpdate(int iCurrentTime) override {
-		
+		// only do this if visible and not paused
+		if (!isVisible() || m_isPaused)
+			return;
+
+
 		int yIncrease = cos(m_AngleRadians) * -m_bulletSpeed;
 		int xIncrease = sin(m_AngleRadians) * -m_bulletSpeed;
 		

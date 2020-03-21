@@ -40,6 +40,10 @@ CW3_Player::~CW3_Player() {
 
 void CW3_Player::virtDraw()
 {
+	// only do this if visible
+	if (!isVisible())
+		return;
+
 	
 	
 #if showCollisionBoxes == 1
@@ -60,6 +64,9 @@ void CW3_Player::virtDraw()
 
 void CW3_Player::virtDoUpdate(int iCurrentTime)
 {
+	// only do this if visible and not paused
+	if (!isVisible() || m_isPaused)
+		return;
 
 	// handling player movement
 	{
@@ -95,18 +102,18 @@ void CW3_Player::virtDoUpdate(int iCurrentTime)
 				newTilesValue1 = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(m_iCurrentScreenX, newYCoordinate);	//top left
 				newTilesValue2 = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(m_iCurrentScreenX + m_iDrawWidth - 1, newYCoordinate); //top right
 
-//.. if it has a value within the 0-50 partition for floor tiles (tiles player can walk on)..
-if (50 > newTilesValue1 && newTilesValue1 >= 0 && 50 > newTilesValue2 && newTilesValue2 >= 0) {
-	//.. move the player to their new coordinate
-	m_iCurrentScreenY = newYCoordinate;
-}
-//..else this is a tile with a physical boundary..
-else {
-	// index of the tile we do not want to move past = the index of tile at coordinate we cannot move to +1 as the limit is the bottom of the tile
-	newTilesBounds = m_pGameEngine->getTileManager()->getTileYMapAtCoordinates(newYCoordinate) + 1;
-	// snap to the bottom of the tile we cannot move past (Coordinate of start of tilemap + height of each tile * index of tile limit
-	m_iCurrentScreenY = (m_pGameEngine->getTileManager()->getBaseScreenY()) + ((m_pGameEngine->getTileManager()->getTileHeight())) * newTilesBounds;
-}
+				//.. if it has a value within the 0-50 partition for floor tiles (tiles player can walk on)..
+				if (50 > newTilesValue1 && newTilesValue1 >= 0 && 50 > newTilesValue2 && newTilesValue2 >= 0) {
+					//.. move the player to their new coordinate
+					m_iCurrentScreenY = newYCoordinate;
+				}
+				//..else this is a tile with a physical boundary..
+				else {
+					// index of the tile we do not want to move past = the index of tile at coordinate we cannot move to +1 as the limit is the bottom of the tile
+					newTilesBounds = m_pGameEngine->getTileManager()->getTileYMapAtCoordinates(newYCoordinate) + 1;
+					// snap to the bottom of the tile we cannot move past (Coordinate of start of tilemap + height of each tile * index of tile limit
+					m_iCurrentScreenY = (m_pGameEngine->getTileManager()->getBaseScreenY()) + ((m_pGameEngine->getTileManager()->getTileHeight())) * newTilesBounds;
+				}
 
 			}
 
@@ -217,6 +224,10 @@ else {
 
 void CW3_Player::shootGun()
 {
+	// only do this if visible
+	if (!isVisible())
+		return;
+
 	m_pGun->attack();
 }
 

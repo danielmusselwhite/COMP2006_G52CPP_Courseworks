@@ -218,7 +218,7 @@ void CW3_TileManager::drawTileFloor1(BaseEngine* pEngine, int iMapX, int iMapY) 
 	image.setTransparencyColour(0x000000);
 
 #if tmUseBlit == 1
-	image.renderImageBlit(pEngine, pEngine->getBackgroundSurface(), CW3_TileManager::getTilesXCoordinates(iMapX), CW3_TileManager::getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight(), 0, 0, imageFloor1.getWidth(), imageFloor1.getHeight());
+	image.renderImageBlit(pEngine, pEngine->getBackgroundSurface(), CW3_TileManager::getTilesXCoordinates(iMapX), CW3_TileManager::getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight(), 0, 0, image.getWidth(), image.getHeight());
 #endif
 
 #if tmUseBlit == 0
@@ -349,7 +349,7 @@ void CW3_TileManager::drawTileCrate(BaseEngine* pEngine, int iMapX, int iMapY) c
 	image.setTransparencyColour(0x000000);
 
 #if tmUseBlit == 1
-	image.renderImageBlit(pEngine, pEngine->getBackgroundSurface(), CW3_TileManager::getTilesXCoordinates(iMapX), CW3_TileManager::getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight(), 0, 0, imageFloor1.getWidth(), imageFloor1.getHeight());
+	image.renderImageBlit(pEngine, pEngine->getBackgroundSurface(), CW3_TileManager::getTilesXCoordinates(iMapX), CW3_TileManager::getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight(), 0, 0, image.getWidth(), image.getHeight());
 #endif
 
 #if tmUseBlit == 0
