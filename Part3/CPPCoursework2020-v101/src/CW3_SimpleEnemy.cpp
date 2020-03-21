@@ -101,6 +101,8 @@ void CW3_SimpleEnemy::virtDraw()
 		m_iCurrentScreenY + m_iDrawHeight - 1,
 		0xff0000);
 #endif
+
+	renderHealthbar();
 }
 
 void CW3_SimpleEnemy::virtDoUpdate(int iCurrentTime)

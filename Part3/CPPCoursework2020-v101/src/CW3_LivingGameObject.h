@@ -32,5 +32,24 @@ public:
 	bool checkDeath() {
 		return m_health <= 0;
 	}
+
+	void renderHealthbar() {
+
+		//drawing the red behind
+		getEngine()->drawForegroundRectangle(
+			m_iCurrentScreenX, m_iCurrentScreenY-m_iDrawHeight/5,
+			m_iCurrentScreenX + m_iDrawWidth - 1,
+			m_iCurrentScreenY - m_iDrawHeight/10,
+			0xa83232);
+
+		double ratio = (double) m_health / (double)m_maxHealth;
+		
+		//drawing the green infront
+		getEngine()->drawForegroundRectangle(
+			m_iCurrentScreenX, m_iCurrentScreenY - m_iDrawHeight / 5,
+			m_iCurrentScreenX + (m_iDrawWidth) * (ratio),
+			m_iCurrentScreenY - m_iDrawHeight / 10,
+			0x3ca331);
+	}
 };
 

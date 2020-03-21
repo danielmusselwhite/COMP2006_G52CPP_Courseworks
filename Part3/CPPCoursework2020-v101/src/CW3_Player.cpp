@@ -39,6 +39,7 @@ CW3_Player::~CW3_Player() {
 void CW3_Player::virtDraw()
 {
 	
+	
 #if showCollisionBoxes == 1
 	getEngine()->drawForegroundRectangle(
 		m_iCurrentScreenX, m_iCurrentScreenY,
@@ -46,6 +47,8 @@ void CW3_Player::virtDraw()
 		m_iCurrentScreenY + m_iDrawHeight - 1,
 		0x00ff00);
 #endif
+
+	renderHealthbar();
 
 	m_idleAnim->renderCurrentFrame(m_pGameEngine, m_pGameEngine->getForegroundSurface(), m_iCurrentScreenX, m_iCurrentScreenY, m_iDrawWidth, m_iDrawHeight, 0, 0, m_idleAnim->getCurrentFrame().getWidth(), m_idleAnim->getCurrentFrame().getHeight());
 
