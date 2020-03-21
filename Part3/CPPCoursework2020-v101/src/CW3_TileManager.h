@@ -1,8 +1,6 @@
 #pragma once
 #include "TileManager.h"
 
-extern SimpleImage imageFloor1;
-
 class CW3_TileManager :
 	public TileManager
 {
