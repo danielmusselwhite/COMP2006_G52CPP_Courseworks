@@ -73,6 +73,9 @@
     <Filter Include="Source Files\5 Coursework 3\Guns">
       <UniqueIdentifier>{c0461c1e-1eb9-4686-afb8-4e84236557d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\5 Coursework 3\_Developing">
+      <UniqueIdentifier>{a4eff1ac-8bf9-487a-a397-faaf444aeac6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header.h">
@@ -255,9 +258,6 @@
     <ClInclude Include="CW3_LivingGameObject.h">
       <Filter>Header Files\5 Coursework 3\Living Things</Filter>
     </ClInclude>
-    <ClInclude Include="CW3_BaseBullet.h">
-      <Filter>Header Files\5 Coursework 3\Bullets</Filter>
-    </ClInclude>
     <ClInclude Include="CW3_SimpleBullet.h">
       <Filter>Header Files\5 Coursework 3\Bullets</Filter>
     </ClInclude>
@@ -278,6 +278,15 @@
     </ClInclude>
     <ClInclude Include="CW3_AnimatedImage.h">
       <Filter>Header Files\5 Coursework 3</Filter>
+    </ClInclude>
+    <ClInclude Include="CW3_BaseBullet.h">
+      <Filter>Header Files\5 Coursework 3\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="CW3_BaseBulletPolymorphic.h">
+      <Filter>Header Files\5 Coursework 3\_Developing</Filter>
+    </ClInclude>
+    <ClInclude Include="CW3_SimpleBulletPolymorphic.h">
+      <Filter>Header Files\5 Coursework 3\_Developing</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -356,9 +365,6 @@
     <ClCompile Include="MyDemoA.cpp">
       <Filter>Source Files\4 MyDemos</Filter>
     </ClCompile>
-    <ClCompile Include="MyTileManager.cpp">
-      <Filter>Source Files\4 MyDemos</Filter>
-    </ClCompile>
     <ClCompile Include="MyObjectA.cpp">
       <Filter>Source Files\4 MyDemos</Filter>
     </ClCompile>
@@ -382,6 +388,9 @@
     </ClCompile>
     <ClCompile Include="CW3_SimpleEnemy.cpp">
       <Filter>Source Files\5 Coursework 3\Living Things</Filter>
+    </ClCompile>
+    <ClCompile Include="MyTileManager.cpp">
+      <Filter>Source Files\4 MyDemos</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

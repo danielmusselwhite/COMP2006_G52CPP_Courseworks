@@ -1,6 +1,7 @@
 #include "header.h"
 #include "CW3_SimpleGun.h"
 #include "CW3_SimpleBullet.h"
+//#include "CW3_SimpleBulletPolymorphic.h"
 
 CW3_SimpleGun::CW3_SimpleGun(CW3_GameObject* wielder, int iStartXCoord, int iStartYCoord, CW3_Game* pGameEngine, int iWidth, int iHeight, int xScale, int yScale)
 	: CW3_BaseGun(wielder, iStartXCoord, iStartYCoord, pGameEngine, iWidth, iHeight, xScale, yScale) {
@@ -25,4 +26,5 @@ void CW3_SimpleGun::attack() {
 
 	m_pGameEngine->drawableObjectsChanged();
 	m_pGameEngine->appendObjectToArray(new CW3_SimpleBullet(endOfStaffX, endOfStaffY, m_pGameEngine, 10, 10, shootAngle));
+	//m_pGameEngine->appendObjectToArray(new CW3_SimpleBulletPolymorphic(endOfStaffX, endOfStaffY, m_pGameEngine, 10, 10, shootAngle, 15, 10 + (std::rand() % (15 - 10 + 1)), 300));
 }

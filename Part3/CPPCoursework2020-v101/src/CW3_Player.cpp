@@ -13,27 +13,29 @@ CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, 
 
 	m_pGun = new CW3_SimpleGun(this, iStartXCoord, iStartYCoord, m_pGameEngine, iWidth, iHeight, 2, 2);
 
-	// setting up left idle anim
-	std::vector<std::pair<SimpleImage, int>> leftIdlePairs;
-	leftIdlePairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Players\\myWizard\\Idle\\Left\\player_left_idle_anim_f0.png", true), 150));
-	leftIdlePairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Players\\myWizard\\Idle\\Left\\player_left_idle_anim_f1.png", true), 150));
-	leftIdlePairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Players\\myWizard\\Idle\\Left\\player_left_idle_anim_f2.png", true), 150));
-	leftIdlePairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Players\\myWizard\\Idle\\Left\\player_left_idle_anim_f3.png", true), 150));
-	m_idleLeftAnim = new CW3_AnimatedImage(leftIdlePairs);
+	// setting up left anim
+	std::vector<std::pair<SimpleImage, int>> leftAnimPairs;
+	leftAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Players\\myWizard\\Idle\\Left\\player_left_idle_anim_f0.png", true), 150));
+	leftAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Players\\myWizard\\Idle\\Left\\player_left_idle_anim_f1.png", true), 150));
+	leftAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Players\\myWizard\\Idle\\Left\\player_left_idle_anim_f2.png", true), 150));
+	leftAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Players\\myWizard\\Idle\\Left\\player_left_idle_anim_f3.png", true), 150));
+	m_LeftAnim = new CW3_AnimatedImage(leftAnimPairs);
 
-	// setting up right idle anim
-	std::vector<std::pair<SimpleImage, int>> rightIdlePairs;
-	rightIdlePairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Players\\myWizard\\Idle\\Right\\player_right_idle_anim_f0.png", true), 150));
-	rightIdlePairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Players\\myWizard\\Idle\\Right\\player_right_idle_anim_f1.png", true), 150));
-	rightIdlePairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Players\\myWizard\\Idle\\Right\\player_right_idle_anim_f2.png", true), 150));
-	rightIdlePairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Players\\myWizard\\Idle\\Right\\player_right_idle_anim_f3.png", true), 150));
+	// setting up right anim
+	std::vector<std::pair<SimpleImage, int>> rightAnimPairs;
+	rightAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Players\\myWizard\\Idle\\Right\\player_right_idle_anim_f0.png", true), 150));
+	rightAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Players\\myWizard\\Idle\\Right\\player_right_idle_anim_f1.png", true), 150));
+	rightAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Players\\myWizard\\Idle\\Right\\player_right_idle_anim_f2.png", true), 150));
+	rightAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Players\\myWizard\\Idle\\Right\\player_right_idle_anim_f3.png", true), 150));
 
-	m_idleRightAnim = new CW3_AnimatedImage(rightIdlePairs);
+	m_RightAnim = new CW3_AnimatedImage(rightAnimPairs);
 
-	m_idleAnim = m_idleLeftAnim;
+	m_Anim = m_LeftAnim;
 }
 
 CW3_Player::~CW3_Player() {
+	delete m_RightAnim;
+	delete m_LeftAnim;
 }
 
 void CW3_Player::virtDraw()
@@ -50,7 +52,7 @@ void CW3_Player::virtDraw()
 
 	renderHealthbar();
 
-	m_idleAnim->renderCurrentFrame(m_pGameEngine, m_pGameEngine->getForegroundSurface(), m_iCurrentScreenX, m_iCurrentScreenY, m_iDrawWidth, m_iDrawHeight, 0, 0, m_idleAnim->getCurrentFrame().getWidth(), m_idleAnim->getCurrentFrame().getHeight());
+	m_Anim->renderCurrentFrame(m_pGameEngine, m_pGameEngine->getForegroundSurface(), m_iCurrentScreenX, m_iCurrentScreenY, m_iDrawWidth, m_iDrawHeight, 0, 0, m_Anim->getCurrentFrame().getWidth(), m_Anim->getCurrentFrame().getHeight());
 
 	m_pGun->getImage().renderImageApplyingMapping(m_pGameEngine, m_pGameEngine->getForegroundSurface(), m_iCurrentScreenX -m_iDrawWidth /16, m_iCurrentScreenY+m_iDrawHeight/8, m_pGun->getImage().getWidth() * 2, m_pGun->getImage().getHeight() * 2, m_pGun);
 }
@@ -193,10 +195,7 @@ else {
 
 	// handling players looking direction
 	{
-		if (m_pGameEngine->getCurrentMouseX() < m_iCurrentScreenX + m_iDrawWidth / 2)
-			m_idleAnim = m_idleLeftAnim;
-		else
-			m_idleAnim = m_idleRightAnim;
+		m_pGameEngine->getCurrentMouseX() < m_iCurrentScreenX + m_iDrawWidth / 2 ? m_Anim = m_LeftAnim : m_Anim = m_RightAnim;
 	}
 
 	// Ensure that the objects get redrawn on the display

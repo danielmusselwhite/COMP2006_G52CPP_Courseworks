@@ -18,6 +18,11 @@ public:
 		m_limit = m_animFrames.at(m_frameIndex).second; //starting time limit for first frame
 	}
 
+	// deconstructor
+	~CW3_AnimatedImage() {
+		m_animFrames.clear();
+	}
+
 	void renderCurrentFrame(CW3_Game* pEngine, DrawingSurface* pTarget,
 		int iXDrawLocation, int iYDrawLocation, int iTargetWidth, int iTargetHeight,
 		int iLeftInImage, int iTopInImage, int iWidthInImage, int iHeightInImage) {

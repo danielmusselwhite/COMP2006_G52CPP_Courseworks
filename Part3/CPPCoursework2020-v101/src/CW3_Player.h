@@ -15,9 +15,9 @@ protected:
 	CW3_BaseGun* m_pGun;
 	int m_score = 0;
 
-	CW3_AnimatedImage* m_idleAnim;
-	CW3_AnimatedImage* m_idleLeftAnim;
-	CW3_AnimatedImage* m_idleRightAnim;
+	CW3_AnimatedImage* m_Anim;
+	CW3_AnimatedImage* m_LeftAnim;
+	CW3_AnimatedImage* m_RightAnim;
 	
 
 public:

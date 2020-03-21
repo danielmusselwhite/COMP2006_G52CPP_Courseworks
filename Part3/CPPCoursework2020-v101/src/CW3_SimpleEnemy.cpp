@@ -4,6 +4,34 @@
 
 #define UseMovementType 1
 
+//constructor
+CW3_SimpleEnemy::CW3_SimpleEnemy(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight, int maxHealth, int minDamage, int maxDamage, int speed, int pointsValue) : CW3_BaseEnemy(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, maxHealth, minDamage, maxDamage, speed, pointsValue) {
+
+	// setting up left anim
+	std::vector<std::pair<SimpleImage, int>> leftAnimPairs;
+	leftAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Slime\\slime_runLeft_anim_f0.png", true), 150));
+	leftAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Slime\\slime_runLeft_anim_f1.png", true), 150));
+	leftAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Slime\\slime_runLeft_anim_f2.png", true), 150));
+	leftAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Slime\\slime_runLeft_anim_f3.png", true), 150));
+	m_LeftWalkAnim = new CW3_AnimatedImage(leftAnimPairs);
+
+	// setting up right anim
+	std::vector<std::pair<SimpleImage, int>> rightAnimPairs;
+	rightAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Slime\\slime_runRight_anim_f0.png", true), 150));
+	rightAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Slime\\slime_runRight_anim_f1.png", true), 150));
+	rightAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Slime\\slime_runRight_anim_f2.png", true), 150));
+	rightAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Slime\\slime_runRight_anim_f3.png", true), 150));
+	m_RightWalkAnim = new CW3_AnimatedImage(rightAnimPairs);
+
+	m_Anim = m_LeftWalkAnim;
+
+}
+
+CW3_SimpleEnemy::~CW3_SimpleEnemy() {
+	delete m_RightWalkAnim;
+	delete m_LeftWalkAnim;
+}
+
 void CW3_SimpleEnemy::virtAttack()
 {
 	// for now there is only one player, so get the one at pos 0 in the vector, later maybe make it hostile to the closest if more players/friendlies are added
@@ -89,6 +117,11 @@ void CW3_SimpleEnemy::virtMove()
 		m_iCurrentScreenX = goalX;
 		m_iCurrentScreenY = goalY;
 	}
+
+	// handling enemies looking direction
+	{
+		target->getCurrentXCoordinate() < m_iCurrentScreenX ? m_Anim = m_LeftWalkAnim : m_Anim = m_RightWalkAnim;
+	}
 	
 }
 
@@ -103,6 +136,8 @@ void CW3_SimpleEnemy::virtDraw()
 #endif
 
 	renderHealthbar();
+
+	m_Anim->renderCurrentFrame(m_pGameEngine, m_pGameEngine->getForegroundSurface(), m_iCurrentScreenX, m_iCurrentScreenY, m_iDrawWidth, m_iDrawHeight, 0, 0, m_Anim->getCurrentFrame().getWidth(), m_Anim->getCurrentFrame().getHeight());
 }
 
 void CW3_SimpleEnemy::virtDoUpdate(int iCurrentTime)
