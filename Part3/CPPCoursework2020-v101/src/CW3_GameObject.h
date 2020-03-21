@@ -17,7 +17,7 @@ public:
 		//(CW3_Game*)pEngine;
 		m_pGameEngine = dynamic_cast<CW3_Game*>(pEngine); //checks its a subclass first
 		maxObjectID++;
-#if showDebugPrintObjectCreationDeletion == 1
+#if showDebugPrintObjectCreationDeletion is 1
 		std::cout << "\nCreated new object with ID: " << m_objectID << " and at memory address: "<<this<<"\n";
 #endif
 	}

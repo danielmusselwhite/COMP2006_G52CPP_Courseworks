@@ -113,7 +113,7 @@ public:
 
 public:
 	// State number - so we can support different states and demonstrate the basics.
-	enum State { stateInit, stateMain, statePaused, stateGameOver };
+	enum State { stateInit, stateMain, statePaused, stateGameOver};
 
 private:
 	// Current state

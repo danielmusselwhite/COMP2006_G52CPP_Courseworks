@@ -35,6 +35,53 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 
 	switch (m_state) {
 	case stateInit:
+
+		//SETTING UP THE TILE MANAGER
+		{
+			int dungeonTileMapDesign[tmCountYTiles][tmCountXTiles] = {
+				{tileWallTopNorthWest, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthEast},
+				{tileWallTopWest, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallTopEast},
+				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+				{tileWallTopWest, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileWallTopEast},
+				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileWallTopEast},
+				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileWallTopEast},
+				{tileWallTopWest, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+				{tileWallTopWest, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+				{tileWallTopSouthWest, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallTopSouthEast},
+			};
+
+
+			// base the tiles dimensions on the windows height and the number of tiles in the x plane
+			m_tmTileDimensions = (getWindowHeight()*.75) / tmCountYTiles;
+
+			//start drawing from the remaining space divided by 2, so it is centered
+			m_tmStartingX = (getWindowWidth() - m_tmTileDimensions * tmCountXTiles) / 2;
+			m_tmStartingY = (getWindowHeight() - m_tmTileDimensions * tmCountYTiles) / 2;
+
+			std::cout << "Tile Dimensions: " << m_tmTileDimensions << " Window Height: " << getWindowHeight() << "\n";
+
+			m_tm = new CW3_TileManager(m_tmTileDimensions, m_tmTileDimensions, tmCountXTiles, tmCountYTiles);
+
+			// setting all tiles to tile map int 2D array
+			for (int x = 0; x < tmCountXTiles; x++)
+				for (int y = 0; y < tmCountYTiles; y++)
+					m_tm->setMapValue(x, y, dungeonTileMapDesign[y][x]);
+			m_tm->setTopLeftPositionOnScreen(m_tmStartingX, m_tmStartingY);
+		}
+
+		// SETTING UP BACKGROUND TEXT
+		{
+			drawBackgroundString(15, 40, "C++ Coursework - Daniel Musselwhite", 0xe3e3e3, NULL);
+		}
+
+		break;
+
+
+	case stateMain:
+		
 		fillBackground(clrBgMain);
 
 		// SETTING UP THE STARRY BACKGROUND
@@ -63,52 +110,6 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 			}
 		}
 
-		//SETTING UP THE TILE MANAGER
-		{
-			int dungeonTileMapDesign[tmCountYTiles][tmCountXTiles] = {
-				{tileWallTopNorthWest, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthEast},
-				{tileWallTopWest, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallTopEast},
-				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
-				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
-				{tileWallTopWest, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
-				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileWallTopEast},
-				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
-				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileWallTopEast},
-				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileWallTopEast},
-				{tileWallTopWest, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
-				{tileWallTopWest, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
-				{tileWallTopSouthWest, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallTopSouthEast},
-			};
-
-
-
-			// base the tiles dimensions on the windows height and the number of tiles in the x plane
-			m_tmTileDimensions = (getWindowHeight()*.75) / tmCountYTiles;
-
-			//start drawing from the remaining space divided by 2, so it is centered
-			m_tmStartingX = (getWindowWidth() - m_tmTileDimensions * tmCountXTiles) / 2;
-			m_tmStartingY = (getWindowHeight() - m_tmTileDimensions * tmCountYTiles) / 2;
-
-			std::cout << "Tile Dimensions: " << m_tmTileDimensions << " Window Height: " << getWindowHeight() << "\n";
-
-			m_tm = new CW3_TileManager(m_tmTileDimensions, m_tmTileDimensions, tmCountXTiles, tmCountYTiles);
-
-			// setting all tiles to tile map int 2D array
-			for (int x = 0; x < tmCountXTiles; x++)
-				for (int y = 0; y < tmCountYTiles; y++)
-					m_tm->setMapValue(x, y, dungeonTileMapDesign[y][x]);
-			m_tm->setTopLeftPositionOnScreen(m_tmStartingX, m_tmStartingY);
-		}
-
-		// SETTING UP BACKGROUND TEXT
-		{
-			drawBackgroundString(15, 40, "C++ Coursework - Daniel Musselwhite", 0xe3e3e3, NULL);
-		}
-
-		break;
-
-	case stateMain:
-		std::cout << "TEST\n";
 		m_tm->drawAllTiles(this, getBackgroundSurface());
 
 		break;
@@ -191,8 +192,6 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 			pauseAllGameObjects();
 			pause();
 
-			// Force screen redraw
-			lockAndSetupBackground();
 			redrawDisplay();
 			break;
 		}
@@ -209,8 +208,6 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 			unpauseAllGameObjects();
 			unpause();
 
-			// Force screen redraw
-			lockAndSetupBackground();
 			redrawDisplay();
 			break;
 
@@ -341,17 +338,17 @@ void CW3_Game::unpauseAllGameObjects()
 void CW3_Game::deleteObjectFromArray(int objectID) {
 
 	
-#if showDebugPrintObjectCreationDeletion == 1
+#if showDebugPrintObjectCreationDeletion is 1
 	std::cout << "\nAttempting to delete object with ID: " << objectID << "Object array size is: "<< m_vecDisplayableObjects.size() << "\n";
 #endif
 	int i = 0;
 	using Iter = std::vector<DisplayableObject*>::const_iterator;
 	for (Iter it = m_vecDisplayableObjects.begin(); it != m_vecDisplayableObjects.end(); it++) {
-#if showDebugPrintObjectCreationDeletion == 1
+#if showDebugPrintObjectCreationDeletion is 1
 		std::cout << "Objects in array index: " << i << " is at memory: " << m_vecDisplayableObjects.at(i) << " and has an ID of: "<< dynamic_cast<CW3_GameObject *>(m_vecDisplayableObjects.at(i))->getObjectID() << "\n";
 #endif
 		if (dynamic_cast<CW3_GameObject *>(m_vecDisplayableObjects.at(i))->getObjectID() == objectID) {
-#if showDebugPrintObjectCreationDeletion == 1
+#if showDebugPrintObjectCreationDeletion is 1
 			std::cout << "Found the object we want to delete at index " << i << "!\n";
 #endif
 			drawableObjectsChanged();
@@ -367,7 +364,7 @@ void CW3_Game::deleteObjectFromArray(int objectID) {
 void CW3_Game::deleteAllObjectsInArray() {
 
 
-#if showDebugPrintObjectCreationDeletion == 1
+#if showDebugPrintObjectCreationDeletion is 1
 	std::cout << "\nAttempting to delete all Objects in array; initial size is: " << m_vecDisplayableObjects.size() << "\n";
 #endif
 	int i = 0;
@@ -379,7 +376,7 @@ void CW3_Game::deleteAllObjectsInArray() {
 	}
 		
 
-#if showDebugPrintObjectCreationDeletion == 1
+#if showDebugPrintObjectCreationDeletion is 1
 	std::cout << "\nObject should now be 0, this is: " << (m_vecDisplayableObjects.size() == 0 ? "true" : "false") << "\n";
 #endif
 }

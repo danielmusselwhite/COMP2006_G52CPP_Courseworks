@@ -1,5 +1,5 @@
 #pragma once
 
-#define showDebugPrintObjectCreationDeletion 1
+#define showDebugPrintObjectCreationDeletion
 
 #define showCollisionBoxes 0
