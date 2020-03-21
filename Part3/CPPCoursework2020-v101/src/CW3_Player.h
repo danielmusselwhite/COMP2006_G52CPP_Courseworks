@@ -14,6 +14,9 @@ protected:
 	int m_speed;
 	CW3_BaseGun* m_pGun;
 	int m_score = 0;
+	bool m_invuln=false; // default invuln to false
+	int m_invulnTime = 500;
+	int m_invulnTimer;
 
 	CW3_AnimatedImage* m_Anim;
 	CW3_AnimatedImage* m_LeftAnim;
@@ -37,5 +40,15 @@ public:
 	void virtDoUpdate(int iCurrentTime);
 
 	void virtDie() override;
+
+	virtual void hurt(int damage) override {
+		// if the player isn't invuln
+		if (!m_invuln) {
+			// call super for damage effect
+			CW3_LivingGameObject::hurt(damage);
+			m_invuln = true;
+			m_invulnTimer = m_pGameEngine->getRawTime() + m_invulnTime;
+		}
+	}
 };
 

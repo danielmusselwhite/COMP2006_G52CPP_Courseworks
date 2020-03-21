@@ -1,5 +1,6 @@
 #pragma once
 #include "CW3_LivingGameObject.h"
+#include "CollisionDetection.h"
 
 class CW3_BaseEnemy :
 	public CW3_LivingGameObject
@@ -108,6 +109,22 @@ public:
 				// snap to the top of the tile we cannot move past (Coordinate of start of tilemap + height of each tile * index of tile limit
 				m_iCurrentScreenY = (m_pGameEngine->getTileManager()->getBaseScreenY()) + ((m_pGameEngine->getTileManager()->getTileHeight())) * newTileYBounds;
 			}
+		}
+	}
+
+	// check and damaging target if they touch the enemy
+	void checkTargetCollisions(CW3_LivingGameObject* target) {
+
+		if (CollisionDetection::checkRectangles(
+			m_iCurrentScreenX, m_iCurrentScreenX + m_iDrawWidth,
+			m_iCurrentScreenY, m_iCurrentScreenY + m_iDrawHeight,
+			target->getCurrentXCoordinate(), target->getCurrentXCoordinate() + target->getDrawWidth(),
+			target->getCurrentYCoordinate(), target->getCurrentYCoordinate() + target->getDrawHeight()))
+		{
+
+			// hurt the target by a damage value between the upper and lower bounds
+			target->hurt(m_minDamage + (std::rand() % (m_maxDamage - m_minDamage + 1)));
+
 		}
 	}
 

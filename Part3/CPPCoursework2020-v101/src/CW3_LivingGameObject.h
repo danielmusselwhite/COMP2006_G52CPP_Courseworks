@@ -21,8 +21,8 @@ public:
 	// living object must provide implementation
 	virtual void virtDie() = 0; //living objects dying behaviour
 
-	//function for taking damage (should be the same for all instances)
-	void hurt(int damage) {
+	//function for taking damage
+	virtual void hurt(int damage) {
 		m_health -= damage;
 
 		if (checkDeath())
@@ -45,6 +45,8 @@ public:
 
 		double ratio = (double) m_health / (double)m_maxHealth;
 		
+		ratio < 0 ? ratio = 0 : ratio = ratio;
+
 		//drawing the green infront
 		getEngine()->drawForegroundRectangle(
 			m_iCurrentScreenX, m_iCurrentScreenY - m_iDrawHeight / 5,

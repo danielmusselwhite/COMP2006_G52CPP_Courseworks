@@ -107,7 +107,6 @@ void CW3_SimpleEnemy::virtMove()
 			newY = goalY;
 		}
 #endif
-
 		// correcting coordinates if colliding
 		checkTileMapCollisions(m_iCurrentScreenX, m_iCurrentScreenY, newX, newY);
 	}
@@ -122,6 +121,8 @@ void CW3_SimpleEnemy::virtMove()
 	{
 		target->getCurrentXCoordinate() < m_iCurrentScreenX ? m_Anim = m_LeftWalkAnim : m_Anim = m_RightWalkAnim;
 	}
+
+	checkTargetCollisions(target);
 	
 }
 

@@ -17,8 +17,6 @@ protected:
 	int m_bulletDamage;
 	int m_bulletMaxDistance;
 	int m_bulletColour;
-	bool m_bulletHit = false;
-	int m_deleteTime;
 	SimpleImage m_bulletImage;	// for now just using squares later will be images
 
 public:
@@ -84,8 +82,6 @@ public:
 			{
 				vecEnemies.at(i)->hurt(m_bulletDamage);
 
-				m_bulletHit = true;
-				m_deleteTime = m_pGameEngine->getRawTime() + 100; // delete after 100 ticks from now
 				m_pGameEngine->deleteObjectFromArray(m_objectID);
 
 			}

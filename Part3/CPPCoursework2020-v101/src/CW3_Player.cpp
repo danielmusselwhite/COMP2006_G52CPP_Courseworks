@@ -198,6 +198,19 @@ else {
 		m_pGameEngine->getCurrentMouseX() < m_iCurrentScreenX + m_iDrawWidth / 2 ? m_Anim = m_LeftAnim : m_Anim = m_RightAnim;
 	}
 
+	// handling invulnerablity
+	{
+		// if the player is invulnerable
+		if (m_invuln) {
+			// if the invulnerable timer has been exceeded make player damageable again
+			if (m_pGameEngine->getRawTime() > m_invulnTimer)
+				m_invuln = false;
+		}
+	}
+	
+		
+
+
 	// Ensure that the objects get redrawn on the display
 	redrawDisplay();
 }
@@ -208,7 +221,8 @@ void CW3_Player::shootGun()
 }
 
 void CW3_Player::virtDie() {
-	m_pGameEngine->deleteObjectFromArray(m_objectID);
+	std::cout << "Player is dead\n";
+	//m_pGameEngine->deleteObjectFromArray(m_objectID);
 }
 
 void CW3_Player::increaseScore(int points) {
