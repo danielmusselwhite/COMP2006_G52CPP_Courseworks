@@ -50,6 +50,11 @@ public:
 			m_iCurrentScreenX + (m_iDrawWidth) * (ratio),
 			m_iCurrentScreenY - m_iDrawHeight / 10,
 			0x3ca331);
+
+		// Build the string to print displaying the living objects current health
+		char buf [128];
+		sprintf(buf, "%i/%i",m_health,m_maxHealth);
+		m_pGameEngine->drawForegroundString(m_iCurrentScreenX, m_iCurrentScreenY - m_iDrawHeight, buf, 0xe3e3e3, NULL);
 	}
 };
 
