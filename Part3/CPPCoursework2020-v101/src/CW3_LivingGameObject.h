@@ -24,6 +24,7 @@ public:
 	//function for taking damage (should be the same for all instances)
 	void hurt(int damage) {
 		m_health -= damage;
+
 		if (checkDeath())
 			virtDie();
 	}
@@ -54,7 +55,7 @@ public:
 		// Build the string to print displaying the living objects current health
 		char buf [128];
 		sprintf(buf, "%i/%i",m_health,m_maxHealth);
-		m_pGameEngine->drawForegroundString(m_iCurrentScreenX, m_iCurrentScreenY - m_iDrawHeight, buf, 0xe3e3e3, NULL);
+		m_pGameEngine->drawForegroundString(m_iCurrentScreenX, m_iCurrentScreenY - m_iDrawHeight/2, buf, 0xe3e3e3, m_pGameEngine->getFont(m_pGameEngine->getDefaultFont()->getName(), 12));
 	}
 };
 
