@@ -21,7 +21,6 @@
 #define clrBgStarRed 0xffe0e0
 #define clrBgStarBlue 0xe0fffc
 #define clrBgStarYellow 0xfeffe0
-#define clrText 0x00ff00
 
 // start with initial state
 CW3_Game::CW3_Game() : m_state(stateInit) {
@@ -103,7 +102,7 @@ for (int iY = 0; iY < getWindowHeight(); iY += starSizeGap) {
 
 		// SETTING UP BACKGROUND TEXT
 		{
-			drawBackgroundString(15, 40, "C++ Coursework - Daniel Musselwhite", clrText, NULL);
+			drawBackgroundString(15, 40, "C++ Coursework - Daniel Musselwhite", 0xe3e3e3, NULL);
 		}
 
 		break;
@@ -122,7 +121,7 @@ for (int iY = 0; iY < getWindowHeight(); iY += starSizeGap) {
 
 	case stateGameOver:
 
-		drawBackgroundString(15, 40, "GameOver", clrText, NULL);
+		drawBackgroundString(15, 40, "GameOver", 0xe3e3e3, NULL);
 
 		break;
 	}
@@ -156,12 +155,20 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 
 		default: // start the game
 			m_state = stateMain;
-			// Force redraw of background
-			lockAndSetupBackground();
+			
+			pause();
+
 			// Ensure objects become visible now - we hid them initially
 			setAllObjectsVisible(true);
+
+			// Force redraw of background
+			lockAndSetupBackground();
+			
 			// Redraw the whole screen now
 			redrawDisplay();
+
+			unpause();
+			
 			break;
 		}
 
@@ -283,6 +290,7 @@ int CW3_Game::virtInitialiseObjects() {
 /* Draw any string which should appear on top of moving objects - i.e. objects move behind these */
 void CW3_Game::virtDrawStringsOnTop()
 {
+	char buf[128];
 
 	switch (m_state) {
 	case stateInit:
@@ -290,11 +298,14 @@ void CW3_Game::virtDrawStringsOnTop()
 		break;
 	case stateMain:
 		// Build the string to print
-		char buf[128];
 		sprintf(buf, "Score %d", getObjectOfType<CW3_Player>()->getScore());
 		drawForegroundString(1000, 40, buf, 0xe3e3e3, NULL);
 		break;
 	case statePaused: 
+		// Build the string to print
+		sprintf(buf, "Score %d", getObjectOfType<CW3_Player>()->getScore());
+		drawForegroundString(1000, 40, buf, 0xe3e3e3, NULL);
+
 		drawForegroundString(getWindowWidth() / 2, getWindowHeight() / 2, "Press p to unpause or s to save!", 0xe3e3e3, NULL);
 		break;
 	case stateGameOver:

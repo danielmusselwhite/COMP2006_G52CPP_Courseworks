@@ -217,13 +217,8 @@ void CW3_TileManager::drawTileFloor1(BaseEngine* pEngine, int iMapX, int iMapY) 
 	image = ImageManager::loadImage("images\\DungeonFrames\\Tiles\\Floor\\floor_1.png", true);
 	image.setTransparencyColour(0x000000);
 
-#if tmUseBlit == 1
 	image.renderImageBlit(pEngine, pEngine->getBackgroundSurface(), CW3_TileManager::getTilesXCoordinates(iMapX), CW3_TileManager::getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight(), 0, 0, image.getWidth(), image.getHeight());
-#endif
-
-#if tmUseBlit == 0
-	image.renderImage(pEngine->getBackgroundSurface(), getTilesXCoordinates(iMapX), getTilesYCoordinates(iMapY), getTilesXCoordinates(iMapX), getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight());
-#endif
+	//image.renderImage(pEngine->getBackgroundSurface(), getTilesXCoordinates(iMapX), getTilesYCoordinates(iMapY), getTilesXCoordinates(iMapX), getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight());
 }
 
 
@@ -348,13 +343,8 @@ void CW3_TileManager::drawTileCrate(BaseEngine* pEngine, int iMapX, int iMapY) c
 	image = ImageManager::loadImage("images\\DungeonFrames\\Interactables\\Destroyables\\crate.png", true);
 	image.setTransparencyColour(0x000000);
 
-#if tmUseBlit == 1
 	image.renderImageBlit(pEngine, pEngine->getBackgroundSurface(), CW3_TileManager::getTilesXCoordinates(iMapX), CW3_TileManager::getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight(), 0, 0, image.getWidth(), image.getHeight());
-#endif
 
-#if tmUseBlit == 0
-	image.renderImage(pEngine->getBackgroundSurface(), getTilesXCoordinates(iMapX), getTilesYCoordinates(iMapY), getTilesXCoordinates(iMapX), getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight());
-#endif
 }
 
 
