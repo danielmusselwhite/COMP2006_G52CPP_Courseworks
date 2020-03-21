@@ -232,7 +232,7 @@ void CW3_Player::shootGun()
 }
 
 void CW3_Player::virtDie() {
-	std::cout << "Player is dead\n";
+	m_pGameEngine->setStateGameOver();
 	//m_pGameEngine->deleteObjectFromArray(m_objectID);
 }
 

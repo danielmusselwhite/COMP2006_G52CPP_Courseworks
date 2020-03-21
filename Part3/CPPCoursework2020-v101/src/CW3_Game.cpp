@@ -45,21 +45,21 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 			for (int iX = 0; iX < getWindowWidth(); iX += starSizeGap) {
 
 				//.. for each y coordinate..
-for (int iY = 0; iY < getWindowHeight(); iY += starSizeGap) {
+				for (int iY = 0; iY < getWindowHeight(); iY += starSizeGap) {
 
-	starSize = (rand() % starSizeRange) + starSizeMin; // get random star size
+					starSize = (rand() % starSizeRange) + starSizeMin; // get random star size
 
-	//.. generate a random number and modulo it with for example, 100..
-	switch (rand() % starChanceDenominator)
-	{
-		//.. if it results in a 0, 1, 2, or 3, draw a spot with the specified colour; if not don't draw a spot. (1/100 chance of a specific coloured spot, 1/25 chance of their being a spot)
-	case 0: drawBackgroundOval(iX - starSize, iY - starSize, iX, iY, clrBgStarWhite); break;
-	case 1: drawBackgroundOval(iX - starSize, iY - starSize, iX, iY, clrBgStarRed); break;
-	case 2: drawBackgroundOval(iX - starSize, iY - starSize, iX, iY, clrBgStarBlue); break;
-	case 3: drawBackgroundOval(iX - starSize, iY - starSize, iX, iY, clrBgStarYellow); break;
+					//.. generate a random number and modulo it with for example, 100..
+					switch (rand() % starChanceDenominator)
+					{
+						//.. if it results in a 0, 1, 2, or 3, draw a spot with the specified colour; if not don't draw a spot. (1/100 chance of a specific coloured spot, 1/25 chance of their being a spot)
+					case 0: drawBackgroundOval(iX - starSize, iY - starSize, iX, iY, clrBgStarWhite); break;
+					case 1: drawBackgroundOval(iX - starSize, iY - starSize, iX, iY, clrBgStarRed); break;
+					case 2: drawBackgroundOval(iX - starSize, iY - starSize, iX, iY, clrBgStarBlue); break;
+					case 3: drawBackgroundOval(iX - starSize, iY - starSize, iX, iY, clrBgStarYellow); break;
 
-	}
-}
+					}
+				}
 			}
 		}
 
@@ -120,9 +120,7 @@ for (int iY = 0; iY < getWindowHeight(); iY += starSizeGap) {
 		break;
 
 	case stateGameOver:
-
-		drawBackgroundString(15, 40, "GameOver", 0xe3e3e3, NULL);
-
+		fillBackground(0x000000);
 		break;
 	}
 
@@ -234,11 +232,12 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 
 		default: // start the game
 			m_state = stateInit;
-			// Force screen redraw
-			lockAndSetupBackground();
-			// destroy all the old objects and reinitialise them
-			destroyOldObjects(true);
+			
+			deleteAllObjectsInArray();
 			virtInitialiseObjects();
+
+			lockAndSetupBackground();
+
 			redrawDisplay();
 			break;
 		}
@@ -249,6 +248,7 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 }
 
 int CW3_Game::virtInitialiseObjects() {
+
 	std::vector<std::pair<int,int>> floors;
 
 	//  getting all floor tiles (that the player could spawn on)
@@ -340,8 +340,9 @@ void CW3_Game::unpauseAllGameObjects()
 
 void CW3_Game::deleteObjectFromArray(int objectID) {
 
+	
 #if showDebugPrintObjectCreationDeletion == 1
-	std::cout << "\nAttempting to delete object with ID: " << objectID << "\n";
+	std::cout << "\nAttempting to delete object with ID: " << objectID << "Object array size is: "<< m_vecDisplayableObjects.size() << "\n";
 #endif
 	int i = 0;
 	using Iter = std::vector<DisplayableObject*>::const_iterator;
@@ -361,4 +362,24 @@ void CW3_Game::deleteObjectFromArray(int objectID) {
 		i++;
 	}
 
+}
+
+void CW3_Game::deleteAllObjectsInArray() {
+
+
+#if showDebugPrintObjectCreationDeletion == 1
+	std::cout << "\nAttempting to delete all Objects in array; initial size is: " << m_vecDisplayableObjects.size() << "\n";
+#endif
+	int i = 0;
+	using Iter = std::vector<DisplayableObject*>::const_iterator;
+
+	while (m_vecDisplayableObjects.size() != 0) {
+		drawableObjectsChanged();
+		m_vecDisplayableObjects.erase(m_vecDisplayableObjects.begin());
+	}
+		
+
+#if showDebugPrintObjectCreationDeletion == 1
+	std::cout << "\nObject should now be 0, this is: " << (m_vecDisplayableObjects.size() == 0 ? "true" : "false") << "\n";
+#endif
 }

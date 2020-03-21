@@ -21,6 +21,7 @@ public:
 
 	//functions relating to m_vecDisplayableObjects
 	void deleteObjectFromArray(int objectID);
+	void deleteAllObjectsInArray();
 
 	int getDrawableObjectVectorSize()
 	{
@@ -63,6 +64,17 @@ public:
 
 	void pauseAllGameObjects();
 	void unpauseAllGameObjects();
+
+	void setStateGameOver() {
+		m_state = stateGameOver;
+		
+		// Force screen redraw
+		lockAndSetupBackground();
+
+		setAllObjectsVisible(false);
+
+		redrawDisplay();
+	}
 
 
 	//generic functions
