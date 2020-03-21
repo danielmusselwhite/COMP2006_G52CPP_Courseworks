@@ -2,4 +2,4 @@
 
 #define showDebugPrintObjectCreationDeletion 0
 
-#define showCollisionBoxes 0
+#define showCollisionBoxes 1

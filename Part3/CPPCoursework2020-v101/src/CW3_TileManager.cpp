@@ -5,11 +5,12 @@
 #include "CW3_DebugHeaders.h"
 #include "CW3_Game.h"
 
-
+SimpleImage imageFloor1;
 
 // constructor
 CW3_TileManager::CW3_TileManager(int iTileHeight, int iTileWidth, int iMapHeight, int iMapWidth) : TileManager(iTileHeight, iTileWidth, iMapHeight, iMapWidth) {
-
+	imageFloor1 = ImageManager::loadImage("images\\DungeonFrames\\Tiles\\Floor\\floor_1.png", true);
+	imageFloor1.setTransparencyColour(0x000000);
 }
 
 // deconstructor
@@ -67,7 +68,18 @@ void CW3_TileManager::virtDrawTileAt(
 		//floors
 #ifdef tileFloor1
 	case tileFloor1:
+
+#if showCollisionBoxes is 1
+		pSurface->drawRectangle(
+			iStartPositionScreenX, // Left
+			iStartPositionScreenY, // Top
+			iStartPositionScreenX + getTileWidth() - 1, // Right
+			iStartPositionScreenY + getTileHeight() - 1, // Bottom
+			0xFFFF00); // Pixel colour
+#endif
+
 		CW3_TileManager::drawTileFloor1(pEngine, iMapX, iMapY);
+
 		break;
 #endif
 
@@ -196,13 +208,23 @@ void CW3_TileManager::virtDrawTileAt(
 }
 
 
+
+
+
+
+
+
 //floor
 void CW3_TileManager::drawTileFloor1(BaseEngine* pEngine, int iMapX, int iMapY) const {
-	SimpleImage image;
-	image = ImageManager::loadImage("images\\DungeonFrames\\Tiles\\Floor\\floor_1.png", true);
-	image.setTransparencyColour(0x000000);
-	image.renderImageBlit(pEngine, pEngine->getBackgroundSurface(), CW3_TileManager::getTilesXCoordinates(iMapX), CW3_TileManager::getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight(), 0, 0, image.getWidth(), image.getHeight());
+	imageFloor1.renderImageBlit(pEngine, pEngine->getBackgroundSurface(), CW3_TileManager::getTilesXCoordinates(iMapX), CW3_TileManager::getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight(), 0, 0, imageFloor1.getWidth(), imageFloor1.getHeight());
+	//imageFloor1.renderImage(pEngine->getBackgroundSurface(), getTilesXCoordinates(iMapX), getTilesYCoordinates(iMapY), getTilesXCoordinates(iMapX), getTilesYCoordinates(iMapY), getTileWidth(), getTileHeight());
 }
+
+
+
+
+
+
 
 void CW3_TileManager::drawTilePuddleLight(BaseEngine* pEngine, int iMapX, int iMapY) const {
 	SimpleImage image;

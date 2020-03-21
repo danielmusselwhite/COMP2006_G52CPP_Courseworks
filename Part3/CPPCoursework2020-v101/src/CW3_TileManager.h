@@ -1,8 +1,12 @@
 #pragma once
 #include "TileManager.h"
+
+extern SimpleImage imageFloor1;
+
 class CW3_TileManager :
 	public TileManager
 {
+
 public:
 	//constructor/deconstructor
 	CW3_TileManager(int iTileHeight, int iTileWidth, int iMapHeight, int iMapWidth);

@@ -23,7 +23,8 @@
 #define clrBgStarYellow 0xfeffe0
 #define clrText 0x00ff00
 
-CW3_Game::CW3_Game() {
+// start with initial state
+CW3_Game::CW3_Game() : m_state(stateInit) {
 	
 }
 
@@ -32,77 +33,100 @@ CW3_Game::~CW3_Game() {
 }
 
 void CW3_Game::virtSetupBackgroundBuffer() {
-	fillBackground(clrBgMain);
 
-	// SETTING UP THE STARRY BACKGROUND
+	switch (m_state) {
+	case stateInit:
+		fillBackground(clrBgMain);
+
+		// SETTING UP THE STARRY BACKGROUND
+		{
+			int starSize = 0; // stars can be different sizes
+
+			//for each x coordinate..
+			for (int iX = 0; iX < getWindowWidth(); iX += starSizeGap) {
+
+				//.. for each y coordinate..
+for (int iY = 0; iY < getWindowHeight(); iY += starSizeGap) {
+
+	starSize = (rand() % starSizeRange) + starSizeMin; // get random star size
+
+	//.. generate a random number and modulo it with for example, 100..
+	switch (rand() % starChanceDenominator)
 	{
-		int starSize = 0; // stars can be different sizes
+		//.. if it results in a 0, 1, 2, or 3, draw a spot with the specified colour; if not don't draw a spot. (1/100 chance of a specific coloured spot, 1/25 chance of their being a spot)
+	case 0: drawBackgroundOval(iX - starSize, iY - starSize, iX, iY, clrBgStarWhite); break;
+	case 1: drawBackgroundOval(iX - starSize, iY - starSize, iX, iY, clrBgStarRed); break;
+	case 2: drawBackgroundOval(iX - starSize, iY - starSize, iX, iY, clrBgStarBlue); break;
+	case 3: drawBackgroundOval(iX - starSize, iY - starSize, iX, iY, clrBgStarYellow); break;
 
-		//for each x coordinate..
-		for (int iX = 0; iX < getWindowWidth(); iX += starSizeGap) {
-
-			//.. for each y coordinate..
-			for (int iY = 0; iY < getWindowHeight(); iY += starSizeGap) {
-
-				starSize = (rand() % starSizeRange) + starSizeMin; // get random star size
-
-				//.. generate a random number and modulo it with for example, 100..
-				switch (rand() % starChanceDenominator)
-				{
-					//.. if it results in a 0, 1, 2, or 3, draw a spot with the specified colour; if not don't draw a spot. (1/100 chance of a specific coloured spot, 1/25 chance of their being a spot)
-				case 0: drawBackgroundOval(iX - starSize, iY - starSize, iX, iY, clrBgStarWhite); break;
-				case 1: drawBackgroundOval(iX - starSize, iY - starSize, iX, iY, clrBgStarRed); break;
-				case 2: drawBackgroundOval(iX - starSize, iY - starSize, iX, iY, clrBgStarBlue); break;
-				case 3: drawBackgroundOval(iX - starSize, iY - starSize, iX, iY, clrBgStarYellow); break;
-
-				}
+	}
+}
 			}
 		}
-	}
 
-	//SETTING UP THE TILE MANAGER
-	{
-		
-		int dungeonTileMapDesign[tmCountYTiles][tmCountXTiles] = {
-			{tileWallTopNorthWest, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthEast},
-			{tileWallTopWest, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallTopEast},
-			{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
-			{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
-			{tileWallTopWest, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
-			{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileWallTopEast},
-			{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
-			{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileWallTopEast},
-			{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileWallTopEast},
-			{tileWallTopWest, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
-			{tileWallTopWest, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
-			{tileWallTopSouthWest, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallTopSouthEast},
-		};
+		//SETTING UP THE TILE MANAGER
+		{
+			int dungeonTileMapDesign[tmCountYTiles][tmCountXTiles] = {
+				{tileWallTopNorthWest, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthEast},
+				{tileWallTopWest, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallTopEast},
+				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+				{tileWallTopWest, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileWallTopEast},
+				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileWallTopEast},
+				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileWallTopEast},
+				{tileWallTopWest, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+				{tileWallTopWest, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+				{tileWallTopSouthWest, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallTopSouthEast},
+			};
 
 
 
-		// base the tiles dimensions on the windows height and the number of tiles in the x plane
-		m_tmTileDimensions = (getWindowHeight()*.75) / tmCountYTiles;
+			// base the tiles dimensions on the windows height and the number of tiles in the x plane
+			m_tmTileDimensions = (getWindowHeight()*.75) / tmCountYTiles;
 
-		//start drawing from the remaining space divided by 2, so it is centered
-		m_tmStartingX = (getWindowWidth() - m_tmTileDimensions * tmCountXTiles) / 2;
-		m_tmStartingY = (getWindowHeight() - m_tmTileDimensions * tmCountYTiles) / 2;
+			//start drawing from the remaining space divided by 2, so it is centered
+			m_tmStartingX = (getWindowWidth() - m_tmTileDimensions * tmCountXTiles) / 2;
+			m_tmStartingY = (getWindowHeight() - m_tmTileDimensions * tmCountYTiles) / 2;
 
-		std::cout << "Tile Dimensions: " << m_tmTileDimensions << " Window Height: " << getWindowHeight() << "\n";
+			std::cout << "Tile Dimensions: " << m_tmTileDimensions << " Window Height: " << getWindowHeight() << "\n";
 
-		m_tm = new CW3_TileManager(m_tmTileDimensions, m_tmTileDimensions, tmCountXTiles, tmCountYTiles);
+			m_tm = new CW3_TileManager(m_tmTileDimensions, m_tmTileDimensions, tmCountXTiles, tmCountYTiles);
 
-		// setting all tiles to tile map int 2D array
-		for (int x = 0; x < tmCountXTiles; x++)
-			for (int y = 0; y < tmCountYTiles; y++)
-				m_tm->setMapValue(x, y, dungeonTileMapDesign[y][x]);
-		m_tm->setTopLeftPositionOnScreen(m_tmStartingX, m_tmStartingY);
+			// setting all tiles to tile map int 2D array
+			for (int x = 0; x < tmCountXTiles; x++)
+				for (int y = 0; y < tmCountYTiles; y++)
+					m_tm->setMapValue(x, y, dungeonTileMapDesign[y][x]);
+			m_tm->setTopLeftPositionOnScreen(m_tmStartingX, m_tmStartingY);
+		}
+
+		// SETTING UP BACKGROUND TEXT
+		{
+			drawBackgroundString(15, 40, "C++ Coursework - Daniel Musselwhite", clrText, NULL);
+		}
+
+		break;
+
+	case stateMain:
+		std::cout << "TEST\n";
 		m_tm->drawAllTiles(this, getBackgroundSurface());
+
+		break;
+
+	case statePaused:
+
+		m_tm->drawAllTiles(this, getBackgroundSurface());
+
+		break;
+
+	case stateGameOver:
+
+		drawBackgroundString(15, 40, "GameOver", clrText, NULL);
+
+		break;
 	}
 
-	// SETTING UP BACKGROUND TEXT
-	{
-		drawBackgroundString(15, 40, "C++ Coursework - Daniel Musselwhite", clrText, NULL);
-	}
 }
 
 void CW3_Game::virtMouseDown(int iButton, int iX, int iY) {
@@ -116,15 +140,97 @@ void CW3_Game::virtMouseDown(int iButton, int iX, int iY) {
 	catch (int e) {
 		std::cout << "\nPlayer could not be found";
 	}
-	
+
 }
 
 void CW3_Game::virtKeyDown(int iKeyCode) {
-	switch (iKeyCode) {
-	case SDLK_ESCAPE: // End program when escape is pressed
-		setExitWithCode(0);
+
+	switch (m_state){
+
+	case stateInit:
+		switch (iKeyCode) {
+
+		case SDLK_ESCAPE: // End program when escape is pressed
+			setExitWithCode(0);
+			break;
+
+		default: // start the game
+			m_state = stateMain;
+			// Force redraw of background
+			lockAndSetupBackground();
+			// Ensure objects become visible now - we hid them initially
+			setAllObjectsVisible(true);
+			// Redraw the whole screen now
+			redrawDisplay();
+			break;
+		}
+
+		
 		break;
+
+
+
+
+		// move the players controls into here
+	case stateMain:
+
+		switch (iKeyCode) {
+
+		case SDLK_ESCAPE: // End program when escape is pressed
+			setExitWithCode(0);
+			break;
+
+		case SDLK_p: // pause the program when this is pressed
+			m_state = statePaused;
+			// Force screen redraw
+			lockAndSetupBackground();
+			redrawDisplay();
+			break;
+		}
+		break;
+
+
+
+
+	case statePaused:
+		switch (iKeyCode) {
+		case SDLK_p:
+			m_state = stateMain;
+			// Force screen redraw
+			lockAndSetupBackground();
+			redrawDisplay();
+			break;
+
+			// set up logic for saving here
+		case SDLK_s:
+			break;
+		}
+		break;
+	
+
+
+
+	case stateGameOver:
+		switch (iKeyCode) {
+
+		case SDLK_ESCAPE: // End program when escape is pressed
+			setExitWithCode(0);
+			break;
+
+		default: // start the game
+			m_state = stateInit;
+			// Force screen redraw
+			lockAndSetupBackground();
+			// destroy all the old objects and reinitialise them
+			destroyOldObjects(true);
+			virtInitialiseObjects();
+			redrawDisplay();
+			break;
+		}
+		break;
+
 	}
+	
 }
 
 int CW3_Game::virtInitialiseObjects() {
@@ -160,16 +266,34 @@ int CW3_Game::virtInitialiseObjects() {
 	appendObjectToArray(new CW3_SimpleEnemy(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 100, 20, 30, 2, 25));
 	floors.erase(floors.begin() + floorIndex);
 
+	// Make everything invisible to start with
+	setAllObjectsVisible(false);
+
 	return 0;
 }
 
 /* Draw any string which should appear on top of moving objects - i.e. objects move behind these */
 void CW3_Game::virtDrawStringsOnTop()
 {
-	// Build the string to print
-	char buf[128];
-	sprintf(buf, "Score %d", getObjectOfType<CW3_Player>()->getScore());
-	drawForegroundString(1000, 40, buf, clrText, NULL);
+
+	switch (m_state) {
+	case stateInit:
+		drawForegroundString(getWindowWidth()/2, getWindowHeight()/2, "Press any button to start!", 0xe3e3e3, NULL);
+		break;
+	case stateMain:
+		// Build the string to print
+		char buf[128];
+		sprintf(buf, "Score %d", getObjectOfType<CW3_Player>()->getScore());
+		drawForegroundString(1000, 40, buf, 0xe3e3e3, NULL);
+		break;
+	case statePaused: 
+		drawForegroundString(getWindowWidth() / 2, getWindowHeight() / 2, "Press p to unpause or s to save!", 0xe3e3e3, NULL);
+		break;
+	case stateGameOver:
+		drawForegroundString(getWindowWidth() / 2, getWindowHeight() / 2, "Press escape to quit or any other button to play again!", 0xe3e3e3, NULL);
+		break;
+	}
+	
 }
 
 void CW3_Game::virtMainLoopDoBeforeUpdate()
