@@ -15,7 +15,7 @@ protected:
 	CW3_BaseGun* m_pGun;
 	int m_score = 0;
 	bool m_invuln=false; // default invuln to false
-	int m_invulnTime = 500;
+	int m_invulnTime = 750;
 	int m_invulnTimer;
 
 	CW3_AnimatedImage* m_Anim;

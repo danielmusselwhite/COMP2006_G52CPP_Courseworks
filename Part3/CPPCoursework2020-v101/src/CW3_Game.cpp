@@ -4,6 +4,8 @@
 #include "CW3_DungeonTileMapCodes.h"
 #include "CW3_Player.h"
 #include "CW3_SimpleEnemy.h"
+#include <fstream>
+#include <sstream>
 
 // customisable tilemap
 #define tmCountXTiles 12
@@ -35,6 +37,7 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 
 	switch (m_state) {
 	case stateInit:
+		fillBackground(0x000000);
 
 		//SETTING UP THE TILE MANAGER
 		{
@@ -123,6 +126,11 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 	case stateGameOver:
 		fillBackground(0x000000);
 		break;
+
+	case stateHighscores:
+		fillBackground(0x000000);
+		drawBackgroundRectangle(getWindowWidth()/10, getWindowHeight()/25, getWindowWidth() - getWindowWidth()/10 , getWindowHeight()- getWindowHeight() / 25, 0x2a2a2a);
+		break;
 	}
 
 }
@@ -150,6 +158,18 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 
 		case SDLK_ESCAPE: // End program when escape is pressed
 			setExitWithCode(0);
+			break;
+
+		case SDLK_h:
+			// view the highscores
+			m_state = stateHighscores;
+
+			// Force redraw of background
+			lockAndSetupBackground();
+
+			// Redraw the whole screen now
+			redrawDisplay();
+
 			break;
 
 		default: // start the game
@@ -241,7 +261,26 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 		}
 		break;
 
+
+
+
+	case stateHighscores:
+		switch (iKeyCode) {
+		case SDLK_ESCAPE:// End program when escape is pressed
+			setExitWithCode(0);
+			break;
+
+		default: //return to start menu
+			m_state = stateInit;
+
+			lockAndSetupBackground();
+
+			redrawDisplay();
+			break;
+		}
+		break;
 	}
+
 	
 }
 
@@ -292,7 +331,9 @@ void CW3_Game::virtDrawStringsOnTop()
 
 	switch (m_state) {
 	case stateInit:
-		drawForegroundString(15, getWindowHeight()/2, "Press any button to start!", 0xe3e3e3, NULL);
+		drawForegroundString(15, getWindowHeight()/2, "Press h to view highscores!", 0xe3e3e3, NULL);
+		drawForegroundString(15, getWindowHeight() / 2+30, "Press escp to exit!", 0xe3e3e3, NULL);
+		drawForegroundString(15, getWindowHeight() / 2+60, "Press any other button to start!", 0xe3e3e3, NULL);
 		break;
 	case stateMain:
 		// Build the string to print
@@ -317,13 +358,60 @@ void CW3_Game::virtDrawStringsOnTop()
 
 		drawForegroundString(15, getWindowHeight() / 2, "Press escape to quit or enter to play again!", 0xe3e3e3, NULL);
 		break;
+
+	case stateHighscores:
+
+		drawForegroundString(500, 40, "Highscores", 0xe3e3e3, NULL);
+
+		// look at the input file (highscores)
+		std::ifstream infile("./savedData/highscores.csv");
+
+		//if the file exists..
+		if (infile.good()) {
+
+			int i=0; //number of rows in csv
+			int j; //number of fields in csv
+			std::string input;
+
+			// get each line in the csv
+			while (std::getline(infile, input)){
+
+				// create a vector of the different fields for this row by separating the commas
+				std::vector<std::string> fields;
+				std::stringstream inputStream(input);
+				std::string field;
+				while (std::getline(inputStream, field, ',')) {
+					fields.push_back(field);
+				}
+
+				// write this row
+				sprintf(buf, "Place: %i Name: %s - Score: %s", i, fields.at(0).c_str(), fields.at(1).c_str());
+				drawForegroundString(350, 90 + i * 30, buf, 0xe3e3e3, NULL);
+
+				i++;
+			}
+
+
+			if(i==0)
+				drawForegroundString(350, 90, "No highscores to show! Why not have a go? :)", 0xe3e3e3, NULL);
+		}
+		else {
+			drawForegroundString(350, 90, "No highscores to show! Why not have a go? :)", 0xe3e3e3, NULL);
+		}
+		
+
+		break;
 	}
+
+	
 	
 }
 
 void CW3_Game::virtMainLoopDoBeforeUpdate()
 {
-	//sortObjectsByYAxis();
+	pause();
+	sortObjectsByYAxis();
+	unpause();
 }
 
 void CW3_Game::pauseAllGameObjects()
