@@ -11,6 +11,8 @@ protected:
 	int m_tmTileDimensions; //member variable to store size of tiles
 	int m_tmStartingX; //member variable to store starting x coord to draw from
 	int m_tmStartingY; //member variable to store starting y coord to draw from
+	int m_playersHighscorePlace; //stores what highscore the player has just got
+	std::string m_playerName;
 
 
 
@@ -113,7 +115,7 @@ public:
 
 public:
 	// State number - so we can support different states and demonstrate the basics.
-	enum State { stateInit, stateMain, statePaused, stateGameOver, stateHighscores};
+	enum State { stateInit, stateMain, statePaused, stateGameOver, stateHighscores, stateNewHighscore};
 
 private:
 	// Current state

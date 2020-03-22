@@ -130,8 +130,20 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 	case stateHighscores:
 		fillBackground(0x000000);
 		drawBackgroundRectangle(getWindowWidth()/10, getWindowHeight()/25, getWindowWidth() - getWindowWidth()/10 , getWindowHeight()- getWindowHeight() / 25, 0x2a2a2a);
+		
+
+		drawBackgroundString(550, 40, "Highscores", 0xe3e3e3, NULL);
+		break;
+
+	case stateNewHighscore:
+		
+		fillBackground(0x000000);
+
+		drawBackgroundString(15, 40, "You have achieved a new highscore!", 0xe3e3e3, NULL);
 		break;
 	}
+
+	
 
 }
 
@@ -202,10 +214,6 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 
 		switch (iKeyCode) {
 
-		case SDLK_ESCAPE: // End program when escape is pressed
-			setExitWithCode(0);
-			break;
-
 		case SDLK_p: // pause the program when this is pressed
 			m_state = statePaused;
 			//pause all game objects
@@ -249,10 +257,62 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 			break;
 
 		case SDLK_RETURN: // start the game
-			m_state = stateInit;
+
+			// look at the input file (highscores)
+			std::ifstream infile("./savedData/highscores.csv");
+
+			//if the file exists..
+			if (infile.good()) {
+
+				std::string input;
+
+				int i = 0; // row counter
+
+				// get each line in the csv (max 10 lines)
+				while (std::getline(infile, input) && i < 10) {
+
+					// create a vector of the different fields for this row by separating the commas
+					std::vector<std::string> fields;
+					std::stringstream inputStream(input);
+					std::string field;
+					while (std::getline(inputStream, field, ',')) {
+						fields.push_back(field);
+					}
+
+					//if the players highscore is better than this row store this index and break the loop
+					if (getObjectOfType<CW3_Player>()->getScore() > std::stoi(fields.at(1))) {
+						m_playersHighscorePlace = i;
+						break;
+					}
+
+					i++;
+				}
+
+
+				//player has a highscore as there aren't 10 rows yet
+				if (i < 10) {
+					m_playersHighscorePlace = i;
+					m_state = stateNewHighscore;
+				}
+					
+				//player hasn't got a highscore as i reached greater than 9 hence we have 10 rows that the player isn't higher than
+				else {
+					m_state = stateInit;
+
+					deleteAllObjectsInArray();
+					virtInitialiseObjects();
+				}
+			}
+			//player has a highscore as there isn't a highscore file yet
+			else {
+				m_playersHighscorePlace = 0;
+				m_state = stateNewHighscore;
+			}
+				
+		
+			infile.close();
+
 			
-			deleteAllObjectsInArray();
-			virtInitialiseObjects();
 
 			lockAndSetupBackground();
 
@@ -278,6 +338,313 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 			redrawDisplay();
 			break;
 		}
+		break;
+
+
+
+	case stateNewHighscore:
+
+		
+
+		//allowing user to enter their name
+		switch (iKeyCode) {
+		case SDLK_a:
+			lockForegroundForDrawing();
+			m_playerName += 'a';
+			unlockForegroundForDrawing();
+
+			redrawDisplay();
+			break;
+
+		case SDLK_b:
+			lockForegroundForDrawing();
+			m_playerName += 'b';
+			unlockForegroundForDrawing();
+
+			redrawDisplay();
+			break;
+
+		case SDLK_c:
+			lockForegroundForDrawing();
+			m_playerName += 'c';
+			unlockForegroundForDrawing();
+
+			redrawDisplay();
+			break;
+
+		case SDLK_d:
+			lockForegroundForDrawing();
+			m_playerName += 'd';
+			unlockForegroundForDrawing();
+
+			redrawDisplay();
+			break;
+
+		case SDLK_e:
+			lockForegroundForDrawing();
+			m_playerName += 'e';
+			unlockForegroundForDrawing();
+
+			redrawDisplay();
+			break;
+
+		case SDLK_f:
+			lockForegroundForDrawing();
+			m_playerName += 'f';
+			unlockForegroundForDrawing();
+
+			redrawDisplay();
+			break;
+
+		case SDLK_g:
+			lockForegroundForDrawing();
+			m_playerName += 'g';
+			unlockForegroundForDrawing();
+
+			redrawDisplay();
+			break;
+
+		case SDLK_h:
+			lockForegroundForDrawing();
+			m_playerName += 'h';
+			unlockForegroundForDrawing();
+
+			redrawDisplay();
+			break;
+
+		case SDLK_i:
+			lockForegroundForDrawing();
+			m_playerName += 'i';
+			unlockForegroundForDrawing();
+
+			redrawDisplay();
+			break;
+
+		case SDLK_j:
+			lockForegroundForDrawing();
+			m_playerName += 'j';
+			unlockForegroundForDrawing();
+
+			redrawDisplay();
+			break;
+
+		case SDLK_k:
+			lockForegroundForDrawing();
+			m_playerName += 'k';
+			unlockForegroundForDrawing();
+
+			redrawDisplay();
+			break;
+
+		case SDLK_l:
+			lockForegroundForDrawing();
+			m_playerName += 'l';
+			unlockForegroundForDrawing();
+
+			redrawDisplay();
+			break;
+
+		case SDLK_m:
+			lockForegroundForDrawing();
+			m_playerName += 'm';
+			unlockForegroundForDrawing();
+		
+			redrawDisplay();
+			break;
+
+		case SDLK_n:
+			lockForegroundForDrawing();
+			m_playerName += 'n';
+			unlockForegroundForDrawing();
+
+			redrawDisplay();
+			break;
+
+		case SDLK_o:
+			lockForegroundForDrawing();
+			m_playerName += 'o';
+			unlockForegroundForDrawing();
+
+			redrawDisplay();
+			break;
+
+		case SDLK_p:
+			lockForegroundForDrawing();
+			m_playerName += 'p';
+			unlockForegroundForDrawing();
+
+			redrawDisplay();
+			break;
+
+		case SDLK_q:
+			lockForegroundForDrawing();
+			m_playerName += 'q';
+			unlockForegroundForDrawing();
+
+			redrawDisplay();
+			break;
+
+		case SDLK_r:
+			lockForegroundForDrawing();
+			m_playerName += 'r';
+			unlockForegroundForDrawing();
+
+			redrawDisplay();
+			break;
+
+		case SDLK_s:
+			lockForegroundForDrawing();
+			m_playerName += 's';
+			unlockForegroundForDrawing();
+
+			redrawDisplay();
+			break;
+
+		case SDLK_t:
+			lockForegroundForDrawing();
+			m_playerName += 't';
+			unlockForegroundForDrawing();
+
+			redrawDisplay();
+			break;
+
+		case SDLK_u:
+			lockForegroundForDrawing();
+			m_playerName += 'u';
+			unlockForegroundForDrawing();
+
+			redrawDisplay();
+			break;
+
+		case SDLK_v:
+			lockForegroundForDrawing();
+			m_playerName += 'v';
+			unlockForegroundForDrawing();
+
+			redrawDisplay();
+			break;
+
+		case SDLK_w:
+			lockForegroundForDrawing();
+			m_playerName += 'w';
+			unlockForegroundForDrawing();
+
+			redrawDisplay();
+			break;
+
+		case SDLK_x:
+			lockForegroundForDrawing();
+			m_playerName += 'x';
+			unlockForegroundForDrawing();
+
+			redrawDisplay();
+			break;
+
+		case SDLK_y:
+			lockForegroundForDrawing();
+			m_playerName += 'y';
+			unlockForegroundForDrawing();
+
+			redrawDisplay();
+			break;
+
+		case SDLK_z:
+			lockForegroundForDrawing();
+			m_playerName += 'z';
+			unlockForegroundForDrawing();
+
+			redrawDisplay();
+			break;
+
+
+		
+
+		case SDLK_BACKSPACE: // removing the last character
+
+			if (m_playerName.size() > 0) {
+				lockForegroundForDrawing();
+				m_playerName.pop_back();
+				unlockForegroundForDrawing();
+
+				redrawDisplay();
+			}
+				
+			break;
+
+			
+
+		case SDLK_RETURN: 
+
+			// writing the users highscore to a file
+			{
+				char buf[128];
+
+				// look at the input file (highscores)
+				std::ifstream infile("./savedData/highscores.csv");
+
+				std::vector<std::string> rows;
+
+				//if the file exists..
+				if (infile.good()) {
+
+					int i = 0; //number of rows in csv
+					int j; //number of fields in csv
+					std::string input;
+
+					// get each line in the csv (up to the place the player has beat)
+					while (i < m_playersHighscorePlace && std::getline(infile, input)) {
+
+						//add this row into the vector which will be used to overwrite the file
+						rows.push_back(input.c_str());
+
+						i++;
+					}
+
+					// now push the player in the middle
+					rows.push_back(m_playerName+","+std::to_string(getObjectOfType<CW3_Player>()->getScore()));
+					i++;
+
+					// now push the ones after the player (up to a max of 10 total rows) after
+					while (i < 10 && std::getline(infile, input)) {
+
+						//add this row into the vector which will be used to overwrite the file
+						rows.push_back(input);
+
+						i++;
+					}
+		
+				}
+				else {
+					rows.push_back(m_playerName + "," + std::to_string(getObjectOfType<CW3_Player>()->getScore()));
+				}
+
+				infile.close();
+
+				//writing rows to the highscore file
+				std::ofstream outfile("./savedData/highscores.csv");
+				for (int i = 0; i < rows.size(); i++)
+					outfile << rows.at(i) <<'\n';
+
+				outfile.close();
+			}
+
+			m_playerName = "";
+			m_playersHighscorePlace = 0;
+
+			m_state = stateInit;
+
+			deleteAllObjectsInArray();
+			virtInitialiseObjects();
+
+			lockAndSetupBackground();
+
+			redrawDisplay();
+
+			break;
+		}
+
+		
+
 		break;
 	}
 
@@ -331,21 +698,21 @@ void CW3_Game::virtDrawStringsOnTop()
 
 	switch (m_state) {
 	case stateInit:
-		drawForegroundString(15, getWindowHeight()/2, "Press h to view highscores!", 0xe3e3e3, NULL);
-		drawForegroundString(15, getWindowHeight() / 2+30, "Press escp to exit!", 0xe3e3e3, NULL);
-		drawForegroundString(15, getWindowHeight() / 2+60, "Press any other button to start!", 0xe3e3e3, NULL);
+		drawForegroundString(15, getWindowHeight() / 2, "Press h to view highscores!", 0xe3e3e3, NULL);
+		drawForegroundString(15, getWindowHeight() / 2 + 30, "Press escp to exit!", 0xe3e3e3, NULL);
+		drawForegroundString(15, getWindowHeight() / 2 + 60, "Press any other button to start!", 0xe3e3e3, NULL);
 		break;
 	case stateMain:
 		// Build the string to print
 		sprintf(buf, "Score %d", getObjectOfType<CW3_Player>()->getScore());
 		drawForegroundString(1000, 40, buf, 0xe3e3e3, NULL);
 		break;
-	case statePaused: 
+	case statePaused:
 		// Build the string to print
 		sprintf(buf, "Score %d", getObjectOfType<CW3_Player>()->getScore());
 		drawForegroundString(1000, 40, buf, 0xe3e3e3, NULL);
 
-		drawForegroundRectangle(400, getWindowHeight()/2-5, 900, getWindowHeight()/2+35, 0x262626);
+		drawForegroundRectangle(400, getWindowHeight() / 2 - 5, 900, getWindowHeight() / 2 + 35, 0x262626);
 
 		drawForegroundString(407, getWindowHeight() / 2, "Press p to unpause or s to save!", 0xe3e3e3, NULL);
 		break;
@@ -361,57 +728,60 @@ void CW3_Game::virtDrawStringsOnTop()
 
 	case stateHighscores:
 
-		drawForegroundString(500, 40, "Highscores", 0xe3e3e3, NULL);
+		{
+			// look at the input file (highscores)
+			std::ifstream infile("./savedData/highscores.csv");
 
-		// look at the input file (highscores)
-		std::ifstream infile("./savedData/highscores.csv");
+			//if the file exists..
+			if (infile.good()) {
 
-		//if the file exists..
-		if (infile.good()) {
+				int i = 0; //number of rows in csv
+				int j; //number of fields in csv
+				std::string input;
 
-			int i=0; //number of rows in csv
-			int j; //number of fields in csv
-			std::string input;
+				// get each line in the csv (max 10 lines)
+				while (std::getline(infile, input) && i < 10) {
 
-			// get each line in the csv
-			while (std::getline(infile, input)){
+					// create a vector of the different fields for this row by separating the commas
+					std::vector<std::string> fields;
+					std::stringstream inputStream(input);
+					std::string field;
+					while (std::getline(inputStream, field, ',')) {
+						fields.push_back(field);
+					}
 
-				// create a vector of the different fields for this row by separating the commas
-				std::vector<std::string> fields;
-				std::stringstream inputStream(input);
-				std::string field;
-				while (std::getline(inputStream, field, ',')) {
-					fields.push_back(field);
+					// write this row
+					sprintf(buf, "Place %i: %s - %s", i + 1, fields.at(0).c_str(), fields.at(1).c_str());
+					drawForegroundString(350, 90 + i * 30, buf, 0xe3e3e3, NULL);
+
+					i++;
 				}
 
-				// write this row
-				sprintf(buf, "Place: %i Name: %s - Score: %s", i, fields.at(0).c_str(), fields.at(1).c_str());
-				drawForegroundString(350, 90 + i * 30, buf, 0xe3e3e3, NULL);
 
-				i++;
+				if (i == 0)
+					drawForegroundString(350, 90, "No highscores to show! Why not have a go? :)", 0xe3e3e3, NULL);
+			}
+			else {
+				drawForegroundString(350, 90, "No highscores to show! Why not have a go? :)", 0xe3e3e3, NULL);
 			}
 
-
-			if(i==0)
-				drawForegroundString(350, 90, "No highscores to show! Why not have a go? :)", 0xe3e3e3, NULL);
+			infile.close();
 		}
-		else {
-			drawForegroundString(350, 90, "No highscores to show! Why not have a go? :)", 0xe3e3e3, NULL);
-		}
-		
+		break;
 
+	case stateNewHighscore:
+		// write this row
+		sprintf(buf, "Name: %s", m_playerName.c_str());
+		drawForegroundString(15, 100, buf, 0xe3e3e3, NULL);
 		break;
 	}
-
-	
-	
 }
 
 void CW3_Game::virtMainLoopDoBeforeUpdate()
 {
-	pause();
-	sortObjectsByYAxis();
-	unpause();
+	//pause();
+	//sortObjectsByYAxis();
+	//unpause();
 }
 
 void CW3_Game::pauseAllGameObjects()
