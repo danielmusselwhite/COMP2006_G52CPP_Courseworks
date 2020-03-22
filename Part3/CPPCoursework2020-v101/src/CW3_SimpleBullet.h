@@ -15,5 +15,9 @@ public:
 		//update image for this bullet type here
 	}
 
+	virtual std::vector<std::string> getState() override {
+		std::vector<std::string> currentState{"simpleBullet",std::to_string(m_iCurrentScreenX), std::to_string(m_iCurrentScreenY), std::to_string(m_AngleRadians)};
+		return currentState;
+	}
 };
 

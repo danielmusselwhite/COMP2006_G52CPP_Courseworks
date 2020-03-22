@@ -43,4 +43,8 @@ public:
 	void setPausedValueTo(bool isPaused) {
 		m_isPaused = isPaused;
 	}
+
+
+	//abstract methods for getting the objects state used for writing game save state information to a file
+	virtual std::vector<std::string> getState() = 0;
 };

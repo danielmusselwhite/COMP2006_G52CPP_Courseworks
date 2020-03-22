@@ -13,7 +13,7 @@ protected:
 	int m_runSpeed;
 	int m_speed;
 	CW3_BaseGun* m_pGun;
-	int m_score = 0;
+	int m_score;
 	bool m_invuln=false; // default invuln to false
 	int m_invulnTime = 750;
 	int m_invulnTimer;
@@ -25,7 +25,7 @@ protected:
 
 public:
 	//constructor/deconstructor
-	CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pGameEngine, int iWidth, int iHeight, int maxHealth, int crawlSpeed, int walkSpeed, int runSpeed);
+	CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pGameEngine, int iWidth, int iHeight, int maxHealth, int currentHealth, int crawlSpeed, int walkSpeed, int runSpeed, int score);
 	~CW3_Player();
 
 	//player methods
@@ -49,6 +49,12 @@ public:
 			m_invuln = true;
 			m_invulnTimer = m_pGameEngine->getRawTime() + m_invulnTime;
 		}
+	}
+
+	virtual std::vector<std::string> getState() override {
+
+		std::vector<std::string> currentState{ "player",std::to_string(m_iCurrentScreenX), std::to_string(m_iCurrentScreenY), std::to_string(m_maxHealth), std::to_string(m_health), std::to_string(m_crawlSpeed), std::to_string(m_walkSpeed), std::to_string(m_runSpeed) };
+		return currentState;
 	}
 };
 

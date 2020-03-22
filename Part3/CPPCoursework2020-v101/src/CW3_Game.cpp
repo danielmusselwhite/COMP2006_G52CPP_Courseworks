@@ -133,6 +133,10 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 		
 
 		drawBackgroundString(550, 40, "Highscores", 0xe3e3e3, NULL);
+
+		drawBackgroundString(300, 500, "Press any key to return to menu", 0xe3e3e3, NULL);
+
+
 		break;
 
 	case stateNewHighscore:
@@ -140,6 +144,9 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 		fillBackground(0x000000);
 
 		drawBackgroundString(15, 40, "You have achieved a new highscore!", 0xe3e3e3, NULL);
+
+		drawBackgroundString(15, 500, "Input your name (a-z) then press enter to save your highscore!", 0xe3e3e3, NULL);
+
 		break;
 	}
 
@@ -242,6 +249,43 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 
 			// set up logic for saving here
 		case SDLK_s:
+
+			//file for saving to
+			std::ofstream outfile("./savedData/quicksave.csv");
+
+			// for each object in the game
+			for (int i = 0; i < m_vecDisplayableObjects.size(); i++) {
+				// cast to a CW3_GameObject then get its state
+				std::vector<std::string> objectState = ((CW3_GameObject *)m_vecDisplayableObjects.at(i))->getState();
+				
+				std::string stateString;
+
+				std::cout << objectState.size();
+
+				// iterate through the object state vector converting it to csv format
+				for (int i = 0; i < objectState.size(); i++) {
+					std::cout << objectState.at(i);
+					stateString.append(objectState.at(i));
+					if(i != objectState.size()-1)
+						stateString.push_back(',');
+				}
+				// write to the game save file
+				outfile << stateString << "\n";
+			}
+
+			outfile.close();
+
+			//saved game now returning to menu
+
+			m_state = stateInit;
+
+			deleteAllObjectsInArray();
+			virtInitialiseObjects();
+
+			lockAndSetupBackground();
+
+			redrawDisplay();
+
 			break;
 		}
 		break;
@@ -326,9 +370,6 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 
 	case stateHighscores:
 		switch (iKeyCode) {
-		case SDLK_ESCAPE:// End program when escape is pressed
-			setExitWithCode(0);
-			break;
 
 		default: //return to start menu
 			m_state = stateInit;
@@ -575,70 +616,73 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 
 		case SDLK_RETURN: 
 
-			// writing the users highscore to a file
-			{
-				char buf[128];
+			if (m_playerName.size() > 0) {
 
-				// look at the input file (highscores)
-				std::ifstream infile("./savedData/highscores.csv");
+				// writing the users highscore to a file
+				{
+					char buf[128];
 
-				std::vector<std::string> rows;
+					// look at the input file (highscores)
+					std::ifstream infile("./savedData/highscores.csv");
 
-				//if the file exists..
-				if (infile.good()) {
+					std::vector<std::string> rows;
 
-					int i = 0; //number of rows in csv
-					int j; //number of fields in csv
-					std::string input;
+					//if the file exists..
+					if (infile.good()) {
 
-					// get each line in the csv (up to the place the player has beat)
-					while (i < m_playersHighscorePlace && std::getline(infile, input)) {
+						int i = 0; //number of rows in csv
+						int j; //number of fields in csv
+						std::string input;
 
-						//add this row into the vector which will be used to overwrite the file
-						rows.push_back(input.c_str());
+						// get each line in the csv (up to the place the player has beat)
+						while (i < m_playersHighscorePlace && std::getline(infile, input)) {
 
+							//add this row into the vector which will be used to overwrite the file
+							rows.push_back(input.c_str());
+
+							i++;
+						}
+
+						// now push the player in the middle
+						rows.push_back(m_playerName + "," + std::to_string(getObjectOfType<CW3_Player>()->getScore()));
 						i++;
+
+						// now push the ones after the player (up to a max of 10 total rows) after
+						while (i < 10 && std::getline(infile, input)) {
+
+							//add this row into the vector which will be used to overwrite the file
+							rows.push_back(input);
+
+							i++;
+						}
+
+					}
+					else {
+						rows.push_back(m_playerName + "," + std::to_string(getObjectOfType<CW3_Player>()->getScore()));
 					}
 
-					// now push the player in the middle
-					rows.push_back(m_playerName+","+std::to_string(getObjectOfType<CW3_Player>()->getScore()));
-					i++;
+					infile.close();
 
-					// now push the ones after the player (up to a max of 10 total rows) after
-					while (i < 10 && std::getline(infile, input)) {
+					//writing rows to the highscore file
+					std::ofstream outfile("./savedData/highscores.csv");
+					for (int i = 0; i < rows.size(); i++)
+						outfile << rows.at(i) << '\n';
 
-						//add this row into the vector which will be used to overwrite the file
-						rows.push_back(input);
-
-						i++;
-					}
-		
-				}
-				else {
-					rows.push_back(m_playerName + "," + std::to_string(getObjectOfType<CW3_Player>()->getScore()));
+					outfile.close();
 				}
 
-				infile.close();
+				m_playerName = "";
+				m_playersHighscorePlace = 0;
 
-				//writing rows to the highscore file
-				std::ofstream outfile("./savedData/highscores.csv");
-				for (int i = 0; i < rows.size(); i++)
-					outfile << rows.at(i) <<'\n';
+				m_state = stateInit;
 
-				outfile.close();
+				deleteAllObjectsInArray();
+				virtInitialiseObjects();
+
+				lockAndSetupBackground();
+
+				redrawDisplay();
 			}
-
-			m_playerName = "";
-			m_playersHighscorePlace = 0;
-
-			m_state = stateInit;
-
-			deleteAllObjectsInArray();
-			virtInitialiseObjects();
-
-			lockAndSetupBackground();
-
-			redrawDisplay();
 
 			break;
 		}
@@ -666,7 +710,7 @@ int CW3_Game::virtInitialiseObjects() {
 	std::pair<int, int> floor = floors.at(floorIndex);
 
 	//m_pPlayer = new CW3_Player(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, m_vecDisplayableObjects.size(), 100, 1, 3, 7);
-	appendObjectToArray(new CW3_Player(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 100, 2, 4, 10));
+	appendObjectToArray(new CW3_Player(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 100, 100, 2, 4, 10, 0));
 
 	//erase this floor so we can't have more than one thing spawn on same floor
 	floors.erase(floors.begin() + floorIndex);
@@ -675,14 +719,14 @@ int CW3_Game::virtInitialiseObjects() {
 	floorIndex = rand() % floors.size();
 	floor.first = floors.at(floorIndex).first;
 	floor.second = floors.at(floorIndex).second;
-	appendObjectToArray(new CW3_SimpleEnemy(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 50, 20, 30, 1, 10));
+	appendObjectToArray(new CW3_SimpleEnemy(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 50, 50, 20, 30, 1, 10));
 	floors.erase(floors.begin() + floorIndex);
 	
 	// spawn enemy at random floor
 	floorIndex = rand() % floors.size();
 	floor.first = floors.at(floorIndex).first;
 	floor.second = floors.at(floorIndex).second;
-	appendObjectToArray(new CW3_SimpleEnemy(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 100, 20, 30, 2, 25));
+	appendObjectToArray(new CW3_SimpleEnemy(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 100, 100, 20, 30, 2, 25));
 	floors.erase(floors.begin() + floorIndex);
 
 	// Make everything invisible to start with
