@@ -91,7 +91,7 @@ public:
 				vecEnemies.at(i)->hurt(m_bulletDamage);
 
 				m_pGameEngine->deleteObjectFromArray(m_objectID);
-
+				break;
 			}
 
 		}

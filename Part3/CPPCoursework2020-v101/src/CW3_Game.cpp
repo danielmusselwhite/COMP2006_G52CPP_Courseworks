@@ -203,6 +203,7 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 	case statePaused:
 		switch (iKeyCode) {
 		case SDLK_p:
+
 			m_state = stateMain;
 			//unpause all game objects
 			unpauseAllGameObjects();
@@ -227,7 +228,7 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 			setExitWithCode(0);
 			break;
 
-		default: // start the game
+		case SDLK_RETURN: // start the game
 			m_state = stateInit;
 			
 			deleteAllObjectsInArray();
@@ -291,7 +292,7 @@ void CW3_Game::virtDrawStringsOnTop()
 
 	switch (m_state) {
 	case stateInit:
-		drawForegroundString(getWindowWidth()/2, getWindowHeight()/2, "Press any button to start!", 0xe3e3e3, NULL);
+		drawForegroundString(15, getWindowHeight()/2, "Press any button to start!", 0xe3e3e3, NULL);
 		break;
 	case stateMain:
 		// Build the string to print
@@ -303,10 +304,18 @@ void CW3_Game::virtDrawStringsOnTop()
 		sprintf(buf, "Score %d", getObjectOfType<CW3_Player>()->getScore());
 		drawForegroundString(1000, 40, buf, 0xe3e3e3, NULL);
 
-		drawForegroundString(getWindowWidth() / 2, getWindowHeight() / 2, "Press p to unpause or s to save!", 0xe3e3e3, NULL);
+		drawForegroundRectangle(400, getWindowHeight()/2-5, 900, getWindowHeight()/2+35, 0x262626);
+
+		drawForegroundString(407, getWindowHeight() / 2, "Press p to unpause or s to save!", 0xe3e3e3, NULL);
 		break;
 	case stateGameOver:
-		drawForegroundString(getWindowWidth() / 2, getWindowHeight() / 2, "Press escape to quit or any other button to play again!", 0xe3e3e3, NULL);
+
+		drawForegroundString(15, 40, "GameOver!", 0xe3e3e3, NULL);
+
+		sprintf(buf, "You got a score of %d", getObjectOfType<CW3_Player>()->getScore());
+		drawForegroundString(15, 100, buf, 0xe3e3e3, NULL);
+
+		drawForegroundString(15, getWindowHeight() / 2, "Press escape to quit or enter to play again!", 0xe3e3e3, NULL);
 		break;
 	}
 	
