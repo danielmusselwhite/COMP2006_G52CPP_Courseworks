@@ -29,7 +29,6 @@
 CW3_Game::CW3_Game() : m_state(stateInit) {
 	m_minEnemySpawnTimeBetweenSpawns = 3333;
 	m_maxEnemySpawnTimeBetweenSpawns = 7500;
-
 }
 
 CW3_Game::~CW3_Game() {
@@ -82,9 +81,6 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 
 		//SETTING UP THE TILE MANAGER
 		{
-
-			// base the tiles dimensions on the windows height and the number of tiles in the x plane
-			m_tmTileDimensions = (getWindowHeight()*.75) / tmCountYTiles;
 
 			//start drawing from the remaining space divided by 2, so it is centered
 			m_tmStartingX = (getWindowWidth() - m_tmTileDimensions * tmCountXTiles) / 2;
@@ -191,16 +187,14 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 				//if the file exists..
 				if (infile.good()) {
 
-					m_enemySpawnTimeBetweenSpawns = m_maxEnemySpawnTimeBetweenSpawns;
-					m_enemySpawnNextEnemyTime = getRawTime() + m_enemySpawnTimeBetweenSpawns;
-
 					m_state = stateMain;
-
-					pause();
 
 					deleteAllObjectsInArray();
 
 					std::string input;
+
+					// base the tiles dimensions on the windows height and the number of tiles in the y plane
+					m_tmTileDimensions = (getWindowHeight()*.75) / tmCountYTiles;
 
 					m_dungeonTileMapDesign.clear(); // clearing the tilemaps design as we are loading a new one
 
@@ -214,22 +208,19 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 						while (std::getline(inputStream, field, ',')) {
 							fields.push_back(field);
 						}
-
+						
 						if (fields.at(0) == "nextEnemySpawnTime")
 							m_enemySpawnNextEnemyTime = getRawTime() + std::stoi(fields.at(1));
 						else if (fields.at(0) == "enemySpawnDelay")
 							m_enemySpawnTimeBetweenSpawns = std::stoi(fields.at(1));
 
-						if (fields.at(0) == "tileManager") {
+						else if (fields.at(0) == "tileManager") {
 							std::vector<int> tileMapRow;
 							for (int i = 1; i < fields.size(); i++) {
 								tileMapRow.push_back(std::stoi(fields.at(i)));
 							}
-								
-								std::cout << "\n";
 							m_dungeonTileMapDesign.push_back(tileMapRow);
 						}
-
 
 						else if (fields.at(0) == "player") {
 							drawableObjectsChanged();
@@ -247,6 +238,7 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 
 					}
 
+					pause();
 
 					// Ensure objects become visible now - we hid them initially
 					setAllObjectsVisible(true);
@@ -270,7 +262,7 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 			}
 			break;
 
-		default: // start the game
+		case SDLK_RETURN: // start the game
 			//reset tilenap design
 			m_dungeonTileMapDesign = {
 				{tileWallTopNorthWest, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthEast},
@@ -286,6 +278,9 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 				{tileWallTopWest, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
 				{tileWallTopSouthWest, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallTopSouthEast},
 			};
+
+			// base the tiles dimensions on the windows height and the number of tiles in the y plane
+			m_tmTileDimensions = (getWindowHeight()*.75) / tmCountYTiles;
 
 			//reset enemy spawn times
 			m_enemySpawnTimeBetweenSpawns = m_maxEnemySpawnTimeBetweenSpawns;
@@ -331,6 +326,8 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 			pauseAllGameObjects();
 			pause();
 
+			m_enemySpawnNextEnemyTime -= getRawTime(); // we have paused it so subtract the current time from the time limit to get the difference then add the time onto that difference when unpaused
+
 			redrawDisplay();
 			break;
 		}
@@ -348,6 +345,8 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 			unpauseAllGameObjects();
 			unpause();
 
+			m_enemySpawnNextEnemyTime += getRawTime(); // adding the time back onto the difference between when to spawn the enemy
+
 			redrawDisplay();
 			break;
 
@@ -358,7 +357,7 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 			std::ofstream outfile("./savedData/quicksave.csv");
 
 			//saving enemy spawn time variables
-			outfile << "nextEnemySpawnTime,"<<m_enemySpawnNextEnemyTime-getRawTime()<<"\n"; // time until next enemy spawns - the current time
+			outfile << "nextEnemySpawnTime,"<<m_enemySpawnNextEnemyTime<<"\n"; // time until next enemy spawns - the current time
 			outfile << "enemySpawnDelay," << m_enemySpawnTimeBetweenSpawns << "\n";
 
 			//saving game world
@@ -413,10 +412,6 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 
 	case stateGameOver:
 		switch (iKeyCode) {
-
-		case SDLK_ESCAPE: // End program when escape is pressed
-			setExitWithCode(0);
-			break;
 
 		case SDLK_RETURN: // start the game
 
@@ -854,8 +849,21 @@ void CW3_Game::virtDrawStringsOnTop()
 	case stateInit:
 		drawForegroundString(15, getWindowHeight() / 2, "Press h to view highscores!", 0xe3e3e3, NULL);
 		drawForegroundString(15, getWindowHeight() / 2 + 30, "Press escp to exit!", 0xe3e3e3, NULL);
-		drawForegroundString(15, getWindowHeight() / 2 + 60, "Press l to load game!", 0xe3e3e3, NULL);
-		drawForegroundString(15, getWindowHeight() / 2 + 90, "Press any other button to start!", 0xe3e3e3, NULL);
+		
+		{
+			// look at the input file (quicksave)
+			std::ifstream infile("./savedData/quicksave.csv");
+			//if the file exists..
+			if (infile.good()) {
+				drawForegroundString(15, getWindowHeight() / 2 + 60, "Press enter to start new game! (This will delete your quicksave)", 0xe3e3e3, NULL);
+				drawForegroundString(15, getWindowHeight() / 2 + 90, "Press l to load game your quicksave game! (This will delete your quicksave)", 0xe3e3e3, NULL);
+			}
+			else {
+				drawForegroundString(15, getWindowHeight() / 2 + 60, "Press enter to start new game!", 0xe3e3e3, NULL);
+			}
+
+			infile.close();
+		}
 		break;
 	case stateMain:
 		// Build the string to print
@@ -878,7 +886,7 @@ void CW3_Game::virtDrawStringsOnTop()
 		sprintf(buf, "You got a score of %d", getObjectOfType<CW3_Player>()->getScore());
 		drawForegroundString(15, 100, buf, 0xe3e3e3, NULL);
 
-		drawForegroundString(15, getWindowHeight() / 2, "Press escape to quit or enter to play again!", 0xe3e3e3, NULL);
+		drawForegroundString(15, getWindowHeight() / 2, "Press enter to play again!", 0xe3e3e3, NULL);
 		break;
 
 	case stateHighscores:
