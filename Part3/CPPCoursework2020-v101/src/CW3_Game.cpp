@@ -910,12 +910,18 @@ void CW3_Game::virtMainLoopDoBeforeUpdate()
 			floor.first = floors.at(floorIndex).first;
 			floor.second = floors.at(floorIndex).second;
 			drawableObjectsChanged();
-			appendObjectToArray(new CW3_SimpleEnemy(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 50, 50, 20, 30, 1, 10));
+
+			int simpleEnemyMaxHealth = 25 + (std::rand() % (100 - 25 + 1));
+			int simpleEnemySpeed = 1 + (std::rand() % (3 - 1 + 1));
+
+			appendObjectToArray(new CW3_SimpleEnemy(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, simpleEnemyMaxHealth, simpleEnemyMaxHealth, 10, 25, simpleEnemySpeed, 10));
 
 			m_enemySpawnNextEnemyTime = getRawTime() + m_enemySpawnTimeBetweenSpawns;
 
 			if (m_enemySpawnTimeBetweenSpawns * 0.9 >= m_minEnemySpawnTimeBetweenSpawns)
 				m_enemySpawnTimeBetweenSpawns *= 0.9;
+			else
+				m_enemySpawnTimeBetweenSpawns = m_minEnemySpawnTimeBetweenSpawns;
 		}
 
 		break;
