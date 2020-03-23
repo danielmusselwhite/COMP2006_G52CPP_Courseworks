@@ -202,6 +202,8 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 
 					std::string input;
 
+					m_dungeonTileMapDesign.clear(); // clearing the tilemaps design as we are loading a new one
+
 					// get each line in the csv
 					while (std::getline(infile, input)) {
 
@@ -213,7 +215,23 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 							fields.push_back(field);
 						}
 
-						if (fields.at(0) == "player") {
+						if (fields.at(0) == "nextEnemySpawnTime")
+							m_enemySpawnNextEnemyTime = getRawTime() + std::stoi(fields.at(1));
+						else if (fields.at(0) == "enemySpawnDelay")
+							m_enemySpawnTimeBetweenSpawns = std::stoi(fields.at(1));
+
+						if (fields.at(0) == "tileManager") {
+							std::vector<int> tileMapRow;
+							for (int i = 1; i < fields.size(); i++) {
+								tileMapRow.push_back(std::stoi(fields.at(i)));
+							}
+								
+								std::cout << "\n";
+							m_dungeonTileMapDesign.push_back(tileMapRow);
+						}
+
+
+						else if (fields.at(0) == "player") {
 							drawableObjectsChanged();
 							appendObjectToArray(new CW3_Player(std::stoi(fields.at(1)), std::stoi(fields.at(2)), this, m_tmTileDimensions, m_tmTileDimensions, std::stoi(fields.at(3)), std::stoi(fields.at(4)), std::stoi(fields.at(5)), std::stoi(fields.at(6)), std::stoi(fields.at(7)), std::stoi(fields.at(8))));
 							
@@ -339,6 +357,24 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 			//file for saving to
 			std::ofstream outfile("./savedData/quicksave.csv");
 
+			//saving enemy spawn time variables
+			outfile << "nextEnemySpawnTime,"<<m_enemySpawnNextEnemyTime-getRawTime()<<"\n"; // time until next enemy spawns - the current time
+			outfile << "enemySpawnDelay," << m_enemySpawnTimeBetweenSpawns << "\n";
+
+			//saving game world
+			for (int y = 0; y < tmCountYTiles; y++) {
+				outfile << "tileManager,";
+				for (int x = 0; x < tmCountXTiles; x++) {
+					outfile << m_tm->getMapValue(x, y);
+					if (x < tmCountXTiles - 1)
+						outfile << ",";
+				}
+				outfile << "\n";
+			}
+			
+			
+
+			//saving game objects
 			// for each object in the game
 			for (int i = 0; i < m_vecDisplayableObjects.size(); i++) {
 				// cast to a CW3_GameObject then get its state
@@ -786,6 +822,8 @@ int CW3_Game::virtInitialiseObjects() {
 			for (int y = 0; y < tmCountYTiles; y++)
 				if (m_tm->getMapValue(x, y) >= 0 && m_tm->getMapValue(x, y) < 50)
 					floors.push_back((std::make_pair(x, y)));
+
+
 
 		// spawn player at random floor
 		int floorIndex = rand() % floors.size();
