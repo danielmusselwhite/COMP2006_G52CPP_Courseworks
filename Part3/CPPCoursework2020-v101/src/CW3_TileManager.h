@@ -51,5 +51,21 @@ public:
 		DrawingSurface* pSurface,
 		int iMapX, int iMapY,
 		int iStartPositionScreenX, int iStartPositionScreenY) const override;
+
+
+	std::vector<std::vector<int>> getState() {
+		std::vector<std::vector<int>> state;
+
+		for (int y = 0; y < m_iMapHeight; y++) {
+			std::vector<int> row;
+
+			for (int x = 0; x < m_iMapWidth; x++) {
+				row.push_back(getMapValue(x, y));
+			}
+			state.push_back(row);
+		}
+
+		return state;
+	}
 };
 

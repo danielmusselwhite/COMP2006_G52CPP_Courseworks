@@ -2,6 +2,8 @@
 #include "BaseEngine.h"
 #include "CW3_TileManager.h"
 
+
+
 class CW3_Game :
 	public BaseEngine
 {
@@ -17,6 +19,7 @@ protected:
 	int m_maxEnemySpawnTimeBetweenSpawns;
 	int m_enemySpawnNextEnemyTime;
 	int m_enemySpawnTimeBetweenSpawns;
+	std::vector<std::vector<int>> m_dungeonTileMapDesign;
 
 
 

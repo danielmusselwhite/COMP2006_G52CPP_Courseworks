@@ -29,8 +29,7 @@
 CW3_Game::CW3_Game() : m_state(stateInit) {
 	m_minEnemySpawnTimeBetweenSpawns = 3333;
 	m_maxEnemySpawnTimeBetweenSpawns = 7500;
-	m_enemySpawnTimeBetweenSpawns = m_maxEnemySpawnTimeBetweenSpawns;
-	m_enemySpawnNextEnemyTime = m_enemySpawnTimeBetweenSpawns;
+
 }
 
 CW3_Game::~CW3_Game() {
@@ -42,42 +41,6 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 	switch (m_state) {
 	case stateInit:
 		fillBackground(0x000000);
-
-		//SETTING UP THE TILE MANAGER
-		{
-			int dungeonTileMapDesign[tmCountYTiles][tmCountXTiles] = {
-				{tileWallTopNorthWest, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthEast},
-				{tileWallTopWest, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallTopEast},
-				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
-				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
-				{tileWallTopWest, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
-				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileWallTopEast},
-				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
-				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileWallTopEast},
-				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileWallTopEast},
-				{tileWallTopWest, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
-				{tileWallTopWest, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
-				{tileWallTopSouthWest, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallTopSouthEast},
-			};
-
-
-			// base the tiles dimensions on the windows height and the number of tiles in the x plane
-			m_tmTileDimensions = (getWindowHeight()*.75) / tmCountYTiles;
-
-			//start drawing from the remaining space divided by 2, so it is centered
-			m_tmStartingX = (getWindowWidth() - m_tmTileDimensions * tmCountXTiles) / 2;
-			m_tmStartingY = (getWindowHeight() - m_tmTileDimensions * tmCountYTiles) / 2;
-
-			std::cout << "Tile Dimensions: " << m_tmTileDimensions << " Window Height: " << getWindowHeight() << "\n";
-
-			m_tm = new CW3_TileManager(m_tmTileDimensions, m_tmTileDimensions, tmCountXTiles, tmCountYTiles);
-
-			// setting all tiles to tile map int 2D array
-			for (int x = 0; x < tmCountXTiles; x++)
-				for (int y = 0; y < tmCountYTiles; y++)
-					m_tm->setMapValue(x, y, dungeonTileMapDesign[y][x]);
-			m_tm->setTopLeftPositionOnScreen(m_tmStartingX, m_tmStartingY);
-		}
 
 		// SETTING UP BACKGROUND TEXT
 		{
@@ -117,7 +80,29 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 			}
 		}
 
-		m_tm->drawAllTiles(this, getBackgroundSurface());
+		//SETTING UP THE TILE MANAGER
+		{
+
+			// base the tiles dimensions on the windows height and the number of tiles in the x plane
+			m_tmTileDimensions = (getWindowHeight()*.75) / tmCountYTiles;
+
+			//start drawing from the remaining space divided by 2, so it is centered
+			m_tmStartingX = (getWindowWidth() - m_tmTileDimensions * tmCountXTiles) / 2;
+			m_tmStartingY = (getWindowHeight() - m_tmTileDimensions * tmCountYTiles) / 2;
+
+			std::cout << "Tile Dimensions: " << m_tmTileDimensions << " Window Height: " << getWindowHeight() << "\n";
+
+			m_tm = new CW3_TileManager(m_tmTileDimensions, m_tmTileDimensions, tmCountXTiles, tmCountYTiles);
+
+			// setting all tiles to tile map int 2D array
+			for (int x = 0; x < tmCountXTiles; x++)
+				for (int y = 0; y < tmCountYTiles; y++)
+					m_tm->setMapValue(x, y, m_dungeonTileMapDesign.at(y).at(x));
+			m_tm->setTopLeftPositionOnScreen(m_tmStartingX, m_tmStartingY);
+
+			m_tm->drawAllTiles(this, getBackgroundSurface());
+		}
+
 
 		break;
 
@@ -206,6 +191,9 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 				//if the file exists..
 				if (infile.good()) {
 
+					m_enemySpawnTimeBetweenSpawns = m_maxEnemySpawnTimeBetweenSpawns;
+					m_enemySpawnNextEnemyTime = getRawTime() + m_enemySpawnTimeBetweenSpawns;
+
 					m_state = stateMain;
 
 					pause();
@@ -216,8 +204,6 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 
 					// get each line in the csv
 					while (std::getline(infile, input)) {
-
-						std::cout << "\n\n" << m_vecDisplayableObjects.size() << "\n\n";
 
 						// create a vector of the different fields for this row by separating the commas
 						std::vector<std::string> fields;
@@ -240,7 +226,7 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 							drawableObjectsChanged();
 							appendObjectToArray(new CW3_SimpleBullet(std::stoi(fields.at(1)),std::stoi(fields.at(2)), this, 10, 10, std::stod(fields.at((3)))));
 						}
-						std::cout << "\n\n" << m_vecDisplayableObjects.size() << "\n\n";
+
 					}
 
 
@@ -267,15 +253,38 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 			break;
 
 		default: // start the game
+			//reset tilenap design
+			m_dungeonTileMapDesign = {
+				{tileWallTopNorthWest, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthMid, tileWallTopNorthEast},
+				{tileWallTopWest, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallNorthMid, tileWallTopEast},
+				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+				{tileWallTopWest, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileWallTopEast},
+				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileWallTopEast},
+				{tileWallTopWest, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileWallTopEast},
+				{tileWallTopWest, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+				{tileWallTopWest, tileFloorWithCrate, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileFloor1, tileWallTopEast},
+				{tileWallTopSouthWest, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallSouthMid, tileWallTopSouthEast},
+			};
+
+			//reset enemy spawn times
+			m_enemySpawnTimeBetweenSpawns = m_maxEnemySpawnTimeBetweenSpawns;
+			m_enemySpawnNextEnemyTime = getRawTime() + m_enemySpawnTimeBetweenSpawns;
+			
 			m_state = stateMain;
 			
 			pause();
 
-			// Ensure objects become visible now - we hid them initially
-			setAllObjectsVisible(true);
-
+			
 			// Force redraw of background
 			lockAndSetupBackground();
+
+			//initialise objects for this state
+			virtInitialiseObjects();
+			// Ensure objects become visible now - we hid them initially
+			setAllObjectsVisible(true);
 			
 			// Redraw the whole screen now
 			redrawDisplay();
@@ -337,11 +346,8 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 				
 				std::string stateString;
 
-				std::cout << objectState.size();
-
 				// iterate through the object state vector converting it to csv format
 				for (int i = 0; i < objectState.size(); i++) {
-					std::cout << objectState.at(i);
 					stateString.append(objectState.at(i));
 					if(i != objectState.size()-1)
 						stateString.push_back(',');
@@ -357,7 +363,6 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 			m_state = stateInit;
 
 			deleteAllObjectsInArray();
-			virtInitialiseObjects();
 
 			lockAndSetupBackground();
 
@@ -421,7 +426,6 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 					m_state = stateInit;
 
 					deleteAllObjectsInArray();
-					virtInitialiseObjects();
 				}
 			}
 			//player has a highscore as there isn't a highscore file yet
@@ -754,7 +758,6 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 				m_state = stateInit;
 
 				deleteAllObjectsInArray();
-				virtInitialiseObjects();
 
 				lockAndSetupBackground();
 
@@ -774,26 +777,32 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 
 int CW3_Game::virtInitialiseObjects() {
 
-	std::vector<std::pair<int,int>> floors;
-	
-	//  getting all floor tiles (that the player could spawn on)
-	for (int x = 0; x < tmCountXTiles; x++)
-		for (int y = 0; y < tmCountYTiles; y++)
-			if (m_tm->getMapValue(x, y) >= 0 && m_tm->getMapValue(x, y) < 50)
-				floors.push_back((std::make_pair(x,y)));
+	switch (m_state) {
+	case stateMain:
+		std::vector<std::pair<int, int>> floors;
 
-	// spawn player at random floor
-	int floorIndex = rand() % floors.size();
-	std::pair<int, int> floor = floors.at(floorIndex);
+		//  getting all floor tiles (that the player could spawn on)
+		for (int x = 0; x < tmCountXTiles; x++)
+			for (int y = 0; y < tmCountYTiles; y++)
+				if (m_tm->getMapValue(x, y) >= 0 && m_tm->getMapValue(x, y) < 50)
+					floors.push_back((std::make_pair(x, y)));
 
-	//m_pPlayer = new CW3_Player(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, m_vecDisplayableObjects.size(), 100, 1, 3, 7);
-	appendObjectToArray(new CW3_Player(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 100, 100, 2, 4, 10, 0));
+		// spawn player at random floor
+		int floorIndex = rand() % floors.size();
+		std::pair<int, int> floor = floors.at(floorIndex);
 
-	//erase this floor so we can't have more than one thing spawn on same floor
-	floors.erase(floors.begin() + floorIndex);
+		drawableObjectsChanged();
+		//m_pPlayer = new CW3_Player(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, m_vecDisplayableObjects.size(), 100, 1, 3, 7);
+		appendObjectToArray(new CW3_Player(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 100, 100, 2, 4, 10, 0));
 
-	// Make everything invisible to start with
-	setAllObjectsVisible(false);
+		//erase this floor so we can't have more than one thing spawn on same floor
+		floors.erase(floors.begin() + floorIndex);
+
+		// Make everything invisible to start with
+		setAllObjectsVisible(false);
+
+		break;
+	}
 
 	return 0;
 }
