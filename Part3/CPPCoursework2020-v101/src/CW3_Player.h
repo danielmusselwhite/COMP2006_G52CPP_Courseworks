@@ -53,7 +53,7 @@ public:
 
 	virtual std::vector<std::string> getState() override {
 
-		std::vector<std::string> currentState{ "player",std::to_string(m_iCurrentScreenX), std::to_string(m_iCurrentScreenY), std::to_string(m_maxHealth), std::to_string(m_health), std::to_string(m_crawlSpeed), std::to_string(m_walkSpeed), std::to_string(m_runSpeed) };
+		std::vector<std::string> currentState{ "player",std::to_string(m_iCurrentScreenX), std::to_string(m_iCurrentScreenY), std::to_string(m_maxHealth), std::to_string(m_health), std::to_string(m_crawlSpeed), std::to_string(m_walkSpeed), std::to_string(m_runSpeed), std::to_string(m_score) };
 		return currentState;
 	}
 };

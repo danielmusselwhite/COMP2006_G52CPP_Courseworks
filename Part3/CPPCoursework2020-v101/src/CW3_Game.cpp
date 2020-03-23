@@ -4,6 +4,7 @@
 #include "CW3_DungeonTileMapCodes.h"
 #include "CW3_Player.h"
 #include "CW3_SimpleEnemy.h"
+#include "CW3_SimpleBullet.h"
 #include <fstream>
 #include <sstream>
 
@@ -26,11 +27,14 @@
 
 // start with initial state
 CW3_Game::CW3_Game() : m_state(stateInit) {
-	
+	m_minEnemySpawnTimeBetweenSpawns = 3333;
+	m_maxEnemySpawnTimeBetweenSpawns = 7500;
+	m_enemySpawnTimeBetweenSpawns = m_maxEnemySpawnTimeBetweenSpawns;
+	m_enemySpawnNextEnemyTime = m_enemySpawnTimeBetweenSpawns;
 }
 
 CW3_Game::~CW3_Game() {
-
+	deleteAllObjectsInArray();
 }
 
 void CW3_Game::virtSetupBackgroundBuffer() {
@@ -191,6 +195,77 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 
 			break;
 
+		case SDLK_l:
+
+			{
+				// look at the input file (quicksave)
+				std::ifstream infile("./savedData/quicksave.csv");
+
+				std::vector<std::string> rows;
+
+				//if the file exists..
+				if (infile.good()) {
+
+					m_state = stateMain;
+
+					pause();
+
+					deleteAllObjectsInArray();
+
+					std::string input;
+
+					// get each line in the csv
+					while (std::getline(infile, input)) {
+
+						std::cout << "\n\n" << m_vecDisplayableObjects.size() << "\n\n";
+
+						// create a vector of the different fields for this row by separating the commas
+						std::vector<std::string> fields;
+						std::stringstream inputStream(input);
+						std::string field;
+						while (std::getline(inputStream, field, ',')) {
+							fields.push_back(field);
+						}
+
+						if (fields.at(0) == "player") {
+							drawableObjectsChanged();
+							appendObjectToArray(new CW3_Player(std::stoi(fields.at(1)), std::stoi(fields.at(2)), this, m_tmTileDimensions, m_tmTileDimensions, std::stoi(fields.at(3)), std::stoi(fields.at(4)), std::stoi(fields.at(5)), std::stoi(fields.at(6)), std::stoi(fields.at(7)), std::stoi(fields.at(8))));
+							
+						}
+						else if (fields.at(0) == "simpleEnemy") {
+							drawableObjectsChanged();
+							appendObjectToArray(new CW3_SimpleEnemy(std::stoi(fields.at(1)),std::stoi(fields.at(2)), this, m_tmTileDimensions, m_tmTileDimensions, std::stoi(fields.at(3)), std::stoi(fields.at(4)), std::stoi(fields.at(5)), std::stoi(fields.at(6)), std::stoi(fields.at(7)), std::stoi(fields.at(8))));
+						}
+						else if (fields.at(0) == "simpleBullet") {
+							drawableObjectsChanged();
+							appendObjectToArray(new CW3_SimpleBullet(std::stoi(fields.at(1)),std::stoi(fields.at(2)), this, 10, 10, std::stod(fields.at((3)))));
+						}
+						std::cout << "\n\n" << m_vecDisplayableObjects.size() << "\n\n";
+					}
+
+
+					// Ensure objects become visible now - we hid them initially
+					setAllObjectsVisible(true);
+
+					// Force redraw of background
+					lockAndSetupBackground();
+
+					// Redraw the whole screen now
+					redrawDisplay();
+
+					unpause();
+					
+
+				}
+
+				infile.close();
+
+				//player can only load from the same file once
+				std::remove("./savedData/quicksave.csv");
+
+			}
+			break;
+
 		default: // start the game
 			m_state = stateMain;
 			
@@ -205,6 +280,9 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 			// Redraw the whole screen now
 			redrawDisplay();
 
+			//player has started a new game so abandon their save game
+			std::remove("./savedData/quicksave.csv");
+
 			unpause();
 			
 			break;
@@ -216,7 +294,6 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 
 
 
-		// move the players controls into here
 	case stateMain:
 
 		switch (iKeyCode) {
@@ -698,7 +775,7 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 int CW3_Game::virtInitialiseObjects() {
 
 	std::vector<std::pair<int,int>> floors;
-
+	
 	//  getting all floor tiles (that the player could spawn on)
 	for (int x = 0; x < tmCountXTiles; x++)
 		for (int y = 0; y < tmCountYTiles; y++)
@@ -713,20 +790,6 @@ int CW3_Game::virtInitialiseObjects() {
 	appendObjectToArray(new CW3_Player(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 100, 100, 2, 4, 10, 0));
 
 	//erase this floor so we can't have more than one thing spawn on same floor
-	floors.erase(floors.begin() + floorIndex);
-
-	// spawn enemy at random floor
-	floorIndex = rand() % floors.size();
-	floor.first = floors.at(floorIndex).first;
-	floor.second = floors.at(floorIndex).second;
-	appendObjectToArray(new CW3_SimpleEnemy(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 50, 50, 20, 30, 1, 10));
-	floors.erase(floors.begin() + floorIndex);
-	
-	// spawn enemy at random floor
-	floorIndex = rand() % floors.size();
-	floor.first = floors.at(floorIndex).first;
-	floor.second = floors.at(floorIndex).second;
-	appendObjectToArray(new CW3_SimpleEnemy(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 100, 100, 20, 30, 2, 25));
 	floors.erase(floors.begin() + floorIndex);
 
 	// Make everything invisible to start with
@@ -744,7 +807,8 @@ void CW3_Game::virtDrawStringsOnTop()
 	case stateInit:
 		drawForegroundString(15, getWindowHeight() / 2, "Press h to view highscores!", 0xe3e3e3, NULL);
 		drawForegroundString(15, getWindowHeight() / 2 + 30, "Press escp to exit!", 0xe3e3e3, NULL);
-		drawForegroundString(15, getWindowHeight() / 2 + 60, "Press any other button to start!", 0xe3e3e3, NULL);
+		drawForegroundString(15, getWindowHeight() / 2 + 60, "Press l to load game!", 0xe3e3e3, NULL);
+		drawForegroundString(15, getWindowHeight() / 2 + 90, "Press any other button to start!", 0xe3e3e3, NULL);
 		break;
 	case stateMain:
 		// Build the string to print
@@ -826,6 +890,37 @@ void CW3_Game::virtMainLoopDoBeforeUpdate()
 	//pause();
 	//sortObjectsByYAxis();
 	//unpause();
+
+	
+	switch (m_state) {
+	case stateMain:
+
+		if (!isPaused() && getRawTime() > m_enemySpawnNextEnemyTime) {
+			std::vector<std::pair<int, int>> floors;
+
+			//  getting all floor tiles (that the enemy could spawn on)
+			for (int x = 0; x < tmCountXTiles; x++)
+				for (int y = 0; y < tmCountYTiles; y++)
+					if (m_tm->getMapValue(x, y) >= 0 && m_tm->getMapValue(x, y) < 50)
+						floors.push_back((std::make_pair(x, y)));
+
+			// spawn enemy at random floor
+			int floorIndex = rand() % floors.size();
+			std::pair<int, int> floor = floors.at(floorIndex);
+			floor.first = floors.at(floorIndex).first;
+			floor.second = floors.at(floorIndex).second;
+			drawableObjectsChanged();
+			appendObjectToArray(new CW3_SimpleEnemy(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 50, 50, 20, 30, 1, 10));
+
+			m_enemySpawnNextEnemyTime = getRawTime() + m_enemySpawnTimeBetweenSpawns;
+
+			if (m_enemySpawnTimeBetweenSpawns * 0.9 >= m_minEnemySpawnTimeBetweenSpawns)
+				m_enemySpawnTimeBetweenSpawns *= 0.9;
+		}
+
+		break;
+	}
+
 }
 
 void CW3_Game::pauseAllGameObjects()

@@ -13,6 +13,10 @@ protected:
 	int m_tmStartingY; //member variable to store starting y coord to draw from
 	int m_playersHighscorePlace; //stores what highscore the player has just got
 	std::string m_playerName;
+	int m_minEnemySpawnTimeBetweenSpawns;
+	int m_maxEnemySpawnTimeBetweenSpawns;
+	int m_enemySpawnNextEnemyTime;
+	int m_enemySpawnTimeBetweenSpawns;
 
 
 
@@ -35,17 +39,6 @@ public:
 
 		std::sort(m_vecDisplayableObjects.begin(), m_vecDisplayableObjects.end(), [ ](DisplayableObject* object1, DisplayableObject* object2)
 		{ 
-			
-			//if (dynamic_cast<CW3_GameObject*>(object1) != nullptr){// && dynamic_cast<CW3_GameObject*>(object2)) {
-				//CW3_GameObject * gameObject1 = (CW3_GameObject *)object1;
-				//CW3_GameObject * gameObject2= (CW3_GameObject *)object2;
-
-				//return gameObject1->getYCoordinateToBeSortedBy() > gameObject2->getYCoordinateToBeSortedBy();
-			//}
-
-			// if one or more isn't a game object, don't change their positions
-			//return false;
-			
 			return object1->getYCentre() < object2->getYCentre();
 		});
 	}
@@ -112,6 +105,7 @@ public:
 
 		throw - 1;
 	}
+
 
 public:
 	// State number - so we can support different states and demonstrate the basics.
