@@ -31,5 +31,13 @@ public:
 		std::vector<std::string> currentState{ "simpleEnemy",std::to_string(m_iCurrentScreenX), std::to_string(m_iCurrentScreenY), std::to_string(m_maxHealth), std::to_string(m_health), std::to_string(m_minDamage), std::to_string(m_maxDamage), std::to_string(m_speed), std::to_string(m_pointsValue) };
 		return currentState;
 	}
+
+public:
+	// State number - so we can support different states and demonstrate the basics.
+	enum State { stateHappy, stateAngry, stateEnraged, stateDead };
+
+private:
+	// Current state
+	State m_state;
 };
 

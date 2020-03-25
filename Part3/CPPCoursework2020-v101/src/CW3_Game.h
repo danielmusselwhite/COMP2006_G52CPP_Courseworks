@@ -1,7 +1,7 @@
 #pragma once
 #include "BaseEngine.h"
 #include "CW3_TileManager.h"
-
+#include "CW3_AnimatedImage.h"
 
 
 class CW3_Game :
@@ -20,7 +20,7 @@ protected:
 	int m_enemySpawnNextEnemyTime;
 	int m_enemySpawnTimeBetweenSpawns;
 	std::vector<std::vector<int>> m_dungeonTileMapDesign;
-
+	CW3_AnimatedImage* m_bgAnim;
 
 
 public:

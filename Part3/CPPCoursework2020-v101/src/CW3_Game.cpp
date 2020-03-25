@@ -29,6 +29,14 @@
 CW3_Game::CW3_Game() : m_state(stateInit) {
 	m_minEnemySpawnTimeBetweenSpawns = 3333;
 	m_maxEnemySpawnTimeBetweenSpawns = 7500;
+
+	// setting up coin anim
+	std::vector<std::pair<SimpleImage, int>> coinAnim;
+	coinAnim.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Items\\Coins\\coin_anim_f0.png", true), 150));
+	coinAnim.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Items\\Coins\\coin_anim_f0.png", true), 150));
+	coinAnim.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Items\\Coins\\coin_anim_f0.png", true), 150));
+	coinAnim.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Items\\Coins\\coin_anim_f0.png", true), 150));
+	m_bgAnim = new CW3_AnimatedImage(coinAnim);
 }
 
 CW3_Game::~CW3_Game() {
@@ -948,6 +956,7 @@ void CW3_Game::virtMainLoopDoBeforeUpdate()
 
 	
 	switch (m_state) {
+
 	case stateMain:
 
 		if (!isPaused() && getRawTime() > m_enemySpawnNextEnemyTime) {
