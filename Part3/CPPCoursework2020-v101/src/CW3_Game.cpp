@@ -33,9 +33,9 @@ CW3_Game::CW3_Game() : m_state(stateInit) {
 	// setting up coin anim
 	std::vector<std::pair<SimpleImage, int>> coinAnim;
 	coinAnim.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Items\\Coins\\coin_anim_f0.png", true), 150));
-	coinAnim.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Items\\Coins\\coin_anim_f0.png", true), 150));
-	coinAnim.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Items\\Coins\\coin_anim_f0.png", true), 150));
-	coinAnim.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Items\\Coins\\coin_anim_f0.png", true), 150));
+	coinAnim.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Items\\Coins\\coin_anim_f1.png", true), 150));
+	coinAnim.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Items\\Coins\\coin_anim_f2.png", true), 150));
+	coinAnim.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Items\\Coins\\coin_anim_f3.png", true), 150));
 	m_bgAnim = new CW3_AnimatedImage(coinAnim);
 }
 
@@ -106,7 +106,6 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 
 			m_tm->drawAllTiles(this, getBackgroundSurface());
 		}
-
 
 		break;
 
@@ -956,6 +955,16 @@ void CW3_Game::virtMainLoopDoBeforeUpdate()
 
 	
 	switch (m_state) {
+
+	case stateInit:
+		unpause();
+		lockBackgroundForDrawing();
+		virtSetupBackgroundBuffer();
+		m_bgAnim->renderCurrentFrame(this, this->getBackgroundSurface(), 10, 10, 10, 10, 0, 0, m_bgAnim->getCurrentFrame().getWidth(), m_bgAnim->getCurrentFrame().getHeight());
+		unlockBackgroundForDrawing();
+		redrawDisplay();
+		pause();
+		break;
 
 	case stateMain:
 
