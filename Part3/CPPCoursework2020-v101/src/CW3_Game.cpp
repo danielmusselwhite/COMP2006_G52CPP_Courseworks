@@ -32,15 +32,17 @@ CW3_Game::CW3_Game() : m_state(stateInit) {
 
 	// setting up coin anim
 	std::vector<std::pair<SimpleImage, int>> coinAnim;
-	coinAnim.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Items\\Coins\\coin_anim_f0.png", true), 150));
-	coinAnim.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Items\\Coins\\coin_anim_f1.png", true), 150));
-	coinAnim.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Items\\Coins\\coin_anim_f2.png", true), 150));
-	coinAnim.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Items\\Coins\\coin_anim_f3.png", true), 150));
+	coinAnim.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Items\\Coins\\coin_anim_f0.png", true), 50));
+	coinAnim.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Items\\Coins\\coin_anim_f1.png", true), 50));
+	coinAnim.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Items\\Coins\\coin_anim_f2.png", true), 50));
+	coinAnim.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Items\\Coins\\coin_anim_f3.png", true), 50));
 	m_bgAnim = new CW3_AnimatedImage(coinAnim);
 }
 
 CW3_Game::~CW3_Game() {
 	deleteAllObjectsInArray();
+	delete m_bgAnim;
+	ImageManager::destroyImageManager();
 }
 
 void CW3_Game::virtSetupBackgroundBuffer() {
@@ -232,7 +234,6 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 						else if (fields.at(0) == "player") {
 							drawableObjectsChanged();
 							appendObjectToArray(new CW3_Player(std::stoi(fields.at(1)), std::stoi(fields.at(2)), this, m_tmTileDimensions, m_tmTileDimensions, std::stoi(fields.at(3)), std::stoi(fields.at(4)), std::stoi(fields.at(5)), std::stoi(fields.at(6)), std::stoi(fields.at(7)), std::stoi(fields.at(8))));
-							
 						}
 						else if (fields.at(0) == "simpleEnemy") {
 							drawableObjectsChanged();
@@ -402,6 +403,8 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 
 			//saved game now returning to menu
 
+			delete m_tm;
+
 			m_state = stateInit;
 
 			deleteAllObjectsInArray();
@@ -421,6 +424,8 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 		switch (iKeyCode) {
 
 		case SDLK_RETURN: // start the game
+
+			delete m_tm;
 
 			// look at the input file (highscores)
 			std::ifstream infile("./savedData/highscores.csv");
@@ -961,6 +966,9 @@ void CW3_Game::virtMainLoopDoBeforeUpdate()
 		lockBackgroundForDrawing();
 		virtSetupBackgroundBuffer();
 		m_bgAnim->renderCurrentFrame(this, this->getBackgroundSurface(), 10, 10, 10, 10, 0, 0, m_bgAnim->getCurrentFrame().getWidth(), m_bgAnim->getCurrentFrame().getHeight());
+		m_bgAnim->renderCurrentFrame(this, this->getBackgroundSurface(), 10, this->getWindowHeight() - 20, 10, 10, 0, 0, m_bgAnim->getCurrentFrame().getWidth(), m_bgAnim->getCurrentFrame().getHeight());
+		m_bgAnim->renderCurrentFrame(this, this->getBackgroundSurface(), this->getWindowWidth() - 20, 10, 10, 10, 0, 0, m_bgAnim->getCurrentFrame().getWidth(), m_bgAnim->getCurrentFrame().getHeight());
+		m_bgAnim->renderCurrentFrame(this, this->getBackgroundSurface(), this->getWindowWidth()-20, this->getWindowHeight() - 20, 10, 10, 0, 0, m_bgAnim->getCurrentFrame().getWidth(), m_bgAnim->getCurrentFrame().getHeight());
 		unlockBackgroundForDrawing();
 		redrawDisplay();
 		pause();
@@ -1036,8 +1044,14 @@ void CW3_Game::deleteObjectFromArray(int objectID) {
 #if showDebugPrintObjectCreationDeletion is 1
 			std::cout << "Found the object we want to delete at index " << i << "!\n";
 #endif
+			
 			drawableObjectsChanged();
-			m_vecDisplayableObjects.erase(m_vecDisplayableObjects.begin() + i); 
+			delete (m_vecDisplayableObjects.at(i));
+			drawableObjectsChanged();
+			m_vecDisplayableObjects.erase(m_vecDisplayableObjects.begin()+i);
+
+			//drawableObjectsChanged();
+			//m_vecDisplayableObjects.erase(m_vecDisplayableObjects.begin() + i); 
 			break;
 		}
 			
@@ -1057,6 +1071,7 @@ void CW3_Game::deleteAllObjectsInArray() {
 
 	while (m_vecDisplayableObjects.size() != 0) {
 		drawableObjectsChanged();
+		delete m_vecDisplayableObjects.at(0);
 		m_vecDisplayableObjects.erase(m_vecDisplayableObjects.begin());
 	}
 		

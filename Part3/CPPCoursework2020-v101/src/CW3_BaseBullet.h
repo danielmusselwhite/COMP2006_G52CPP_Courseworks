@@ -68,6 +68,7 @@ public:
 			// or if it has reached its max distance
 			if (50 <= newTilesValue || newTilesValue < 0 || m_bulletMaxDistance<=0) {
 				m_pGameEngine->deleteObjectFromArray(m_objectID);
+				return;
 			}
 
 			checkEnemyCollisions();

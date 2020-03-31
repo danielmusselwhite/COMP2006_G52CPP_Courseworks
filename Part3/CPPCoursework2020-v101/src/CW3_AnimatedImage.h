@@ -20,6 +20,7 @@ public:
 
 	// deconstructor
 	~CW3_AnimatedImage() {
+			
 		m_animFrames.clear();
 	}
 

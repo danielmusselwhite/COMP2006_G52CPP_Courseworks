@@ -38,6 +38,7 @@ CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, 
 CW3_Player::~CW3_Player() {
 	delete m_RightAnim;
 	delete m_LeftAnim;
+	delete m_pGun;
 }
 
 void CW3_Player::virtDraw()
@@ -69,6 +70,12 @@ void CW3_Player::virtDoUpdate(int iCurrentTime)
 	// only do this if visible and not paused
 	if (!isVisible() || m_isPaused)
 		return;
+
+	// if dead then die
+	if (checkDeath()) {
+		virtDie();
+		return;
+	}
 
 	// handling player movement
 	{
@@ -235,7 +242,6 @@ void CW3_Player::shootGun()
 
 void CW3_Player::virtDie() {
 	m_pGameEngine->setStateGameOver();
-	//m_pGameEngine->deleteObjectFromArray(m_objectID);
 }
 
 void CW3_Player::increaseScore(int points) {

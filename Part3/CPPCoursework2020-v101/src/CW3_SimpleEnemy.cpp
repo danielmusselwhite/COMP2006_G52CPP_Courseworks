@@ -160,11 +160,18 @@ void CW3_SimpleEnemy::virtDoUpdate(int iCurrentTime)
 	if (!isVisible() || m_isPaused)
 		return;
 
+	// if dead then die
+	if (checkDeath()) {
+		virtDie();
+		return;
+	}
+		
+
 	virtMove();
 	virtAttack();
 }
 
 void CW3_SimpleEnemy::virtDie() {
-	m_pGameEngine->deleteObjectFromArray(m_objectID);
 	m_pGameEngine->getObjectOfType<CW3_Player>()->increaseScore(m_pointsValue);
+	m_pGameEngine->deleteObjectFromArray(m_objectID);
 }

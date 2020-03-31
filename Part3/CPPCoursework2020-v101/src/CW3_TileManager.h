@@ -4,6 +4,25 @@
 class CW3_TileManager :
 	public TileManager
 {
+public:
+	SimpleImage m_crate;
+	SimpleImage m_wallWest;
+	SimpleImage m_wallEast;
+	SimpleImage m_wallMid;
+	SimpleImage m_wallSideEast;
+	SimpleImage m_wallSideWest;
+	SimpleImage m_wallTopSouthWest;
+	SimpleImage m_wallTopSouthEast;
+	SimpleImage m_wallTopSouthMid;
+
+	SimpleImage m_wallTopEast;
+	SimpleImage m_wallTopWest;
+	SimpleImage m_wallTopNorthWest;
+	SimpleImage m_wallTopNorthEast;
+	SimpleImage m_wallTopNorthMid;
+	SimpleImage m_floor1;
+	SimpleImage m_floorPuddleLight;
+	SimpleImage m_floorPuddleDark;
 
 public:
 	//constructor/deconstructor

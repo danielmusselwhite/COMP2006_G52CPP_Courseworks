@@ -24,9 +24,6 @@ public:
 	//function for taking damage
 	virtual void hurt(int damage) {
 		m_health -= damage;
-
-		if (checkDeath())
-			virtDie();
 	}
 
 	//function for checking if the living object has died
