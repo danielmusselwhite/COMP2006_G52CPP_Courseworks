@@ -151,6 +151,7 @@
     <ClInclude Include="BouncingObject.h" />
     <ClInclude Include="SimpleTrig.h" />
     <ClInclude Include="StarfieldDemo.h" />
+    <ClInclude Include="CW3_StateEnemy.h" />
     <ClInclude Include="templates.h" />
     <ClInclude Include="TileManager.h" />
     <ClInclude Include="BouncingBall.h" />
@@ -192,6 +193,7 @@
     <ClCompile Include="RawImage.cpp" />
     <ClCompile Include="SimpleDemo.cpp" />
     <ClCompile Include="StarfieldDemo.cpp" />
+    <ClCompile Include="CW3_StateEnemy.cpp" />
     <ClCompile Include="TileManager.cpp" />
     <ClCompile Include="BouncingBall.cpp" />
     <ClCompile Include="BouncingBallMain.cpp" />

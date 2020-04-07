@@ -5,6 +5,7 @@
 #include "CW3_Player.h"
 #include "CW3_SimpleEnemy.h"
 #include "CW3_SimpleBullet.h"
+#include "CW3_StateEnemy.h"
 #include <fstream>
 #include <sstream>
 
@@ -28,8 +29,8 @@
 // start with initial state
 CW3_Game::CW3_Game() : m_state(stateInit) {
 	m_minEnemySpawnTimeBetweenSpawns = 3333;
-	m_maxEnemySpawnTimeBetweenSpawns = 7500;
-
+	//m_maxEnemySpawnTimeBetweenSpawns = 7500;
+	m_maxEnemySpawnTimeBetweenSpawns = 7500000;
 	// setting up coin anim
 	std::vector<std::pair<SimpleImage, int>> coinAnim;
 	coinAnim.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Items\\Coins\\coin_anim_f0.png", true), 50));
@@ -843,6 +844,12 @@ int CW3_Game::virtInitialiseObjects() {
 		//erase this floor so we can't have more than one thing spawn on same floor
 		floors.erase(floors.begin() + floorIndex);
 
+		//test
+		floorIndex = rand() % floors.size();
+		floor = floors.at(floorIndex);
+
+		drawableObjectsChanged();
+		appendObjectToArray(new CW3_StateEnemy(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 100, 100, 1, 10, 2, 10,0));
 		// Make everything invisible to start with
 		setAllObjectsVisible(false);
 
@@ -1047,7 +1054,6 @@ void CW3_Game::deleteObjectFromArray(int objectID) {
 			
 			drawableObjectsChanged();
 			delete (m_vecDisplayableObjects.at(i));
-			drawableObjectsChanged();
 			m_vecDisplayableObjects.erase(m_vecDisplayableObjects.begin()+i);
 
 			//drawableObjectsChanged();

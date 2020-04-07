@@ -288,6 +288,9 @@
     <ClInclude Include="CW3_SimpleBulletPolymorphic.h">
       <Filter>Header Files\5 Coursework 3\_Developing</Filter>
     </ClInclude>
+    <ClInclude Include="CW3_StateEnemy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseEngine.cpp">
@@ -391,6 +394,9 @@
     </ClCompile>
     <ClCompile Include="MyTileManager.cpp">
       <Filter>Source Files\4 MyDemos</Filter>
+    </ClCompile>
+    <ClCompile Include="CW3_StateEnemy.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
