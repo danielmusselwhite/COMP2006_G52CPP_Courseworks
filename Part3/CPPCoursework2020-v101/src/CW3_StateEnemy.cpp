@@ -39,8 +39,8 @@ void CW3_StateEnemy::transitionToState(State *state) {
 
 void CW3_StateEnemy::virtAttack()
 {
-	// only do this if visible
-	if (!isVisible())
+	// only do this if visible and not paused
+	if (!isVisible() || m_isPaused)
 		return;
 
 	// for now there is only one player, so get the one at pos 0 in the vector, later maybe make it hostile to the closest if more players/friendlies are added
@@ -55,8 +55,8 @@ void CW3_StateEnemy::virtAttack()
 
 void CW3_StateEnemy::virtMove()
 {
-	// only do this if visible
-	if (!isVisible())
+	// only do this if visible and not paused
+	if (!isVisible() || m_isPaused)
 		return;
 
 
@@ -88,13 +88,21 @@ void CW3_StateEnemy::virtMove()
 
 void CW3_StateEnemy::virtDraw()
 {
+	// only do this if visible
+	if (!isVisible())
+		return;
+
+#if showCollisionBoxes == 1
 	getEngine()->drawForegroundRectangle(
 		m_iCurrentScreenX, m_iCurrentScreenY,
 		m_iCurrentScreenX + m_iDrawWidth - 1,
 		m_iCurrentScreenY + m_iDrawHeight - 1,
 		0xff0000);
+#endif
 
 	renderHealthbar();
+
+	m_state->draw();
 }
 
 void CW3_StateEnemy::virtDoUpdate(int iCurrentTime)
@@ -109,6 +117,7 @@ void CW3_StateEnemy::virtDoUpdate(int iCurrentTime)
 		return;
 	}
 
+	m_state->update();
 	m_state->checkForStateTransition(m_pGameEngine->getObjectOfType<CW3_Player>());
 	virtMove();
 	virtAttack();
@@ -134,6 +143,10 @@ int State::moveX(double differenceInX, int m_speed, int goalX) {
 
 int State::moveY(double differenceInY, int m_speed, int goalY) {
 	return m_context->getCurrentYCoordinate();
+}
+
+void State::draw() {
+		m_Anim->renderCurrentFrame(m_pGameEngine, m_pGameEngine->getForegroundSurface(), m_context->getCurrentXCoordinate(), m_context->getCurrentYCoordinate(), m_context->getDrawWidth(), m_context->getDrawHeight(), 0, 0, m_Anim->getCurrentFrame().getWidth(), m_Anim->getCurrentFrame().getHeight());
 }
 
 // IDLE STATE
@@ -247,6 +260,11 @@ void AggressiveState::checkForStateTransition(CW3_Player* target) {
 		
 }
 
+void AggressiveState::update() {
+	CW3_Player* target = m_pGameEngine->getObjectOfType<CW3_Player>();
+	target->getCurrentXCoordinate() < m_context->getCurrentXCoordinate() ? m_Anim = m_leftAnim : m_Anim = m_rightAnim;
+}
+
 // PATROLLING STATE
 
 int PatrollingState::moveX(double differenceInX, int m_speed, int goalX) {
@@ -262,9 +280,6 @@ int PatrollingState::moveY(double differenceInY, int m_speed, int goalY) {
 }
 
 void PatrollingState::checkForStateTransition(CW3_Player* target) {
-	if (m_timeLimit == -1)
-		m_timeLimit = m_pGameEngine->getRawTime() + 5000;
-
 	//if player reenters circle check whether to get aggressive or scared
 	int drawWidth = m_context->getDrawWidth();
 	int drawHeight = m_context->getDrawHeight();
@@ -306,13 +321,26 @@ void PatrollingState::checkForStateTransition(CW3_Player* target) {
 		return;
 	}
 
+	
+		
+		
+}
+
+void PatrollingState::update() {
+	if (m_timeLimit == -1)
+		m_timeLimit = m_pGameEngine->getRawTime() + 5000;
+
 	if (m_movingTime < m_pGameEngine->getRawTime()) {
 		m_movingTime = m_pGameEngine->getRawTime() + (rand() % 900) + 100;
-		m_xDirection = rand() % 3 - 1;
-		m_yDirection = rand() % 3 - 1;
+		m_xDirection = rand() % 2;
+		m_yDirection = rand() % 2;
+		if (m_xDirection == 0)
+			m_xDirection = -1;
+		if (m_yDirection == 0)
+			m_yDirection = -1;
 	}
-		
-		
+
+	m_xDirection<0 ? m_Anim = m_leftAnim : m_Anim = m_rightAnim;
 }
 
 // SCARED STATE
@@ -381,4 +409,9 @@ void ScaredState::checkForStateTransition(CW3_Player* target) {
 		return;
 	}
 
+}
+
+void ScaredState::update() {
+	CW3_Player* target = m_pGameEngine->getObjectOfType<CW3_Player>();
+	target->getCurrentXCoordinate() > m_context->getCurrentXCoordinate() ? m_Anim = m_leftAnim : m_Anim = m_rightAnim;
 }

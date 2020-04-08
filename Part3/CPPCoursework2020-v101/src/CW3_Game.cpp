@@ -29,8 +29,8 @@
 // start with initial state
 CW3_Game::CW3_Game() : m_state(stateInit) {
 	m_minEnemySpawnTimeBetweenSpawns = 3333;
-	//m_maxEnemySpawnTimeBetweenSpawns = 7500;
-	m_maxEnemySpawnTimeBetweenSpawns = 7500000;
+	m_maxEnemySpawnTimeBetweenSpawns = 7500;
+	//m_maxEnemySpawnTimeBetweenSpawns = 7500000;
 	// setting up coin anim
 	std::vector<std::pair<SimpleImage, int>> coinAnim;
 	coinAnim.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Items\\Coins\\coin_anim_f0.png", true), 50));
@@ -243,6 +243,10 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 						else if (fields.at(0) == "simpleBullet") {
 							drawableObjectsChanged();
 							appendObjectToArray(new CW3_SimpleBullet(std::stoi(fields.at(1)),std::stoi(fields.at(2)), this, 10, 10, std::stod(fields.at((3)))));
+						}
+						else if (fields.at(0) == "stateEnemy") {
+							drawableObjectsChanged();
+							appendObjectToArray(new CW3_StateEnemy(std::stoi(fields.at(1)), std::stoi(fields.at(2)), this, m_tmTileDimensions, m_tmTileDimensions, std::stoi(fields.at(3)), std::stoi(fields.at(4)), std::stoi(fields.at(5)), std::stoi(fields.at(6)), std::stoi(fields.at(7)), std::stoi(fields.at(8)), std::stoi(fields.at(9))));
 						}
 
 					}
@@ -844,12 +848,12 @@ int CW3_Game::virtInitialiseObjects() {
 		//erase this floor so we can't have more than one thing spawn on same floor
 		floors.erase(floors.begin() + floorIndex);
 
-		//test
+/*
 		floorIndex = rand() % floors.size();
 		floor = floors.at(floorIndex);
 
 		drawableObjectsChanged();
-		appendObjectToArray(new CW3_StateEnemy(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 100, 100, 1, 10, 2, 10,0));
+		appendObjectToArray(new CW3_StateEnemy(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 100, 100, 1, 10, 2, 10,0));*/
 		// Make everything invisible to start with
 		setAllObjectsVisible(false);
 
@@ -1002,14 +1006,18 @@ void CW3_Game::virtMainLoopDoBeforeUpdate()
 			int simpleEnemyMaxHealth = 25 + (std::rand() % (100 - 25 + 1));
 			int simpleEnemySpeed = 1 + (std::rand() % (3 - 1 + 1));
 
-			appendObjectToArray(new CW3_SimpleEnemy(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, simpleEnemyMaxHealth, simpleEnemyMaxHealth, 10, 25, simpleEnemySpeed, 10));
-
+			int enemyType = rand() % 2;
+			if(enemyType==0)
+				appendObjectToArray(new CW3_SimpleEnemy(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, simpleEnemyMaxHealth, simpleEnemyMaxHealth, 10, 25, simpleEnemySpeed, 10));
+			else if(enemyType==1)
+				appendObjectToArray(new CW3_StateEnemy(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, simpleEnemyMaxHealth, simpleEnemyMaxHealth, 10, 25, simpleEnemySpeed, 10, 0));
 			m_enemySpawnNextEnemyTime = getRawTime() + m_enemySpawnTimeBetweenSpawns;
 
 			if (m_enemySpawnTimeBetweenSpawns * 0.9 >= m_minEnemySpawnTimeBetweenSpawns)
 				m_enemySpawnTimeBetweenSpawns *= 0.9;
 			else
 				m_enemySpawnTimeBetweenSpawns = m_minEnemySpawnTimeBetweenSpawns;
+
 		}
 
 		break;

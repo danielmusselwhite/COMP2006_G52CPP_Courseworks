@@ -19,8 +19,10 @@ protected:
 	CW3_StateEnemy* m_context;
 	int m_stateID;
 	CW3_Game* m_pGameEngine;
+	CW3_AnimatedImage* m_Anim;
 
 public:
+
 	void setContext(CW3_StateEnemy* context, CW3_Game* pGameEngine) {
 		m_context = context;
 		m_pGameEngine = pGameEngine;
@@ -32,6 +34,12 @@ public:
 	virtual void checkForStateTransition(CW3_Player* target) = 0;
 	virtual int moveX(double differenceInX, int m_speed, int goalX);
 	virtual int moveY(double differenceInY, int m_speed, int goalY);
+
+	void draw();
+
+	virtual void update() {
+		return;
+	}
 };
 
 
@@ -44,8 +52,22 @@ public:
 // if in idle don't move and don't attack but if the player gets too close, change state to aggressive
 class IdleState : public State {
 public:
+	
+
 	IdleState() {
 		this->m_stateID = 0;
+
+		// setting up left anim
+		std::vector<std::pair<SimpleImage, int>> animPairs;
+		animPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\skelet_idle_anim_f0.png", true), 150));
+		animPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\skelet_idle_anim_f1.png", true), 150));
+		animPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\skelet_idle_anim_f2.png", true), 150));
+		animPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\skelet_idle_anim_f3.png", true), 150));
+		m_Anim = new CW3_AnimatedImage(animPairs);
+	}
+
+	~IdleState() {
+		delete m_Anim;
 	}
 
 	// if the player is within a small circle to the player change to either aggressive or scared depending on health
@@ -55,9 +77,35 @@ public:
 
 //if in idle move towards the player and attack/damage the player if touching them
 class AggressiveState : public State {
+protected:
+	CW3_AnimatedImage* m_leftAnim;
+	CW3_AnimatedImage* m_rightAnim;
 public:
 	AggressiveState() {
 		this->m_stateID = 1;
+
+		// setting up left anim
+		std::vector<std::pair<SimpleImage, int>> leftAnimPairs;
+		leftAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\Left\\skelet_run_anim_f0.png", true), 150));
+		leftAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\Left\\skelet_run_anim_f1.png", true), 150));
+		leftAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\Left\\skelet_run_anim_f2.png", true), 150));
+		leftAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\Left\\skelet_run_anim_f3.png", true), 150));
+		m_leftAnim = new CW3_AnimatedImage(leftAnimPairs);
+
+		// setting up right anim
+		std::vector<std::pair<SimpleImage, int>> rightAnimPairs;
+		rightAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\Right\\skelet_run_anim_f0.png", true), 150));
+		rightAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\Right\\skelet_run_anim_f1.png", true), 150));
+		rightAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\Right\\skelet_run_anim_f2.png", true), 150));
+		rightAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\Right\\skelet_run_anim_f3.png", true), 150));
+		m_rightAnim = new CW3_AnimatedImage(rightAnimPairs);
+
+		m_Anim = m_leftAnim;
+	}
+
+	~AggressiveState() {
+		delete m_leftAnim;
+		delete m_rightAnim;
 	}
 
 	int moveX(double differenceInX, int m_speed, int goalX) override;
@@ -66,6 +114,7 @@ public:
 
 	void checkForStateTransition(CW3_Player* target) override;
 
+	void update() override;
 };
 
 
@@ -76,6 +125,10 @@ private:
 	int m_yDirection;
 	int m_movingTime;
 
+protected:
+	CW3_AnimatedImage* m_leftAnim;
+	CW3_AnimatedImage* m_rightAnim;
+
 public:
 	PatrollingState() {
 		this->m_stateID = 2;
@@ -85,6 +138,29 @@ public:
 
 		m_timeLimit = -1;
 		m_movingTime = -1;
+
+		// setting up left anim
+		std::vector<std::pair<SimpleImage, int>> leftAnimPairs;
+		leftAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\Left\\skelet_run_anim_f0.png", true), 150));
+		leftAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\Left\\skelet_run_anim_f1.png", true), 150));
+		leftAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\Left\\skelet_run_anim_f2.png", true), 150));
+		leftAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\Left\\skelet_run_anim_f3.png", true), 150));
+		m_leftAnim = new CW3_AnimatedImage(leftAnimPairs);
+
+		// setting up right anim
+		std::vector<std::pair<SimpleImage, int>> rightAnimPairs;
+		rightAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\Right\\skelet_run_anim_f0.png", true), 150));
+		rightAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\Right\\skelet_run_anim_f1.png", true), 150));
+		rightAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\Right\\skelet_run_anim_f2.png", true), 150));
+		rightAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\Right\\skelet_run_anim_f3.png", true), 150));
+		m_rightAnim = new CW3_AnimatedImage(rightAnimPairs);
+
+		m_Anim = m_leftAnim;
+	}
+
+	~PatrollingState() {
+		delete m_leftAnim;
+		delete m_rightAnim;
 	}
 
 	int moveX(double differenceInX, int m_speed, int goalX) override;
@@ -93,12 +169,40 @@ public:
 
 	void checkForStateTransition(CW3_Player* target) override;
 
+	void update() override;
 };
 
 class ScaredState : public State {
+protected:
+	CW3_AnimatedImage* m_leftAnim;
+	CW3_AnimatedImage* m_rightAnim;
+
 public:
 	ScaredState() {
 		this->m_stateID = 3;
+
+		// setting up left anim
+		std::vector<std::pair<SimpleImage, int>> leftAnimPairs;
+		leftAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\Left\\skelet_run_anim_f0.png", true), 150));
+		leftAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\Left\\skelet_run_anim_f1.png", true), 150));
+		leftAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\Left\\skelet_run_anim_f2.png", true), 150));
+		leftAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\Left\\skelet_run_anim_f3.png", true), 150));
+		m_leftAnim = new CW3_AnimatedImage(leftAnimPairs);
+
+		// setting up right anim
+		std::vector<std::pair<SimpleImage, int>> rightAnimPairs;
+		rightAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\Right\\skelet_run_anim_f0.png", true), 150));
+		rightAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\Right\\skelet_run_anim_f1.png", true), 150));
+		rightAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\Right\\skelet_run_anim_f2.png", true), 150));
+		rightAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\Right\\skelet_run_anim_f3.png", true), 150));
+		m_rightAnim = new CW3_AnimatedImage(rightAnimPairs);
+
+		m_Anim = m_leftAnim;
+	}
+
+	~ScaredState() {
+		delete m_leftAnim;
+		delete m_rightAnim;
 	}
 
 	int moveX(double differenceInX, int m_speed, int goalX) override;
@@ -106,6 +210,7 @@ public:
 	int moveY(double differenceInY, int m_speed, int goalY) override;
 	void checkForStateTransition(CW3_Player* target) override;
 
+	void update() override;
 };
 
 
@@ -140,7 +245,7 @@ public:
 	void virtDie() override;
 
 	virtual std::vector<std::string> getState() override {
-		std::vector<std::string> currentState{ "StateEnemy",std::to_string(m_iCurrentScreenX), std::to_string(m_iCurrentScreenY), std::to_string(m_maxHealth), std::to_string(m_health), std::to_string(m_minDamage), std::to_string(m_maxDamage), std::to_string(m_speed), std::to_string(m_pointsValue), std::to_string(m_state->getID()) };
+		std::vector<std::string> currentState{ "stateEnemy",std::to_string(m_iCurrentScreenX), std::to_string(m_iCurrentScreenY), std::to_string(m_maxHealth), std::to_string(m_health), std::to_string(m_minDamage), std::to_string(m_maxDamage), std::to_string(m_speed), std::to_string(m_pointsValue), std::to_string(m_state->getID()) };
 		return currentState;
 	}
 
