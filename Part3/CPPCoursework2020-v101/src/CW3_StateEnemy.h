@@ -23,6 +23,10 @@ protected:
 
 public:
 
+	virtual ~State() {
+
+	}
+
 	void setContext(CW3_StateEnemy* context, CW3_Game* pGameEngine) {
 		m_context = context;
 		m_pGameEngine = pGameEngine;
@@ -64,11 +68,11 @@ public:
 		animPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\skelet_idle_anim_f2.png", true), 150));
 		animPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Enemies\\_myEnemies\\Skeleton\\skelet_idle_anim_f3.png", true), 150));
 		m_Anim = new CW3_AnimatedImage(animPairs);
+
 	}
 
-	~IdleState() {
-		delete m_Anim;
-	}
+	~IdleState();
+
 
 	// if the player is within a small circle to the player change to either aggressive or scared depending on health
 	void checkForStateTransition(CW3_Player* target) override;
@@ -103,10 +107,7 @@ public:
 		m_Anim = m_leftAnim;
 	}
 
-	~AggressiveState() {
-		delete m_leftAnim;
-		delete m_rightAnim;
-	}
+	~AggressiveState() override;
 
 	int moveX(double differenceInX, int m_speed, int goalX) override;
 
@@ -158,10 +159,7 @@ public:
 		m_Anim = m_leftAnim;
 	}
 
-	~PatrollingState() {
-		delete m_leftAnim;
-		delete m_rightAnim;
-	}
+	~PatrollingState() override;
 
 	int moveX(double differenceInX, int m_speed, int goalX) override;
 
@@ -200,10 +198,7 @@ public:
 		m_Anim = m_leftAnim;
 	}
 
-	~ScaredState() {
-		delete m_leftAnim;
-		delete m_rightAnim;
-	}
+	~ScaredState() override;
 
 	int moveX(double differenceInX, int m_speed, int goalX) override;
 
@@ -224,7 +219,7 @@ public:
 	CW3_StateEnemy(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight, int maxHealth, int currentHealth, int minDamage, int maxDamage, int speed, int pointsValue, int  startState);
 
 	//deconstructor
-	~CW3_StateEnemy();
+	~CW3_StateEnemy() override;
 
 	//transitioning between the different states
 	void transitionToState(State *state);

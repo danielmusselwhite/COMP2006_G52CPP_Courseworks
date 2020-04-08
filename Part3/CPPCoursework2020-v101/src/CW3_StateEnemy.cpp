@@ -26,14 +26,15 @@ CW3_StateEnemy::CW3_StateEnemy(int iStartXCoord, int iStartYCoord, BaseEngine * 
 
 CW3_StateEnemy::~CW3_StateEnemy()
 {
+	if (m_state != nullptr)
+		delete m_state;
 }
 
 void CW3_StateEnemy::transitionToState(State *state) {
 	state->setContext(this, m_pGameEngine);
-	std::cout << "\n" << state->getID() << "\n";
 	if (m_state != nullptr)
-		delete this->m_state;
-	this->m_state = state;
+		delete m_state;
+	m_state = state;
 	
 }
 
@@ -151,6 +152,11 @@ void State::draw() {
 
 // IDLE STATE
 
+IdleState::~IdleState()
+{
+		delete m_Anim;
+}
+
 void IdleState::checkForStateTransition(CW3_Player* target) {
 
 	int drawWidth = m_context->getDrawWidth();
@@ -186,6 +192,12 @@ void IdleState::checkForStateTransition(CW3_Player* target) {
 }
 
 // AGGRESSIVE STATE
+
+AggressiveState::~AggressiveState()
+{
+	delete m_leftAnim;
+	delete m_rightAnim;
+}
 
 int AggressiveState::moveX(double differenceInX, int m_speed, int goalX) {
 	int currentX = m_context->getCurrentXCoordinate();
@@ -267,6 +279,12 @@ void AggressiveState::update() {
 
 // PATROLLING STATE
 
+PatrollingState::~PatrollingState()
+{
+	delete m_leftAnim;
+	delete m_rightAnim;
+}
+
 int PatrollingState::moveX(double differenceInX, int m_speed, int goalX) {
 	int currentX = m_context->getCurrentXCoordinate();
 
@@ -344,6 +362,12 @@ void PatrollingState::update() {
 }
 
 // SCARED STATE
+
+ScaredState::~ScaredState()
+{
+		delete m_leftAnim;
+		delete m_rightAnim;
+}
 
 int ScaredState::moveX(double differenceInX, int m_speed, int goalX) {
 	int currentX = m_context->getCurrentXCoordinate();
