@@ -288,13 +288,13 @@ PatrollingState::~PatrollingState()
 int PatrollingState::moveX(double differenceInX, int m_speed, int goalX) {
 	int currentX = m_context->getCurrentXCoordinate();
 
-	return currentX + (m_speed / 2)*m_xDirection;
+	return currentX + m_speed *m_xDirection;
 }
 
 int PatrollingState::moveY(double differenceInY, int m_speed, int goalY) {
 	int currentY = m_context->getCurrentYCoordinate();
 	
-	return currentY + (m_speed / 2)*m_yDirection;
+	return currentY +m_speed *m_yDirection;
 }
 
 void PatrollingState::checkForStateTransition(CW3_Player* target) {

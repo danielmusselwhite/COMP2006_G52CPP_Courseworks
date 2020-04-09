@@ -93,5 +93,7 @@ public:
 	{
 		return colour != 0;
 	}
+
+	virtual int getGunType() = 0;
 };
 

@@ -28,7 +28,7 @@
 
 // start with initial state
 CW3_Game::CW3_Game() : m_state(stateInit) {
-	m_minEnemySpawnTimeBetweenSpawns = 3333;
+	m_minEnemySpawnTimeBetweenSpawns = 1000;
 	m_maxEnemySpawnTimeBetweenSpawns = 7500;
 	//m_maxEnemySpawnTimeBetweenSpawns = 7500000;
 	// setting up coin anim

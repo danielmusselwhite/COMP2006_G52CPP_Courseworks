@@ -5,6 +5,7 @@
 #include "CW3_DungeonTileMapCodes.h"
 #include "CW3_DebugHeaders.h"
 #include "CW3_SimpleGun.h"
+#include "CW3_ShotGun.h"
 
 CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight, int maxHealth, int currentHealth, int crawlSpeed, int walkSpeed, int runSpeed, int score) : CW3_LivingGameObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, maxHealth, currentHealth) {
 	m_walkSpeed = walkSpeed;
@@ -13,8 +14,11 @@ CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, 
 
 	m_score = score;
 
-	m_pGun = new CW3_SimpleGun(this, iStartXCoord, iStartYCoord, m_pGameEngine, iWidth, iHeight, 2, 2);
+	//equipGun(pGun);
 
+	//m_pGun = new CW3_SimpleGun(this, iStartXCoord, iStartYCoord, m_pGameEngine, iWidth, iHeight, 2, 2);
+	m_pGun = new CW3_ShotGun(this, iStartXCoord, iStartYCoord, m_pGameEngine, iWidth, iHeight, 2, 2);
+	
 	// setting up left anim
 	std::vector<std::pair<SimpleImage, int>> leftAnimPairs;
 	leftAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Players\\myWizard\\Idle\\Left\\player_left_idle_anim_f0.png", true), 150));

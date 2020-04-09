@@ -53,7 +53,7 @@ public:
 		m_iCurrentScreenY += yIncrease;
 		m_iCurrentScreenX += xIncrease;
 
-		m_bulletMaxDistance - +yIncrease + xIncrease;
+		m_bulletMaxDistance -= abs(yIncrease) + abs(xIncrease);
 
 		if (m_pGameEngine->getTileManager()->isValidTilePosition(m_iCurrentScreenX, m_iCurrentScreenY)) {
 			// .. store that tiles value and ..
