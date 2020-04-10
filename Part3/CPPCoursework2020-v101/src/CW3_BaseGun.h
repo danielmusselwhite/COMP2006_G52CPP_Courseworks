@@ -8,7 +8,6 @@ class CW3_BaseGun :
 {
 protected:
 	//member variables
-	CW3_GameObject* m_pWielder;
 	int m_normalHeight, m_normalWidth;
 	double m_dAngle;
 	SimpleImage m_image;
@@ -20,11 +19,13 @@ protected:
 	int m_yScale;
 	CW3_Game* m_pGameEngine;
 
+	int m_xCentre;
+	int m_yCentre;
+
 public:
 	//constructor
-	CW3_BaseGun(CW3_GameObject* wielder, int iStartXCoord, int iStartYCoord, CW3_Game* pGameEngine, int iWidth, int iHeight, int xScale, int yScale) :
+	CW3_BaseGun(int iStartXCoord, int iStartYCoord, CW3_Game* pGameEngine, int iWidth, int iHeight, int xScale, int yScale) :
 		m_rotator(0.0) {
-		m_pWielder = wielder;
 
 		m_normalHeight = iHeight;
 		m_normalWidth = iWidth;
@@ -38,6 +39,14 @@ public:
 
 	// virtual methods that must be overwritten
 	virtual void attack() = 0;
+	
+	void updateXCentre(int xPos, int Width) {
+		m_xCentre = xPos + Width/2;
+	}
+
+	void updateYCentre(int yPos, int Height) {
+		m_yCentre = yPos + Height / 2;
+	}
 
 	// overriding forced virtual function
 	virtual bool mapCoordinates(double& x, double& y, const SimpleImage& image) override {
@@ -56,8 +65,8 @@ public:
 		y -= image.getHeight() / 2;
 
 
-		int differenceInX = m_pWielder->getCurrentXCoordinate() + m_pWielder->getDrawWidth()/2 - m_pGameEngine->getCurrentMouseX();
-		int differenceInY = m_pWielder->getCurrentYCoordinate() + m_pWielder->getDrawHeight() / 2 - m_pGameEngine->getCurrentMouseY();
+		int differenceInX = m_xCentre - m_pGameEngine->getCurrentMouseX();
+		int differenceInY = m_yCentre - m_pGameEngine->getCurrentMouseY();
 
 		// Rotate it
 		double dAngle = atan(y / (x + 0.0001));
@@ -94,6 +103,6 @@ public:
 		return colour != 0;
 	}
 
-	virtual int getGunType() = 0;
+	virtual std::string getGunType() = 0;
 };
 

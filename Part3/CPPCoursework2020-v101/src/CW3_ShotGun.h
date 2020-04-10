@@ -6,12 +6,12 @@ class CW3_ShotGun :
 {
 public:
 	//constructor
-	CW3_ShotGun(CW3_GameObject* wielder, int iStartXCoord, int iStartYCoord, CW3_Game* pGameEngine, int iWidth, int iHeight, int xScale, int yScale);
+	CW3_ShotGun(int iStartXCoord, int iStartYCoord, CW3_Game* pGameEngine, int iWidth, int iHeight, int xScale, int yScale);
 
 	virtual void attack() override;
 
-	virtual int getGunType() override {
-		return ShotGunID;
+	virtual std::string getGunType() override {
+		return "shotGun";
 	}
 };
 

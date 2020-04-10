@@ -6,6 +6,9 @@
 #include "CW3_SimpleEnemy.h"
 #include "CW3_SimpleBullet.h"
 #include "CW3_StateEnemy.h"
+#include "CW3_SimpleGun.h"
+#include "CW3_ShotGun.h"
+#include "CW3_ShotGunBullet.h"
 #include <fstream>
 #include <sstream>
 
@@ -234,7 +237,17 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 
 						else if (fields.at(0) == "player") {
 							drawableObjectsChanged();
-							appendObjectToArray(new CW3_Player(std::stoi(fields.at(1)), std::stoi(fields.at(2)), this, m_tmTileDimensions, m_tmTileDimensions, std::stoi(fields.at(3)), std::stoi(fields.at(4)), std::stoi(fields.at(5)), std::stoi(fields.at(6)), std::stoi(fields.at(7)), std::stoi(fields.at(8))));
+
+							CW3_BaseGun * pGun;
+
+							if((fields.at(9))=="simpleGun")
+								pGun = new CW3_SimpleGun(std::stoi(fields.at(1)), std::stoi(fields.at(2)), this, m_tmTileDimensions, m_tmTileDimensions, 2, 2);
+							else if ((fields.at(9)) == "shotGun")
+								pGun = new CW3_ShotGun(std::stoi(fields.at(1)), std::stoi(fields.at(2)), this, m_tmTileDimensions, m_tmTileDimensions, 2, 2);
+							else
+								pGun = new CW3_SimpleGun(std::stoi(fields.at(1)), std::stoi(fields.at(2)), this, m_tmTileDimensions, m_tmTileDimensions, 2, 2);
+
+							appendObjectToArray(new CW3_Player(std::stoi(fields.at(1)), std::stoi(fields.at(2)), this, m_tmTileDimensions, m_tmTileDimensions, std::stoi(fields.at(3)), std::stoi(fields.at(4)), std::stoi(fields.at(5)), std::stoi(fields.at(6)), std::stoi(fields.at(7)), std::stoi(fields.at(8)), pGun));
 						}
 						else if (fields.at(0) == "simpleEnemy") {
 							drawableObjectsChanged();
@@ -248,7 +261,10 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 							drawableObjectsChanged();
 							appendObjectToArray(new CW3_StateEnemy(std::stoi(fields.at(1)), std::stoi(fields.at(2)), this, m_tmTileDimensions, m_tmTileDimensions, std::stoi(fields.at(3)), std::stoi(fields.at(4)), std::stoi(fields.at(5)), std::stoi(fields.at(6)), std::stoi(fields.at(7)), std::stoi(fields.at(8)), std::stoi(fields.at(9))));
 						}
-
+						else if (fields.at(0) == "shotGunBullet") {
+							drawableObjectsChanged();
+							appendObjectToArray(new CW3_ShotGunBullet(std::stoi(fields.at(1)), std::stoi(fields.at(2)), this, 10, 10, std::stod(fields.at((3)))));
+						}
 					}
 
 					pause();
@@ -843,7 +859,7 @@ int CW3_Game::virtInitialiseObjects() {
 
 		drawableObjectsChanged();
 		//m_pPlayer = new CW3_Player(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, m_vecDisplayableObjects.size(), 100, 1, 3, 7);
-		appendObjectToArray(new CW3_Player(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 100, 100, 2, 4, 10, 0));
+		appendObjectToArray(new CW3_Player(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 100, 100, 2, 4, 10, 0, new CW3_SimpleGun(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 2, 2)));
 
 		//erase this floor so we can't have more than one thing spawn on same floor
 		floors.erase(floors.begin() + floorIndex);

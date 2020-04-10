@@ -7,7 +7,7 @@
 #include "CW3_SimpleGun.h"
 #include "CW3_ShotGun.h"
 
-CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight, int maxHealth, int currentHealth, int crawlSpeed, int walkSpeed, int runSpeed, int score) : CW3_LivingGameObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, maxHealth, currentHealth) {
+CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight, int maxHealth, int currentHealth, int crawlSpeed, int walkSpeed, int runSpeed, int score, CW3_BaseGun*pGun) : CW3_LivingGameObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, maxHealth, currentHealth) {
 	m_walkSpeed = walkSpeed;
 	m_runSpeed = runSpeed;
 	m_crawlSpeed = crawlSpeed;
@@ -16,8 +16,8 @@ CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, 
 
 	//equipGun(pGun);
 
-	//m_pGun = new CW3_SimpleGun(this, iStartXCoord, iStartYCoord, m_pGameEngine, iWidth, iHeight, 2, 2);
-	m_pGun = new CW3_ShotGun(this, iStartXCoord, iStartYCoord, m_pGameEngine, iWidth, iHeight, 2, 2);
+	m_pGun = nullptr;
+	equipGun(pGun);
 	
 	// setting up left anim
 	std::vector<std::pair<SimpleImage, int>> leftAnimPairs;
@@ -217,6 +217,9 @@ void CW3_Player::virtDoUpdate(int iCurrentTime)
 	{
 		m_pGameEngine->getCurrentMouseX() < m_iCurrentScreenX + m_iDrawWidth / 2 ? m_Anim = m_LeftAnim : m_Anim = m_RightAnim;
 	}
+	
+	m_pGun->updateXCentre(getCurrentXCoordinate(), getDrawWidth());
+	m_pGun->updateYCentre(getCurrentYCoordinate(), getDrawHeight());
 
 	// handling invulnerablity
 	{
@@ -246,6 +249,13 @@ void CW3_Player::shootGun()
 
 void CW3_Player::virtDie() {
 	m_pGameEngine->setStateGameOver();
+}
+
+void CW3_Player::equipGun(CW3_BaseGun * pGun)
+{
+	if (m_pGun != nullptr)
+		delete m_pGun;
+	m_pGun = pGun;
 }
 
 void CW3_Player::increaseScore(int points) {

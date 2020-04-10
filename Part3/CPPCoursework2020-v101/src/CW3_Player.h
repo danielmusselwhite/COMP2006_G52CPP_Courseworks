@@ -25,7 +25,7 @@ protected:
 
 public:
 	//constructor/deconstructor
-	CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pGameEngine, int iWidth, int iHeight, int maxHealth, int currentHealth, int crawlSpeed, int walkSpeed, int runSpeed, int score);
+	CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pGameEngine, int iWidth, int iHeight, int maxHealth, int currentHealth, int crawlSpeed, int walkSpeed, int runSpeed, int score, CW3_BaseGun *pGun);
 	~CW3_Player();
 
 	//player methods
@@ -53,8 +53,10 @@ public:
 
 	virtual std::vector<std::string> getState() override {
 
-		std::vector<std::string> currentState{ "player",std::to_string(m_iCurrentScreenX), std::to_string(m_iCurrentScreenY), std::to_string(m_maxHealth), std::to_string(m_health), std::to_string(m_crawlSpeed), std::to_string(m_walkSpeed), std::to_string(m_runSpeed), std::to_string(m_score) };
+		std::vector<std::string> currentState{ "player",std::to_string(m_iCurrentScreenX), std::to_string(m_iCurrentScreenY), std::to_string(m_maxHealth), std::to_string(m_health), std::to_string(m_crawlSpeed), std::to_string(m_walkSpeed), std::to_string(m_runSpeed), std::to_string(m_score), m_pGun->getGunType() };
 		return currentState;
 	}
+
+	void equipGun(CW3_BaseGun* pGun);
 };
 
