@@ -5,7 +5,7 @@
 #define UseMovementType 1
 
 //constructor
-CW3_SimpleEnemy::CW3_SimpleEnemy(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight, int maxHealth, int minDamage, int maxDamage, int speed, int pointsValue) : CW3_BaseEnemy(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, maxHealth, minDamage, maxDamage, speed, pointsValue) {
+CW3_SimpleEnemy::CW3_SimpleEnemy(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight, int maxHealth, int currentHealth, int minDamage, int maxDamage, int speed, int pointsValue) : CW3_BaseEnemy(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, maxHealth, currentHealth, minDamage, maxDamage, speed, pointsValue) {
 
 	// setting up left anim
 	std::vector<std::pair<SimpleImage, int>> leftAnimPairs;
@@ -34,6 +34,10 @@ CW3_SimpleEnemy::~CW3_SimpleEnemy() {
 
 void CW3_SimpleEnemy::virtAttack()
 {
+	// only do this if visible
+	if (!isVisible())
+		return;
+
 	// for now there is only one player, so get the one at pos 0 in the vector, later maybe make it hostile to the closest if more players/friendlies are added
 	CW3_Player* target = m_pGameEngine->getObjectOfType<CW3_Player>();
 
@@ -49,6 +53,11 @@ void CW3_SimpleEnemy::virtAttack()
 
 void CW3_SimpleEnemy::virtMove()
 {
+	// only do this if visible
+	if (!isVisible())
+		return;
+
+
 	int newTilesValue; //value of tile we are trying to move to
 	int newYCoordinate, newXCoordinate; //coordinate we are trying to move to
 	int newTilesBounds; //if we are at a floor tiles edge/boundary to a tile you cannot pass (i.e. physical tile such as wall) this is the index of the tile we cannot pass ( limit we cannot move beyond)
@@ -128,6 +137,10 @@ void CW3_SimpleEnemy::virtMove()
 
 void CW3_SimpleEnemy::virtDraw()
 {
+	// only do this if visible
+	if (!isVisible())
+		return;
+
 #if showCollisionBoxes == 1
 	getEngine()->drawForegroundRectangle(
 		m_iCurrentScreenX, m_iCurrentScreenY,
@@ -143,11 +156,22 @@ void CW3_SimpleEnemy::virtDraw()
 
 void CW3_SimpleEnemy::virtDoUpdate(int iCurrentTime)
 {
+	// only do this if visible and not paused
+	if (!isVisible() || m_isPaused)
+		return;
+
+	// if dead then die
+	if (checkDeath()) {
+		virtDie();
+		return;
+	}
+		
+
 	virtMove();
 	virtAttack();
 }
 
 void CW3_SimpleEnemy::virtDie() {
-	m_pGameEngine->deleteObjectFromArray(m_objectID);
 	m_pGameEngine->getObjectOfType<CW3_Player>()->increaseScore(m_pointsValue);
+	m_pGameEngine->deleteObjectFromArray(m_objectID);
 }

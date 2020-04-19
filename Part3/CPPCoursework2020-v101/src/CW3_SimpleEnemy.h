@@ -12,7 +12,7 @@ protected:
 
 public:
 	//constructor
-	CW3_SimpleEnemy(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight, int maxHealth, int minDamage, int maxDamage, int speed, int pointsValue);
+	CW3_SimpleEnemy(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight, int maxHealth, int currentHealth, int minDamage, int maxDamage, int speed, int pointsValue);
 	//deconstructor
 	~CW3_SimpleEnemy();
 
@@ -27,5 +27,17 @@ public:
 	// overiding LivingGameObject functions
 	void virtDie() override;
 
+	virtual std::vector<std::string> getState() override {
+		std::vector<std::string> currentState{ "simpleEnemy",std::to_string(m_iCurrentScreenX), std::to_string(m_iCurrentScreenY), std::to_string(m_maxHealth), std::to_string(m_health), std::to_string(m_minDamage), std::to_string(m_maxDamage), std::to_string(m_speed), std::to_string(m_pointsValue) };
+		return currentState;
+	}
+
+public:
+	// State number - so we can support different states and demonstrate the basics.
+	enum State { stateHappy, stateAngry, stateEnraged, stateDead };
+
+private:
+	// Current state
+	State m_state;
 };
 

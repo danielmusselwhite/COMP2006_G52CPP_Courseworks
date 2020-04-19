@@ -282,11 +282,17 @@
     <ClInclude Include="CW3_BaseBullet.h">
       <Filter>Header Files\5 Coursework 3\Bullets</Filter>
     </ClInclude>
-    <ClInclude Include="CW3_BaseBulletPolymorphic.h">
-      <Filter>Header Files\5 Coursework 3\_Developing</Filter>
+    <ClInclude Include="CW3_StateEnemy.h">
+      <Filter>Header Files\5 Coursework 3\Living Things</Filter>
     </ClInclude>
-    <ClInclude Include="CW3_SimpleBulletPolymorphic.h">
-      <Filter>Header Files\5 Coursework 3\_Developing</Filter>
+    <ClInclude Include="CW3_ShotGun.h">
+      <Filter>Header Files\5 Coursework 3\Guns</Filter>
+    </ClInclude>
+    <ClInclude Include="CW3_ShotGunBullet.h">
+      <Filter>Header Files\5 Coursework 3\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="CW3_gunIDs.h">
+      <Filter>Header Files\5 Coursework 3\Macro Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -391,6 +397,12 @@
     </ClCompile>
     <ClCompile Include="MyTileManager.cpp">
       <Filter>Source Files\4 MyDemos</Filter>
+    </ClCompile>
+    <ClCompile Include="CW3_StateEnemy.cpp">
+      <Filter>Source Files\5 Coursework 3\Living Things</Filter>
+    </ClCompile>
+    <ClCompile Include="CW3_ShotGun.cpp">
+      <Filter>Source Files\5 Coursework 3\Guns</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

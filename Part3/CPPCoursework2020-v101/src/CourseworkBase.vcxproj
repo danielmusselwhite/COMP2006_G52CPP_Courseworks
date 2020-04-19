@@ -99,7 +99,6 @@
     <ClInclude Include="CollisionDetection.h" />
     <ClInclude Include="CW3_AnimatedImage.h" />
     <ClInclude Include="CW3_BaseBullet.h" />
-    <ClInclude Include="CW3_BaseBulletPolymorphic.h" />
     <ClInclude Include="CW3_BaseEnemy.h" />
     <ClInclude Include="CW3_DungeonTileMapCodes.h" />
     <ClInclude Include="CW3_Game.h" />
@@ -107,8 +106,9 @@
     <ClInclude Include="CW3_BaseGun.h" />
     <ClInclude Include="CW3_LivingGameObject.h" />
     <ClInclude Include="CW3_Player.h" />
+    <ClInclude Include="CW3_ShotGun.h" />
+    <ClInclude Include="CW3_ShotGunBullet.h" />
     <ClInclude Include="CW3_SimpleBullet.h" />
-    <ClInclude Include="CW3_SimpleBulletPolymorphic.h" />
     <ClInclude Include="CW3_SimpleEnemy.h" />
     <ClInclude Include="CW3_SimpleGun.h" />
     <ClInclude Include="CW3_TileManager.h" />
@@ -123,6 +123,7 @@
     <ClInclude Include="DrawingSurface.h" />
     <ClInclude Include="FilterPoints.h" />
     <ClInclude Include="FlashingDemo.h" />
+    <ClInclude Include="CW3_gunIDs.h" />
     <ClInclude Include="header.h" />
     <ClInclude Include="BaseEngine.h" />
     <ClInclude Include="DisplayableObject.h" />
@@ -151,6 +152,7 @@
     <ClInclude Include="BouncingObject.h" />
     <ClInclude Include="SimpleTrig.h" />
     <ClInclude Include="StarfieldDemo.h" />
+    <ClInclude Include="CW3_StateEnemy.h" />
     <ClInclude Include="templates.h" />
     <ClInclude Include="TileManager.h" />
     <ClInclude Include="BouncingBall.h" />
@@ -167,6 +169,7 @@
     <ClInclude Include="DragableBaseClassObject.h" />
     <ClCompile Include="CW3_Game.cpp" />
     <ClCompile Include="CW3_Player.cpp" />
+    <ClCompile Include="CW3_ShotGun.cpp" />
     <ClCompile Include="CW3_SimpleEnemy.cpp" />
     <ClCompile Include="CW3_SimpleGun.cpp" />
     <ClCompile Include="CW3_TileManager.cpp" />
@@ -192,6 +195,7 @@
     <ClCompile Include="RawImage.cpp" />
     <ClCompile Include="SimpleDemo.cpp" />
     <ClCompile Include="StarfieldDemo.cpp" />
+    <ClCompile Include="CW3_StateEnemy.cpp" />
     <ClCompile Include="TileManager.cpp" />
     <ClCompile Include="BouncingBall.cpp" />
     <ClCompile Include="BouncingBallMain.cpp" />

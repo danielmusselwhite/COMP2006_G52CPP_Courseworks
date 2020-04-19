@@ -1,7 +1,7 @@
 #pragma once
 #include "SimpleImage.h"
 #include <vector>
-#include "CW3_Game.h"
+#include "BaseEngine.h"
 
 class CW3_AnimatedImage
 {
@@ -20,10 +20,11 @@ public:
 
 	// deconstructor
 	~CW3_AnimatedImage() {
+			
 		m_animFrames.clear();
 	}
 
-	void renderCurrentFrame(CW3_Game* pEngine, DrawingSurface* pTarget,
+	void renderCurrentFrame(BaseEngine* pEngine, DrawingSurface* pTarget,
 		int iXDrawLocation, int iYDrawLocation, int iTargetWidth, int iTargetHeight,
 		int iLeftInImage, int iTopInImage, int iWidthInImage, int iHeightInImage) {
 

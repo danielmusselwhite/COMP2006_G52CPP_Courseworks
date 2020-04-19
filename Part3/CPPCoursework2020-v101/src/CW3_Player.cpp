@@ -5,14 +5,20 @@
 #include "CW3_DungeonTileMapCodes.h"
 #include "CW3_DebugHeaders.h"
 #include "CW3_SimpleGun.h"
+#include "CW3_ShotGun.h"
 
-CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight, int maxHealth, int crawlSpeed, int walkSpeed, int runSpeed) : CW3_LivingGameObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, maxHealth) {
+CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight, int maxHealth, int currentHealth, int crawlSpeed, int walkSpeed, int runSpeed, int score, CW3_BaseGun*pGun) : CW3_LivingGameObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, maxHealth, currentHealth) {
 	m_walkSpeed = walkSpeed;
 	m_runSpeed = runSpeed;
 	m_crawlSpeed = crawlSpeed;
 
-	m_pGun = new CW3_SimpleGun(this, iStartXCoord, iStartYCoord, m_pGameEngine, iWidth, iHeight, 2, 2);
+	m_score = score;
 
+	//equipGun(pGun);
+
+	m_pGun = nullptr;
+	equipGun(pGun);
+	
 	// setting up left anim
 	std::vector<std::pair<SimpleImage, int>> leftAnimPairs;
 	leftAnimPairs.push_back(std::make_pair(ImageManager::loadImage("images\\DungeonFrames\\Players\\myWizard\\Idle\\Left\\player_left_idle_anim_f0.png", true), 150));
@@ -36,10 +42,15 @@ CW3_Player::CW3_Player(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, 
 CW3_Player::~CW3_Player() {
 	delete m_RightAnim;
 	delete m_LeftAnim;
+	delete m_pGun;
 }
 
 void CW3_Player::virtDraw()
 {
+	// only do this if visible
+	if (!isVisible())
+		return;
+
 	
 	
 #if showCollisionBoxes == 1
@@ -60,6 +71,15 @@ void CW3_Player::virtDraw()
 
 void CW3_Player::virtDoUpdate(int iCurrentTime)
 {
+	// only do this if visible and not paused
+	if (!isVisible() || m_isPaused)
+		return;
+
+	// if dead then die
+	if (checkDeath()) {
+		virtDie();
+		return;
+	}
 
 	// handling player movement
 	{
@@ -95,18 +115,18 @@ void CW3_Player::virtDoUpdate(int iCurrentTime)
 				newTilesValue1 = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(m_iCurrentScreenX, newYCoordinate);	//top left
 				newTilesValue2 = m_pGameEngine->getTileManager()->getTileValueAtCoordinates(m_iCurrentScreenX + m_iDrawWidth - 1, newYCoordinate); //top right
 
-//.. if it has a value within the 0-50 partition for floor tiles (tiles player can walk on)..
-if (50 > newTilesValue1 && newTilesValue1 >= 0 && 50 > newTilesValue2 && newTilesValue2 >= 0) {
-	//.. move the player to their new coordinate
-	m_iCurrentScreenY = newYCoordinate;
-}
-//..else this is a tile with a physical boundary..
-else {
-	// index of the tile we do not want to move past = the index of tile at coordinate we cannot move to +1 as the limit is the bottom of the tile
-	newTilesBounds = m_pGameEngine->getTileManager()->getTileYMapAtCoordinates(newYCoordinate) + 1;
-	// snap to the bottom of the tile we cannot move past (Coordinate of start of tilemap + height of each tile * index of tile limit
-	m_iCurrentScreenY = (m_pGameEngine->getTileManager()->getBaseScreenY()) + ((m_pGameEngine->getTileManager()->getTileHeight())) * newTilesBounds;
-}
+				//.. if it has a value within the 0-50 partition for floor tiles (tiles player can walk on)..
+				if (50 > newTilesValue1 && newTilesValue1 >= 0 && 50 > newTilesValue2 && newTilesValue2 >= 0) {
+					//.. move the player to their new coordinate
+					m_iCurrentScreenY = newYCoordinate;
+				}
+				//..else this is a tile with a physical boundary..
+				else {
+					// index of the tile we do not want to move past = the index of tile at coordinate we cannot move to +1 as the limit is the bottom of the tile
+					newTilesBounds = m_pGameEngine->getTileManager()->getTileYMapAtCoordinates(newYCoordinate) + 1;
+					// snap to the bottom of the tile we cannot move past (Coordinate of start of tilemap + height of each tile * index of tile limit
+					m_iCurrentScreenY = (m_pGameEngine->getTileManager()->getBaseScreenY()) + ((m_pGameEngine->getTileManager()->getTileHeight())) * newTilesBounds;
+				}
 
 			}
 
@@ -197,6 +217,9 @@ else {
 	{
 		m_pGameEngine->getCurrentMouseX() < m_iCurrentScreenX + m_iDrawWidth / 2 ? m_Anim = m_LeftAnim : m_Anim = m_RightAnim;
 	}
+	
+	m_pGun->updateXCentre(getCurrentXCoordinate(), getDrawWidth());
+	m_pGun->updateYCentre(getCurrentYCoordinate(), getDrawHeight());
 
 	// handling invulnerablity
 	{
@@ -217,14 +240,29 @@ else {
 
 void CW3_Player::shootGun()
 {
+	// only do this if visible
+	if (!isVisible())
+		return;
+
 	m_pGun->attack();
 }
 
 void CW3_Player::virtDie() {
-	std::cout << "Player is dead\n";
-	//m_pGameEngine->deleteObjectFromArray(m_objectID);
+	m_dead = true;
+	m_pGameEngine->setStateGameOver();
+}
+
+void CW3_Player::equipGun(CW3_BaseGun * pGun)
+{
+	if (m_pGun != nullptr)
+		delete m_pGun;
+	m_pGun = pGun;
 }
 
 void CW3_Player::increaseScore(int points) {
 	m_score += points;
+}
+
+bool CW3_Player::isDead() {
+	return m_dead;
 }

@@ -11,12 +11,13 @@ class CW3_GameObject :
 public:
 	CW3_Game* m_pGameEngine;
 	const int m_objectID = maxObjectID;
+	bool m_isPaused = false;
 
 	CW3_GameObject(int iStartXCoord, int iStartYCoord, BaseEngine* pEngine, int iWidth, int iHeight) : DisplayableObject(iStartXCoord, iStartYCoord, pEngine, iWidth, iHeight, true) {
 		//(CW3_Game*)pEngine;
 		m_pGameEngine = dynamic_cast<CW3_Game*>(pEngine); //checks its a subclass first
 		maxObjectID++;
-#if showDebugPrintObjectCreationDeletion == 1
+#if showDebugPrintObjectCreationDeletion is 1
 		std::cout << "\nCreated new object with ID: " << m_objectID << " and at memory address: "<<this<<"\n";
 #endif
 	}
@@ -38,4 +39,12 @@ public:
 	virtual int getYCoordinateToBeSortedBy() {
 		return m_iCurrentScreenY + m_iDrawHeight;
 	}
+
+	void setPausedValueTo(bool isPaused) {
+		m_isPaused = isPaused;
+	}
+
+
+	//abstract methods for getting the objects state used for writing game save state information to a file
+	virtual std::vector<std::string> getState() = 0;
 };

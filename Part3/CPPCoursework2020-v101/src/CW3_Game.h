@@ -1,6 +1,8 @@
 #pragma once
 #include "BaseEngine.h"
 #include "CW3_TileManager.h"
+#include "CW3_AnimatedImage.h"
+
 
 class CW3_Game :
 	public BaseEngine
@@ -11,7 +13,14 @@ protected:
 	int m_tmTileDimensions; //member variable to store size of tiles
 	int m_tmStartingX; //member variable to store starting x coord to draw from
 	int m_tmStartingY; //member variable to store starting y coord to draw from
-
+	int m_playersHighscorePlace; //stores what highscore the player has just got
+	std::string m_playerName;
+	int m_minEnemySpawnTimeBetweenSpawns;
+	int m_maxEnemySpawnTimeBetweenSpawns;
+	int m_enemySpawnNextEnemyTime;
+	int m_enemySpawnTimeBetweenSpawns;
+	std::vector<std::vector<int>> m_dungeonTileMapDesign;
+	CW3_AnimatedImage* m_bgAnim;
 
 
 public:
@@ -21,6 +30,7 @@ public:
 
 	//functions relating to m_vecDisplayableObjects
 	void deleteObjectFromArray(int objectID);
+	void deleteAllObjectsInArray();
 
 	int getDrawableObjectVectorSize()
 	{
@@ -30,19 +40,8 @@ public:
 	//sorting the objects into the vector so objects are drawn in front of eachother relative to their location in the world
 	void sortObjectsByYAxis() {
 
-		std::sort(m_vecDisplayableObjects.begin(), m_vecDisplayableObjects.end(), [ ](DisplayableObject* object1, DisplayableObject* object2)
-		{ 
-			
-			//if (dynamic_cast<CW3_GameObject*>(object1) != nullptr){// && dynamic_cast<CW3_GameObject*>(object2)) {
-				//CW3_GameObject * gameObject1 = (CW3_GameObject *)object1;
-				//CW3_GameObject * gameObject2= (CW3_GameObject *)object2;
-
-				//return gameObject1->getYCoordinateToBeSortedBy() > gameObject2->getYCoordinateToBeSortedBy();
-			//}
-
-			// if one or more isn't a game object, don't change their positions
-			//return false;
-			
+		std::sort(m_vecDisplayableObjects.begin(), m_vecDisplayableObjects.end(), [](DisplayableObject* object1, DisplayableObject* object2)
+		{
 			return object1->getYCentre() < object2->getYCentre();
 		});
 	}
@@ -61,6 +60,19 @@ public:
 	void virtDrawStringsOnTop() override;
 	void virtMainLoopDoBeforeUpdate() override;
 
+	void pauseAllGameObjects();
+	void unpauseAllGameObjects();
+
+	void setStateGameOver() {
+		m_state = stateGameOver;
+
+		// Force screen redraw
+		lockAndSetupBackground();
+
+		setAllObjectsVisible(false);
+
+		redrawDisplay();
+	}
 
 
 	//generic functions
@@ -74,7 +86,7 @@ public:
 		// for each object in the game
 		for (int i = 0; i < m_vecDisplayableObjects.size(); i++) {
 			if (dynamic_cast<objectType*>(m_vecDisplayableObjects.at(i)) != nullptr)
-				vecObs.push_back( (objectType*)m_vecDisplayableObjects.at(i) );
+				vecObs.push_back((objectType*)m_vecDisplayableObjects.at(i));
 
 		}
 
@@ -97,9 +109,10 @@ public:
 		throw - 1;
 	}
 
+
 public:
 	// State number - so we can support different states and demonstrate the basics.
-	enum State { stateInit, stateMain, statePaused, stateGameOver };
+	enum State { stateInit, stateMain, statePaused, stateGameOver, stateHighscores, stateNewHighscore };
 
 private:
 	// Current state

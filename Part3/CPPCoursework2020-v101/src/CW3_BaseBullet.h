@@ -29,6 +29,10 @@ public:
 
 	// overriding virtual methods
 	void virtDraw() {
+		// only do this if visible
+		if (!isVisible())
+			return;
+
 		getEngine()->drawForegroundOval(
 			m_iCurrentScreenX, m_iCurrentScreenY,
 			m_iCurrentScreenX + m_iDrawWidth - 1,
@@ -38,14 +42,18 @@ public:
 
 	// can be overwritten but has general structure of how bullet will act
 	virtual void virtDoUpdate(int iCurrentTime) override {
-		
+		// only do this if visible and not paused
+		if (!isVisible() || m_isPaused)
+			return;
+
+
 		int yIncrease = cos(m_AngleRadians) * -m_bulletSpeed;
 		int xIncrease = sin(m_AngleRadians) * -m_bulletSpeed;
 		
 		m_iCurrentScreenY += yIncrease;
 		m_iCurrentScreenX += xIncrease;
 
-		m_bulletMaxDistance - +yIncrease + xIncrease;
+		m_bulletMaxDistance -= abs(yIncrease) + abs(xIncrease);
 
 		if (m_pGameEngine->getTileManager()->isValidTilePosition(m_iCurrentScreenX, m_iCurrentScreenY)) {
 			// .. store that tiles value and ..
@@ -60,6 +68,7 @@ public:
 			// or if it has reached its max distance
 			if (50 <= newTilesValue || newTilesValue < 0 || m_bulletMaxDistance<=0) {
 				m_pGameEngine->deleteObjectFromArray(m_objectID);
+				return;
 			}
 
 			checkEnemyCollisions();
@@ -83,7 +92,7 @@ public:
 				vecEnemies.at(i)->hurt(m_bulletDamage);
 
 				m_pGameEngine->deleteObjectFromArray(m_objectID);
-
+				break;
 			}
 
 		}
