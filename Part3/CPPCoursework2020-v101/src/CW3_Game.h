@@ -3,35 +3,247 @@
 #include "CW3_TileManager.h"
 #include "CW3_AnimatedImage.h"
 
+class CW3_Game;
+class GameState;
+class StateInit;
+class LevelState;
+class StateLevel1;
+class StatePaused;
+class StateGameOver;
+class StateHighscores;
+class StateNewHighscores;
 
-class CW3_Game :
-	public BaseEngine
-{
+#pragma region States_For_State_Pattern
+
+class GameState {
 protected:
-	//member variables
+	CW3_Game* m_pGameEngine;
+	int m_stateID;
+
+public:
+	virtual ~GameState() {
+
+	}
+
+	void setContext(CW3_Game* pGameEngine) {
+		m_pGameEngine = pGameEngine;
+	}
+
+	virtual void setUpBackground() {
+		return;
+	}
+
+	virtual void handleKeyPresses(int iKeyCode) {
+		return;
+	}
+
+	virtual void initialiseObjects() {
+		return;
+	}
+
+	virtual void drawStringsOnTop() {
+		return;
+	}
+
+	virtual void DoBeforeUpdate() {
+		return;
+	}
+
+	int getID() {
+		return m_stateID;
+	}
+};
+
+class StateInit : public GameState {
+private:
+	CW3_AnimatedImage* m_bgAnim;
+public:
+	StateInit(CW3_Game* pGameEngine);
+	virtual ~StateInit() override;
+
+	virtual void setUpBackground() override;
+
+	virtual void handleKeyPresses(int iKeyCode) override;
+
+	virtual void drawStringsOnTop() override;
+
+	virtual void DoBeforeUpdate() override;
+};
+
+
+class StatePaused : public GameState {
+public:
+	StatePaused(CW3_Game* pGameEngine) {
+		m_pGameEngine = pGameEngine;
+		m_stateID = 1;
+	}
+	virtual ~StatePaused() override {
+		return;
+	}
+
+	virtual void handleKeyPresses(int iKeyCode) override;
+
+	virtual void drawStringsOnTop() override;
+
+};
+
+class StateGameOver : public GameState {
+protected:
+	int m_highScore;
+public:
+	StateGameOver(int playerHighScore, CW3_Game* pGameEngine){
+		m_highScore = playerHighScore;
+		m_pGameEngine = pGameEngine;
+		m_stateID = 2;
+	}
+	virtual ~StateGameOver() override {
+		return;
+	}
+
+	virtual void setUpBackground() override;
+
+	virtual void handleKeyPresses(int iKeyCode) override;
+
+	virtual void drawStringsOnTop() override;
+};
+
+class StateNewHighscores : public GameState {
+private:
+	std::string m_playerName;
+	int m_playersHighscorePlace;
+public:
+	StateNewHighscores(int playerHighScorePlace, CW3_Game* pGameEngine) {
+		m_playersHighscorePlace = playerHighScorePlace;
+		m_pGameEngine = pGameEngine;
+		m_stateID = 3;
+	}
+	virtual ~StateNewHighscores() override {
+		return;
+	}
+
+	virtual void setUpBackground() override;
+
+	virtual void handleKeyPresses(int iKeyCode) override;
+
+	virtual void drawStringsOnTop() override;
+};
+
+class StateHighscores : public GameState {
+public:
+	StateHighscores(CW3_Game* pGameEngine) {
+		m_pGameEngine = pGameEngine;
+		m_stateID = 4;
+	}
+	virtual ~StateHighscores() override {
+		return;
+	}
+
+	virtual void setUpBackground() override;
+
+	virtual void handleKeyPresses(int iKeyCode) override;
+
+	virtual void drawStringsOnTop() override;
+
+};
+
+
+
+
+class LevelState : public GameState {
+protected:
+	int m_levelID;
+
 	CW3_TileManager *m_tm;
+	std::vector<std::vector<int>> m_dungeonTileMapDesign;
 	int m_tmTileDimensions; //member variable to store size of tiles
 	int m_tmStartingX; //member variable to store starting x coord to draw from
 	int m_tmStartingY; //member variable to store starting y coord to draw from
 	int m_playersHighscorePlace; //stores what highscore the player has just got
-	std::string m_playerName;
+
 	int m_minEnemySpawnTimeBetweenSpawns;
 	int m_maxEnemySpawnTimeBetweenSpawns;
 	int m_enemySpawnNextEnemyTime;
 	int m_enemySpawnTimeBetweenSpawns;
-	std::vector<std::vector<int>> m_dungeonTileMapDesign;
-	CW3_AnimatedImage* m_bgAnim;
-
 
 public:
-	//constructor/deconstructor
+	CW3_TileManager* getTileManager() {
+		return m_tm;
+	}
+	void mouseDown(int iButton);
+
+	int getLevelID() {
+		return m_levelID;
+	}
+
+	int getEnemySpawnNextEnemyTime() {
+		return m_enemySpawnNextEnemyTime;
+	}
+
+	int getEnemySpawnTimeBetweenSpawns() {
+		return m_enemySpawnTimeBetweenSpawns;
+	}
+
+	void incrementNextEnemySpawnTime(int addOn) {
+		m_enemySpawnNextEnemyTime += addOn;
+	}
+};
+
+class StateLevel1 : public LevelState {
+
+public:
+	StateLevel1(CW3_Game *pGameEngine);
+	StateLevel1(std::ifstream* loadGame, CW3_Game *pGameEngine);
+	virtual ~StateLevel1() override;
+
+	virtual void setUpBackground() override;
+
+	virtual void initialiseObjects() override;
+
+	virtual void handleKeyPresses(int iKeyCode) override;
+
+	virtual void drawStringsOnTop() override;
+
+	virtual void DoBeforeUpdate() override;
+
+	virtual CW3_TileManager* getTileManager() {
+		return m_tm;
+	}
+};
+
+#pragma endregion States_For_State_Pattern
+
+#pragma region Main_Game_Engine
+
+class CW3_Game : public BaseEngine {
+
+protected:
+	GameState *m_gameState;
+	LevelState *m_currentLevel;
+public:
 	CW3_Game();
 	~CW3_Game();
 
-	//functions relating to m_vecDisplayableObjects
+#pragma region State_Pattern_Methods
+	void transitionToState(GameState *state);
+	void setCurrentLevel(LevelState *level);
+	void switchToPauseState();
+	void switchFromPauseState();
+#pragma endregion State_Pattern_Methods
+
+	LevelState * getCurrentLevel() {
+		return m_currentLevel;
+	}
+
+	std::vector<DisplayableObject *>* get_m_vecDisplayableObjects() {
+		return &m_vecDisplayableObjects;
+	}
+
+	//deleting object from vector using its id
 	void deleteObjectFromArray(int objectID);
+	//deleting all objects from the vector
 	void deleteAllObjectsInArray();
 
+	// gettomg size of drawableObjectVector
 	int getDrawableObjectVectorSize()
 	{
 		return m_vecDisplayableObjects.size();
@@ -46,13 +258,11 @@ public:
 		});
 	}
 
-
-	//functions relating to getting different useful objects
+	//getting the tile manager
 	CW3_TileManager * getTileManager() {
-		return m_tm;
+		return m_currentLevel->getTileManager();
 	}
 
-	//overriding parent functions
 	void virtSetupBackgroundBuffer() override;
 	void virtMouseDown(int iButton, int iX, int iY) override;
 	void virtKeyDown(int iKeyCode) override;
@@ -63,19 +273,7 @@ public:
 	void pauseAllGameObjects();
 	void unpauseAllGameObjects();
 
-	void setStateGameOver() {
-		m_state = stateGameOver;
-
-		// Force screen redraw
-		lockAndSetupBackground();
-
-		setAllObjectsVisible(false);
-
-		redrawDisplay();
-	}
-
-
-	//generic functions
+	// template functions used for getting objects of specific type 
 
 	// function for returning list of all objects of a specific type (i.e. enemy being able to find player(s)
 	template <typename objectType> std::vector<objectType*> getObjectsOfType() {
@@ -108,14 +306,6 @@ public:
 
 		throw - 1;
 	}
-
-
-public:
-	// State number - so we can support different states and demonstrate the basics.
-	enum State { stateInit, stateMain, statePaused, stateGameOver, stateHighscores, stateNewHighscore };
-
-private:
-	// Current state
-	State m_state;
 };
 
+#pragma endregion Main_GameEngine
