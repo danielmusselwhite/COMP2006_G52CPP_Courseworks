@@ -64,7 +64,7 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 
 
 	case stateMain:
-		
+
 		fillBackground(clrBgMain);
 
 		// SETTING UP THE STARRY BACKGROUND
@@ -127,8 +127,8 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 
 	case stateHighscores:
 		fillBackground(0x000000);
-		drawBackgroundRectangle(getWindowWidth()/10, getWindowHeight()/25, getWindowWidth() - getWindowWidth()/10 , getWindowHeight()- getWindowHeight() / 25, 0x2a2a2a);
-		
+		drawBackgroundRectangle(getWindowWidth() / 10, getWindowHeight() / 25, getWindowWidth() - getWindowWidth() / 10, getWindowHeight() - getWindowHeight() / 25, 0x2a2a2a);
+
 
 		drawBackgroundString(550, 40, "Highscores", 0xe3e3e3, NULL);
 
@@ -138,7 +138,7 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 		break;
 
 	case stateNewHighscore:
-		
+
 		fillBackground(0x000000);
 
 		drawBackgroundString(15, 40, "You have achieved a new highscore!", 0xe3e3e3, NULL);
@@ -148,7 +148,7 @@ void CW3_Game::virtSetupBackgroundBuffer() {
 		break;
 	}
 
-	
+
 
 }
 
@@ -168,7 +168,7 @@ void CW3_Game::virtMouseDown(int iButton, int iX, int iY) {
 
 void CW3_Game::virtKeyDown(int iKeyCode) {
 
-	switch (m_state){
+	switch (m_state) {
 
 	case stateInit:
 		switch (iKeyCode) {
@@ -191,105 +191,105 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 
 		case SDLK_l:
 
-			{
-				// look at the input file (quicksave)
-				std::ifstream infile("./savedData/quicksave.csv");
+		{
+			// look at the input file (quicksave)
+			std::ifstream infile("./savedData/quicksave.csv");
 
-				std::vector<std::string> rows;
+			std::vector<std::string> rows;
 
-				//if the file exists..
-				if (infile.good()) {
+			//if the file exists..
+			if (infile.good()) {
 
-					m_state = stateMain;
+				m_state = stateMain;
 
-					deleteAllObjectsInArray();
+				deleteAllObjectsInArray();
 
-					std::string input;
+				std::string input;
 
-					// base the tiles dimensions on the windows height and the number of tiles in the y plane
-					m_tmTileDimensions = (getWindowHeight()*.75) / tmCountYTiles;
+				// base the tiles dimensions on the windows height and the number of tiles in the y plane
+				m_tmTileDimensions = (getWindowHeight()*.75) / tmCountYTiles;
 
-					m_dungeonTileMapDesign.clear(); // clearing the tilemaps design as we are loading a new one
+				m_dungeonTileMapDesign.clear(); // clearing the tilemaps design as we are loading a new one
 
-					// get each line in the csv
-					while (std::getline(infile, input)) {
+				// get each line in the csv
+				while (std::getline(infile, input)) {
 
-						// create a vector of the different fields for this row by separating the commas
-						std::vector<std::string> fields;
-						std::stringstream inputStream(input);
-						std::string field;
-						while (std::getline(inputStream, field, ',')) {
-							fields.push_back(field);
-						}
-						
-						if (fields.at(0) == "nextEnemySpawnTime")
-							m_enemySpawnNextEnemyTime = getRawTime() + std::stoi(fields.at(1));
-						else if (fields.at(0) == "enemySpawnDelay")
-							m_enemySpawnTimeBetweenSpawns = std::stoi(fields.at(1));
-
-						else if (fields.at(0) == "tileManager") {
-							std::vector<int> tileMapRow;
-							for (int i = 1; i < fields.size(); i++) {
-								tileMapRow.push_back(std::stoi(fields.at(i)));
-							}
-							m_dungeonTileMapDesign.push_back(tileMapRow);
-						}
-
-						else if (fields.at(0) == "player") {
-							drawableObjectsChanged();
-
-							CW3_BaseGun * pGun;
-
-							if((fields.at(9))=="simpleGun")
-								pGun = new CW3_SimpleGun(std::stoi(fields.at(1)), std::stoi(fields.at(2)), this, m_tmTileDimensions, m_tmTileDimensions, 2, 2);
-							else if ((fields.at(9)) == "shotGun")
-								pGun = new CW3_ShotGun(std::stoi(fields.at(1)), std::stoi(fields.at(2)), this, m_tmTileDimensions, m_tmTileDimensions, 2, 2);
-							else
-								pGun = new CW3_SimpleGun(std::stoi(fields.at(1)), std::stoi(fields.at(2)), this, m_tmTileDimensions, m_tmTileDimensions, 2, 2);
-
-							appendObjectToArray(new CW3_Player(std::stoi(fields.at(1)), std::stoi(fields.at(2)), this, m_tmTileDimensions, m_tmTileDimensions, std::stoi(fields.at(3)), std::stoi(fields.at(4)), std::stoi(fields.at(5)), std::stoi(fields.at(6)), std::stoi(fields.at(7)), std::stoi(fields.at(8)), pGun));
-						}
-						else if (fields.at(0) == "simpleEnemy") {
-							drawableObjectsChanged();
-							appendObjectToArray(new CW3_SimpleEnemy(std::stoi(fields.at(1)),std::stoi(fields.at(2)), this, m_tmTileDimensions, m_tmTileDimensions, std::stoi(fields.at(3)), std::stoi(fields.at(4)), std::stoi(fields.at(5)), std::stoi(fields.at(6)), std::stoi(fields.at(7)), std::stoi(fields.at(8))));
-						}
-						else if (fields.at(0) == "simpleBullet") {
-							drawableObjectsChanged();
-							appendObjectToArray(new CW3_SimpleBullet(std::stoi(fields.at(1)),std::stoi(fields.at(2)), this, 10, 10, std::stod(fields.at((3)))));
-						}
-						else if (fields.at(0) == "stateEnemy") {
-							drawableObjectsChanged();
-							appendObjectToArray(new CW3_StateEnemy(std::stoi(fields.at(1)), std::stoi(fields.at(2)), this, m_tmTileDimensions, m_tmTileDimensions, std::stoi(fields.at(3)), std::stoi(fields.at(4)), std::stoi(fields.at(5)), std::stoi(fields.at(6)), std::stoi(fields.at(7)), std::stoi(fields.at(8)), std::stoi(fields.at(9))));
-						}
-						else if (fields.at(0) == "shotGunBullet") {
-							drawableObjectsChanged();
-							appendObjectToArray(new CW3_ShotGunBullet(std::stoi(fields.at(1)), std::stoi(fields.at(2)), this, 10, 10, std::stod(fields.at((3)))));
-						}
+					// create a vector of the different fields for this row by separating the commas
+					std::vector<std::string> fields;
+					std::stringstream inputStream(input);
+					std::string field;
+					while (std::getline(inputStream, field, ',')) {
+						fields.push_back(field);
 					}
 
-					pause();
+					if (fields.at(0) == "nextEnemySpawnTime")
+						m_enemySpawnNextEnemyTime = getRawTime() + std::stoi(fields.at(1));
+					else if (fields.at(0) == "enemySpawnDelay")
+						m_enemySpawnTimeBetweenSpawns = std::stoi(fields.at(1));
 
-					// Ensure objects become visible now - we hid them initially
-					setAllObjectsVisible(true);
+					else if (fields.at(0) == "tileManager") {
+						std::vector<int> tileMapRow;
+						for (int i = 1; i < fields.size(); i++) {
+							tileMapRow.push_back(std::stoi(fields.at(i)));
+						}
+						m_dungeonTileMapDesign.push_back(tileMapRow);
+					}
 
-					// Force redraw of background
-					lockAndSetupBackground();
+					else if (fields.at(0) == "player") {
+						drawableObjectsChanged();
 
-					// Redraw the whole screen now
-					redrawDisplay();
+						CW3_BaseGun * pGun;
 
-					unpause();
-					
+						if ((fields.at(9)) == "simpleGun")
+							pGun = new CW3_SimpleGun(std::stoi(fields.at(1)), std::stoi(fields.at(2)), this, m_tmTileDimensions, m_tmTileDimensions, 2, 2);
+						else if ((fields.at(9)) == "shotGun")
+							pGun = new CW3_ShotGun(std::stoi(fields.at(1)), std::stoi(fields.at(2)), this, m_tmTileDimensions, m_tmTileDimensions, 2, 2);
+						else
+							pGun = new CW3_SimpleGun(std::stoi(fields.at(1)), std::stoi(fields.at(2)), this, m_tmTileDimensions, m_tmTileDimensions, 2, 2);
 
+						appendObjectToArray(new CW3_Player(std::stoi(fields.at(1)), std::stoi(fields.at(2)), this, m_tmTileDimensions, m_tmTileDimensions, std::stoi(fields.at(3)), std::stoi(fields.at(4)), std::stoi(fields.at(5)), std::stoi(fields.at(6)), std::stoi(fields.at(7)), std::stoi(fields.at(8)), pGun));
+					}
+					else if (fields.at(0) == "simpleEnemy") {
+						drawableObjectsChanged();
+						appendObjectToArray(new CW3_SimpleEnemy(std::stoi(fields.at(1)), std::stoi(fields.at(2)), this, m_tmTileDimensions, m_tmTileDimensions, std::stoi(fields.at(3)), std::stoi(fields.at(4)), std::stoi(fields.at(5)), std::stoi(fields.at(6)), std::stoi(fields.at(7)), std::stoi(fields.at(8))));
+					}
+					else if (fields.at(0) == "simpleBullet") {
+						drawableObjectsChanged();
+						appendObjectToArray(new CW3_SimpleBullet(std::stoi(fields.at(1)), std::stoi(fields.at(2)), this, 10, 10, std::stod(fields.at((3)))));
+					}
+					else if (fields.at(0) == "stateEnemy") {
+						drawableObjectsChanged();
+						appendObjectToArray(new CW3_StateEnemy(std::stoi(fields.at(1)), std::stoi(fields.at(2)), this, m_tmTileDimensions, m_tmTileDimensions, std::stoi(fields.at(3)), std::stoi(fields.at(4)), std::stoi(fields.at(5)), std::stoi(fields.at(6)), std::stoi(fields.at(7)), std::stoi(fields.at(8)), std::stoi(fields.at(9))));
+					}
+					else if (fields.at(0) == "shotGunBullet") {
+						drawableObjectsChanged();
+						appendObjectToArray(new CW3_ShotGunBullet(std::stoi(fields.at(1)), std::stoi(fields.at(2)), this, 10, 10, std::stod(fields.at((3)))));
+					}
 				}
 
-				infile.close();
+				pause();
 
-				//player can only load from the same file once
-				std::remove("./savedData/quicksave.csv");
+				// Ensure objects become visible now - we hid them initially
+				setAllObjectsVisible(true);
+
+				// Force redraw of background
+				lockAndSetupBackground();
+
+				// Redraw the whole screen now
+				redrawDisplay();
+
+				unpause();
+
 
 			}
-			break;
+
+			infile.close();
+
+			//player can only load from the same file once
+			std::remove("./savedData/quicksave.csv");
+
+		}
+		break;
 
 		case SDLK_RETURN: // start the game
 			//reset tilenap design
@@ -314,12 +314,12 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 			//reset enemy spawn times
 			m_enemySpawnTimeBetweenSpawns = m_maxEnemySpawnTimeBetweenSpawns;
 			m_enemySpawnNextEnemyTime = getRawTime() + m_enemySpawnTimeBetweenSpawns;
-			
+
 			m_state = stateMain;
-			
+
 			pause();
 
-			
+
 			// Force redraw of background
 			lockAndSetupBackground();
 
@@ -327,7 +327,7 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 			virtInitialiseObjects();
 			// Ensure objects become visible now - we hid them initially
 			setAllObjectsVisible(true);
-			
+
 			// Redraw the whole screen now
 			redrawDisplay();
 
@@ -335,11 +335,11 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 			std::remove("./savedData/quicksave.csv");
 
 			unpause();
-			
+
 			break;
 		}
 
-		
+
 		break;
 
 
@@ -386,7 +386,7 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 			std::ofstream outfile("./savedData/quicksave.csv");
 
 			//saving enemy spawn time variables
-			outfile << "nextEnemySpawnTime,"<<m_enemySpawnNextEnemyTime<<"\n"; // time until next enemy spawns - the current time
+			outfile << "nextEnemySpawnTime," << m_enemySpawnNextEnemyTime << "\n"; // time until next enemy spawns - the current time
 			outfile << "enemySpawnDelay," << m_enemySpawnTimeBetweenSpawns << "\n";
 
 			//saving game world
@@ -399,21 +399,21 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 				}
 				outfile << "\n";
 			}
-			
-			
+
+
 
 			//saving game objects
 			// for each object in the game
 			for (int i = 0; i < m_vecDisplayableObjects.size(); i++) {
 				// cast to a CW3_GameObject then get its state
 				std::vector<std::string> objectState = ((CW3_GameObject *)m_vecDisplayableObjects.at(i))->getState();
-				
+
 				std::string stateString;
 
 				// iterate through the object state vector converting it to csv format
 				for (int i = 0; i < objectState.size(); i++) {
 					stateString.append(objectState.at(i));
-					if(i != objectState.size()-1)
+					if (i != objectState.size() - 1)
 						stateString.push_back(',');
 				}
 				// write to the game save file
@@ -437,7 +437,7 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 			break;
 		}
 		break;
-	
+
 
 
 
@@ -484,7 +484,7 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 					m_playersHighscorePlace = i;
 					m_state = stateNewHighscore;
 				}
-					
+
 				//player hasn't got a highscore as i reached greater than 9 hence we have 10 rows that the player isn't higher than
 				else {
 					m_state = stateInit;
@@ -497,11 +497,11 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 				m_playersHighscorePlace = 0;
 				m_state = stateNewHighscore;
 			}
-				
-		
+
+
 			infile.close();
 
-			
+
 
 			lockAndSetupBackground();
 
@@ -530,7 +530,7 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 
 	case stateNewHighscore:
 
-		
+
 
 		//allowing user to enter their name
 		switch (iKeyCode) {
@@ -634,7 +634,7 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 			lockForegroundForDrawing();
 			m_playerName += 'm';
 			unlockForegroundForDrawing();
-		
+
 			redrawDisplay();
 			break;
 
@@ -743,7 +743,7 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 			break;
 
 
-		
+
 
 		case SDLK_BACKSPACE: // removing the last character
 
@@ -754,12 +754,12 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 
 				redrawDisplay();
 			}
-				
+
 			break;
 
-			
 
-		case SDLK_RETURN: 
+
+		case SDLK_RETURN:
 
 			if (m_playerName.size() > 0) {
 
@@ -831,12 +831,12 @@ void CW3_Game::virtKeyDown(int iKeyCode) {
 			break;
 		}
 
-		
+
 
 		break;
 	}
 
-	
+
 }
 
 int CW3_Game::virtInitialiseObjects() {
@@ -864,13 +864,13 @@ int CW3_Game::virtInitialiseObjects() {
 		//erase this floor so we can't have more than one thing spawn on same floor
 		floors.erase(floors.begin() + floorIndex);
 
-/*
-		floorIndex = rand() % floors.size();
-		floor = floors.at(floorIndex);
+		/*
+				floorIndex = rand() % floors.size();
+				floor = floors.at(floorIndex);
 
-		drawableObjectsChanged();
-		appendObjectToArray(new CW3_StateEnemy(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 100, 100, 1, 10, 2, 10,0));*/
-		// Make everything invisible to start with
+				drawableObjectsChanged();
+				appendObjectToArray(new CW3_StateEnemy(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, 100, 100, 1, 10, 2, 10,0));*/
+				// Make everything invisible to start with
 		setAllObjectsVisible(false);
 
 		break;
@@ -888,7 +888,7 @@ void CW3_Game::virtDrawStringsOnTop()
 	case stateInit:
 		drawForegroundString(15, getWindowHeight() / 2, "Press h to view highscores!", 0xe3e3e3, NULL);
 		drawForegroundString(15, getWindowHeight() / 2 + 30, "Press escp to exit!", 0xe3e3e3, NULL);
-		
+
 		{
 			// look at the input file (quicksave)
 			std::ifstream infile("./savedData/quicksave.csv");
@@ -930,46 +930,46 @@ void CW3_Game::virtDrawStringsOnTop()
 
 	case stateHighscores:
 
-		{
-			// look at the input file (highscores)
-			std::ifstream infile("./savedData/highscores.csv");
+	{
+		// look at the input file (highscores)
+		std::ifstream infile("./savedData/highscores.csv");
 
-			//if the file exists..
-			if (infile.good()) {
+		//if the file exists..
+		if (infile.good()) {
 
-				int i = 0; //number of rows in csv
-				int j; //number of fields in csv
-				std::string input;
+			int i = 0; //number of rows in csv
+			int j; //number of fields in csv
+			std::string input;
 
-				// get each line in the csv (max 10 lines)
-				while (std::getline(infile, input) && i < 10) {
+			// get each line in the csv (max 10 lines)
+			while (std::getline(infile, input) && i < 10) {
 
-					// create a vector of the different fields for this row by separating the commas
-					std::vector<std::string> fields;
-					std::stringstream inputStream(input);
-					std::string field;
-					while (std::getline(inputStream, field, ',')) {
-						fields.push_back(field);
-					}
-
-					// write this row
-					sprintf(buf, "Place %i: %s - %s", i + 1, fields.at(0).c_str(), fields.at(1).c_str());
-					drawForegroundString(350, 90 + i * 30, buf, 0xe3e3e3, NULL);
-
-					i++;
+				// create a vector of the different fields for this row by separating the commas
+				std::vector<std::string> fields;
+				std::stringstream inputStream(input);
+				std::string field;
+				while (std::getline(inputStream, field, ',')) {
+					fields.push_back(field);
 				}
 
+				// write this row
+				sprintf(buf, "Place %i: %s - %s", i + 1, fields.at(0).c_str(), fields.at(1).c_str());
+				drawForegroundString(350, 90 + i * 30, buf, 0xe3e3e3, NULL);
 
-				if (i == 0)
-					drawForegroundString(350, 90, "No highscores to show! Why not have a go? :)", 0xe3e3e3, NULL);
+				i++;
 			}
-			else {
+
+
+			if (i == 0)
 				drawForegroundString(350, 90, "No highscores to show! Why not have a go? :)", 0xe3e3e3, NULL);
-			}
-
-			infile.close();
 		}
-		break;
+		else {
+			drawForegroundString(350, 90, "No highscores to show! Why not have a go? :)", 0xe3e3e3, NULL);
+		}
+
+		infile.close();
+	}
+	break;
 
 	case stateNewHighscore:
 		// write this row
@@ -985,7 +985,7 @@ void CW3_Game::virtMainLoopDoBeforeUpdate()
 	//sortObjectsByYAxis();
 	//unpause();
 
-	
+
 	switch (m_state) {
 
 	case stateInit:
@@ -995,7 +995,7 @@ void CW3_Game::virtMainLoopDoBeforeUpdate()
 		m_bgAnim->renderCurrentFrame(this, this->getBackgroundSurface(), 10, 10, 10, 10, 0, 0, m_bgAnim->getCurrentFrame().getWidth(), m_bgAnim->getCurrentFrame().getHeight());
 		m_bgAnim->renderCurrentFrame(this, this->getBackgroundSurface(), 10, this->getWindowHeight() - 20, 10, 10, 0, 0, m_bgAnim->getCurrentFrame().getWidth(), m_bgAnim->getCurrentFrame().getHeight());
 		m_bgAnim->renderCurrentFrame(this, this->getBackgroundSurface(), this->getWindowWidth() - 20, 10, 10, 10, 0, 0, m_bgAnim->getCurrentFrame().getWidth(), m_bgAnim->getCurrentFrame().getHeight());
-		m_bgAnim->renderCurrentFrame(this, this->getBackgroundSurface(), this->getWindowWidth()-20, this->getWindowHeight() - 20, 10, 10, 0, 0, m_bgAnim->getCurrentFrame().getWidth(), m_bgAnim->getCurrentFrame().getHeight());
+		m_bgAnim->renderCurrentFrame(this, this->getBackgroundSurface(), this->getWindowWidth() - 20, this->getWindowHeight() - 20, 10, 10, 0, 0, m_bgAnim->getCurrentFrame().getWidth(), m_bgAnim->getCurrentFrame().getHeight());
 		unlockBackgroundForDrawing();
 		redrawDisplay();
 		pause();
@@ -1023,9 +1023,9 @@ void CW3_Game::virtMainLoopDoBeforeUpdate()
 			int simpleEnemySpeed = 1 + (std::rand() % (3 - 1 + 1));
 
 			int enemyType = rand() % 2;
-			if(enemyType==0)
+			if (enemyType == 0)
 				appendObjectToArray(new CW3_SimpleEnemy(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, simpleEnemyMaxHealth, simpleEnemyMaxHealth, 10, 25, simpleEnemySpeed, 10));
-			else if(enemyType==1)
+			else if (enemyType == 1)
 				appendObjectToArray(new CW3_StateEnemy(m_tm->getTilesXCoordinates(floor.first), m_tm->getTilesYCoordinates(floor.second), this, m_tmTileDimensions, m_tmTileDimensions, simpleEnemyMaxHealth, simpleEnemyMaxHealth, 10, 25, simpleEnemySpeed, 10, 0));
 			m_enemySpawnNextEnemyTime = getRawTime() + m_enemySpawnTimeBetweenSpawns;
 
@@ -1055,36 +1055,34 @@ void CW3_Game::unpauseAllGameObjects()
 
 	for (int i = 0; i < gameObjects.size(); i++)
 		gameObjects.at(i)->setPausedValueTo(false);
-	
+
 }
 
 
 void CW3_Game::deleteObjectFromArray(int objectID) {
 
-	
+
 #if showDebugPrintObjectCreationDeletion is 1
-	std::cout << "\nAttempting to delete object with ID: " << objectID << "Object array size is: "<< m_vecDisplayableObjects.size() << "\n";
+	std::cout << "\nAttempting to delete object with ID: " << objectID << "Object array size is: " << m_vecDisplayableObjects.size() << "\n";
 #endif
 	int i = 0;
 	using Iter = std::vector<DisplayableObject*>::const_iterator;
 	for (Iter it = m_vecDisplayableObjects.begin(); it != m_vecDisplayableObjects.end(); it++) {
 #if showDebugPrintObjectCreationDeletion is 1
-		std::cout << "Objects in array index: " << i << " is at memory: " << m_vecDisplayableObjects.at(i) << " and has an ID of: "<< dynamic_cast<CW3_GameObject *>(m_vecDisplayableObjects.at(i))->getObjectID() << "\n";
+		std::cout << "Objects in array index: " << i << " is at memory: " << m_vecDisplayableObjects.at(i) << " and has an ID of: " << dynamic_cast<CW3_GameObject *>(m_vecDisplayableObjects.at(i))->getObjectID() << "\n";
 #endif
 		if (dynamic_cast<CW3_GameObject *>(m_vecDisplayableObjects.at(i))->getObjectID() == objectID) {
 #if showDebugPrintObjectCreationDeletion is 1
 			std::cout << "Found the object we want to delete at index " << i << "!\n";
 #endif
-			
+
 			drawableObjectsChanged();
 			delete (m_vecDisplayableObjects.at(i));
-			m_vecDisplayableObjects.erase(m_vecDisplayableObjects.begin()+i);
+			m_vecDisplayableObjects.erase(m_vecDisplayableObjects.begin() + i);
 
-			//drawableObjectsChanged();
-			//m_vecDisplayableObjects.erase(m_vecDisplayableObjects.begin() + i); 
 			break;
 		}
-			
+
 		i++;
 	}
 
@@ -1104,7 +1102,7 @@ void CW3_Game::deleteAllObjectsInArray() {
 		delete m_vecDisplayableObjects.at(0);
 		m_vecDisplayableObjects.erase(m_vecDisplayableObjects.begin());
 	}
-		
+
 
 #if showDebugPrintObjectCreationDeletion is 1
 	std::cout << "\nObject should now be 0, this is: " << (m_vecDisplayableObjects.size() == 0 ? "true" : "false") << "\n";

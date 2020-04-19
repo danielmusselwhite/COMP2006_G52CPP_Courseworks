@@ -40,8 +40,8 @@ public:
 	//sorting the objects into the vector so objects are drawn in front of eachother relative to their location in the world
 	void sortObjectsByYAxis() {
 
-		std::sort(m_vecDisplayableObjects.begin(), m_vecDisplayableObjects.end(), [ ](DisplayableObject* object1, DisplayableObject* object2)
-		{ 
+		std::sort(m_vecDisplayableObjects.begin(), m_vecDisplayableObjects.end(), [](DisplayableObject* object1, DisplayableObject* object2)
+		{
 			return object1->getYCentre() < object2->getYCentre();
 		});
 	}
@@ -65,7 +65,7 @@ public:
 
 	void setStateGameOver() {
 		m_state = stateGameOver;
-		
+
 		// Force screen redraw
 		lockAndSetupBackground();
 
@@ -86,7 +86,7 @@ public:
 		// for each object in the game
 		for (int i = 0; i < m_vecDisplayableObjects.size(); i++) {
 			if (dynamic_cast<objectType*>(m_vecDisplayableObjects.at(i)) != nullptr)
-				vecObs.push_back( (objectType*)m_vecDisplayableObjects.at(i) );
+				vecObs.push_back((objectType*)m_vecDisplayableObjects.at(i));
 
 		}
 
@@ -112,7 +112,7 @@ public:
 
 public:
 	// State number - so we can support different states and demonstrate the basics.
-	enum State { stateInit, stateMain, statePaused, stateGameOver, stateHighscores, stateNewHighscore};
+	enum State { stateInit, stateMain, statePaused, stateGameOver, stateHighscores, stateNewHighscore };
 
 private:
 	// Current state

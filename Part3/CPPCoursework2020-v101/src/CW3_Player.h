@@ -15,6 +15,7 @@ protected:
 	CW3_BaseGun* m_pGun;
 	int m_score;
 	bool m_invuln=false; // default invuln to false
+	bool m_dead = false;
 	int m_invulnTime = 750;
 	int m_invulnTimer;
 
@@ -58,5 +59,7 @@ public:
 	}
 
 	void equipGun(CW3_BaseGun* pGun);
+
+	bool isDead();
 };
 

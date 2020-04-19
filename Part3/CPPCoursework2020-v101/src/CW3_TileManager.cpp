@@ -76,7 +76,7 @@ CW3_TileManager::CW3_TileManager(int iTileHeight, int iTileWidth, int iMapHeight
 
 // deconstructor
 CW3_TileManager::~CW3_TileManager() {
-	
+
 }
 
 // overriding function for drawing the tile map

@@ -248,6 +248,7 @@ void CW3_Player::shootGun()
 }
 
 void CW3_Player::virtDie() {
+	m_dead = true;
 	m_pGameEngine->setStateGameOver();
 }
 
@@ -260,4 +261,8 @@ void CW3_Player::equipGun(CW3_BaseGun * pGun)
 
 void CW3_Player::increaseScore(int points) {
 	m_score += points;
+}
+
+bool CW3_Player::isDead() {
+	return m_dead;
 }
