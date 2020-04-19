@@ -340,6 +340,7 @@ StateLevel1::StateLevel1(CW3_Game *pGameEngine) {
 
 	m_tm = new CW3_TileManager(m_tmTileDimensions, m_tmTileDimensions, tmCountXTiles, tmCountYTiles);
 
+	m_levelID = 1;
 	m_stateID = 2;
 
 	m_minEnemySpawnTimeBetweenSpawns = 1000;
@@ -410,6 +411,7 @@ StateLevel1::StateLevel1(std::ifstream* loadGame, CW3_Game *pGameEngine) {
 	setContext(pGameEngine);
 
 	m_stateID = 2;
+	m_levelID = 1;
 
 	m_tm = new CW3_TileManager(m_tmTileDimensions, m_tmTileDimensions, tmCountXTiles, tmCountYTiles);
 
